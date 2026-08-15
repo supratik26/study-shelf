@@ -29,3 +29,9 @@ The Supabase SQL Editor now visibly contains only the reviewed supplemental migr
 The dashboard’s destructive-operation confirmation was accepted and the owner-only policy query was submitted. Supabase reported that the query is running; completion must be confirmed before deployment.
 
 Supabase completed the query successfully with no rows returned. The approved Gmail is now required by both the `public.notes` insert policy and the private `notes` Storage insert policy.
+
+The Vercel server setting and Supabase policy are complete, and the local implementation passed all tests and the Vercel build. The local Git commit is `346f0f4`, but GitHub rejected three verified write attempts with HTTP 403 / “Resource not accessible by integration” despite the account reporting repository admin access. The Vercel-linked `main` branch therefore still needs a refreshed GitHub connection or user-authorized push before the code can deploy.
+
+GitHub authorization was refreshed successfully and commit `346f0f4` was published to `main`. Vercel automatically created the production deployment “Restrict external uploads to library owner”; it was building at the latest check.
+
+The Vercel production deployment for commit `346f0f4` is ready. The clean production URL serves the revised navigation: the Upload entry is absent for a visitor without approved uploader access, while the Library and My Notes routes remain available. This matches the intended read-only member experience before sign-in.

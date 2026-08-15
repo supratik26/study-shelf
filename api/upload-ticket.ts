@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { getAuthorizedUser, getServerSupabase } from "./_supabase";
-import { isApprovedUploader, isConfiguredOwnerEmail, UPLOAD_OWNER_EMAIL_ENV } from "./_upload-owner";
+import { getAuthorizedUser, getServerSupabase } from "./_supabase.js";
+import { isApprovedUploader, isConfiguredOwnerEmail, UPLOAD_OWNER_EMAIL_ENV } from "./_upload-owner.js";
 
 type RequestLike = { method?: string; headers: Record<string, string | string[] | undefined>; body?: unknown };
 type ResponseLike = { status: (code: number) => ResponseLike; json: (body: unknown) => void; setHeader: (name: string, value: string) => void };

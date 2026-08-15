@@ -1,4 +1,4 @@
-import { getAuthorizedUser, getServerSupabase } from "./_supabase";
+import { getAuthorizedUser, getServerSupabase } from "./_supabase.js";
 
 type RequestLike = { method?: string; headers: Record<string, string | string[] | undefined>; query?: Record<string, string | string[] | undefined> };
 type ResponseLike = { status: (code: number) => ResponseLike; json: (body: unknown) => void; setHeader: (name: string, value: string) => void };

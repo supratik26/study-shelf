@@ -1,5 +1,5 @@
-import { getAuthorizedUser } from "./_supabase";
-import { isApprovedUploader, isConfiguredOwnerEmail, UPLOAD_OWNER_EMAIL_ENV } from "./_upload-owner";
+import { getAuthorizedUser } from "./_supabase.js";
+import { isApprovedUploader, isConfiguredOwnerEmail, UPLOAD_OWNER_EMAIL_ENV } from "./_upload-owner.js";
 
 type RequestLike = { method?: string; headers: Record<string, string | string[] | undefined> };
 type ResponseLike = { status: (code: number) => ResponseLike; json: (body: unknown) => void; setHeader: (name: string, value: string) => void };
