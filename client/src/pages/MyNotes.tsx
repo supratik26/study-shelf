@@ -30,7 +30,7 @@ export default function MyNotes() {
   const externalUpdate = useMutation({ mutationFn: ({ noteId, values }: { noteId: string; values: { title: string; course: string; term: string; description: string; tags: string[] } }) => updateExternalNote(noteId, values), onSuccess: async () => { await Promise.all([queryClient.invalidateQueries({ queryKey: ["external-my-notes"] }), queryClient.invalidateQueries({ queryKey: ["external-library"] })]); toast.success("The note details were updated."); } });
   const [editing, setEditing] = useState<OwnedNote | null>(null);
   const [query, setQuery] = useState("");
-  const notes = (isExternalDeployment ? externalMyNotes.data : myNotes.data?.items ?? []) as OwnedNote[];
+  const notes = (isExternalDeployment ? externalMyNotes.data ?? [] : myNotes.data?.items ?? []) as OwnedNote[];
   const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
   const filteredNotes = useMemo(() => {
     const phrase = query.trim().toLowerCase();

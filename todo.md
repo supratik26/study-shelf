@@ -102,3 +102,5 @@
 - [x] Correct Study Shelf logo crop, scale, and alignment in the responsive header and landing treatment.
 - [x] Add regression coverage and verify the production repair on desktop and mobile.
 - [x] Capture and review the repaired live production landing page at a true mobile viewport.
+- [ ] Trace and eliminate the persistent undefined-length crash reported from the older mobile production bundle.
+- [ ] Confirm the Vercel alias points to the fixed bundle and provide an explicit cache-refresh recovery path.

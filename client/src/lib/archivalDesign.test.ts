@@ -6,6 +6,7 @@ const header = readFileSync(new URL("../components/SiteHeader.tsx", import.meta.
 const gate = readFileSync(new URL("../components/SignInGate.tsx", import.meta.url), "utf8");
 const card = readFileSync(new URL("../components/NoteCard.tsx", import.meta.url), "utf8");
 const library = readFileSync(new URL("../pages/Library.tsx", import.meta.url), "utf8");
+const myNotes = readFileSync(new URL("../pages/MyNotes.tsx", import.meta.url), "utf8");
 const bootstrap = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 
 describe("archival redesign contracts", () => {
@@ -34,6 +35,11 @@ describe("archival redesign contracts", () => {
     expect(header).toContain("startExternalGoogleSignIn");
     expect(header).toContain("if (!isExternalDeployment) { startLogin(); return; }");
     expect(header).toContain("handleSignIn");
+  });
+
+  it("defaults external query collections while Supabase data is still loading", () => {
+    expect(library).toContain("externalNotesQuery.data ?? []");
+    expect(myNotes).toContain("externalMyNotes.data ?? []");
   });
 
   it("suppresses non-essential redesign motion when reduced motion is requested", () => {

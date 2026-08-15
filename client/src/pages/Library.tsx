@@ -19,7 +19,7 @@ export default function Library() {
   const externalNotesQuery = useExternalLibrary({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort }, isAuthenticated);
   const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
   const activeQuery = isExternalDeployment ? externalNotesQuery : notesQuery;
-  const notes = (isExternalDeployment ? externalNotesQuery.data : notesQuery.data?.items ?? []) as LibraryNote[];
+  const notes = (isExternalDeployment ? externalNotesQuery.data ?? [] : notesQuery.data?.items ?? []) as LibraryNote[];
   const hasFilters = Boolean(query || fileType || sort !== "recent"); const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
   if (loading) return <AuthLoading />;
   if (!isAuthenticated) return <SignInGate />;
