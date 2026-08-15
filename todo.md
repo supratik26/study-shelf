@@ -50,3 +50,5 @@
 - [ ] Smoke-test the production upload-ticket endpoint after the ESM fix with authenticated-owner issuance behavior.
 - [x] Smoke-test the production download endpoint after the ESM fix with the expected anonymous-authentication denial behavior.
 - [ ] Repeat the authenticated owner upload-access and upload-ticket verification after the Supabase email rate limit clears.
+- [x] Add a site-wide footer credit reading “Made with ❤️ by Supratik” in the Study Shelf editorial style.
+- [x] Configure Vitest to discover the footer component’s `.tsx` regression test.

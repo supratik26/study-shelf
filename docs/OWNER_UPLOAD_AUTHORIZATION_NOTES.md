@@ -44,4 +44,10 @@ The repaired `https://study-shelf-notes.vercel.app/api/upload-access` endpoint n
 
 The repaired production `/api/upload-ticket` and `/api/download` endpoints were also smoke-tested anonymously and each returned their expected `401` JSON response rather than a module-resolution failure. A subsequent owner sign-in attempt was blocked by Supabase’s email rate limit, so the signed-in owner allow-path and live upload remain pending until delivery is available again.
 
+The Supabase dashboard session remains available. A read-only query for the approved uploader’s Auth user record has been staged in a fresh SQL Editor tab to support policy verification without requesting another rate-limited passwordless email.
+
+The SQL Editor was found to retain the prior policy-migration text alongside the new read-only lookup. No query was run. The editor exposes a Monaco model API, so the stale text will be replaced with a single, verified read-only query before any further database verification.
+
+The stale query was safely replaced. The SQL Editor visibly contains only a single `SELECT` against `auth.users` for the approved uploader email and is ready for read-only execution.
+
 The Vercel production deployment for commit `346f0f4` is ready. The clean production URL serves the revised navigation: the Upload entry is absent for a visitor without approved uploader access, while the Library and My Notes routes remain available. This matches the intended read-only member experience before sign-in.
