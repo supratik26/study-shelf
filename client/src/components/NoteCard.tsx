@@ -1,55 +1,12 @@
-import { formatDate, formatFileType, formatTags } from "@/lib/noteFormat";
 import type { NoteFileType } from "@shared/notes";
 import { ArrowUpRight, Download, FileText } from "lucide-react";
 import { Link } from "wouter";
+import { formatDate, formatFileType, formatTags } from "@/lib/noteFormat";
 
-export type LibraryNote = {
-  id: string | number;
-  title: string;
-  course: string;
-  term: string | null;
-  tags: string[];
-  fileType: NoteFileType;
-  downloadCount: number;
-  createdAt: Date;
-  uploaderName: string;
-};
+export type LibraryNote = { id: string | number; title: string; course: string; term: string | null; tags: string[]; fileType: NoteFileType; downloadCount: number; createdAt: Date; uploaderName: string };
+const tones = ["sage", "sky", "peach", "lilac", "butter", "rose"];
 
-export default function NoteCard({ note, style }: { note: LibraryNote; style?: React.CSSProperties }) {
-  return (
-    <article className="note-card motion-card group flex min-h-72 flex-col justify-between" style={style}>
-      <div>
-        <div className="flex items-start justify-between gap-4">
-          <span className="file-badge">
-            <FileText className="h-3.5 w-3.5" strokeWidth={1.8} />
-            {formatFileType(note.fileType)}
-          </span>
-          <Link
-            href={`/notes/${note.id}`}
-            aria-label={`View ${note.title}`}
-            className="note-card-link grid h-8 w-8 place-items-center rounded-full border border-[#171b4f]/14 text-[#171b4f] group-hover:bg-[#171b4f] group-hover:text-[#f7f1e3]"
-          >
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.19em] text-[#171b4f]/55">{note.course}{note.term ? ` · ${note.term}` : ""}</p>
-        <h2 className="mt-3 text-2xl font-semibold leading-[1.12] tracking-[-0.035em] text-[#171b4f]">
-          <Link href={`/notes/${note.id}`} className="focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d28b17]">
-            {note.title}
-          </Link>
-        </h2>
-        <p className="mt-5 line-clamp-2 text-sm leading-6 text-[#171b4f]/66">{formatTags(note.tags)}</p>
-      </div>
-      <div className="mt-8 border-t border-[#171b4f]/12 pt-4 text-xs text-[#171b4f]/62">
-        <div className="flex items-center justify-between gap-3">
-          <span className="truncate">Shared by {note.uploaderName}</span>
-          <span>{formatDate(note.createdAt)}</span>
-        </div>
-        <div className="mt-4 flex items-center gap-2 font-medium text-[#171b4f]">
-          <Download className="note-download-icon h-3.5 w-3.5 text-[#d28b17]" />
-          {note.downloadCount} {note.downloadCount === 1 ? "download" : "downloads"}
-        </div>
-      </div>
-    </article>
-  );
+export default function NoteCard({ note, style, cardNumber = 1 }: { note: LibraryNote; style?: React.CSSProperties; cardNumber?: number }) {
+  const tone = tones[(cardNumber - 1) % tones.length];
+  return <article className={`note-card archive-note-card--${tone} motion-card group flex flex-col justify-between`} style={style}><div><div className="flex items-start justify-between gap-4"><span className="archive-card-number">{String(cardNumber).padStart(2, "0")}</span><Link href={`/notes/${note.id}`} aria-label={`View ${note.title}`} className="note-card-link grid h-9 w-9 place-items-center rounded-full border border-[#151c4a]/25 text-[#151c4a] group-hover:bg-[#151c4a] group-hover:text-[#fffaf0]"><ArrowUpRight className="h-4 w-4" /></Link></div><div className="mt-7 flex items-center justify-between gap-3"><span className="file-badge"><FileText className="h-3.5 w-3.5" strokeWidth={1.8} />{formatFileType(note.fileType)}</span><p className="truncate text-[0.63rem] font-bold uppercase tracking-[0.14em] text-[#151c4a]/56">{note.course}</p></div><h2 className="archive-card-title mt-5"><Link href={`/notes/${note.id}`} className="focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e89f79]">{note.title}</Link></h2><p className="mt-4 line-clamp-2 text-sm leading-5 text-[#151c4a]/72">{formatTags(note.tags)}</p></div><div className="mt-7 border-t border-[#151c4a]/18 pt-4 text-xs text-[#151c4a]/72"><p className="truncate font-semibold">Shared by {note.uploaderName}</p><div className="mt-2 flex items-center justify-between gap-3"><span>{formatDate(note.createdAt)}</span><span className="flex items-center gap-1.5 font-bold"><Download className="note-download-icon h-3.5 w-3.5" />{note.downloadCount}</span></div></div></article>;
 }

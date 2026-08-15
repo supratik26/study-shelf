@@ -1,0 +1,47 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+const css = readFileSync(new URL("../index.css", import.meta.url), "utf8");
+const header = readFileSync(new URL("../components/SiteHeader.tsx", import.meta.url), "utf8");
+const gate = readFileSync(new URL("../components/SignInGate.tsx", import.meta.url), "utf8");
+const card = readFileSync(new URL("../components/NoteCard.tsx", import.meta.url), "utf8");
+const library = readFileSync(new URL("../pages/Library.tsx", import.meta.url), "utf8");
+const bootstrap = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
+
+describe("archival redesign contracts", () => {
+  it("keeps the warm-paper archival system and pastel note-card hooks", () => {
+    expect(css).toContain("--paper: #fffaf0");
+    expect(css).toContain("--ink: #151c4a");
+    expect(css).toContain(".archive-note-card--sage");
+    expect(css).toContain(".archive-note-card--rose");
+    expect(css).toContain(".archive-card-number");
+    expect(css).toContain(".archive-display");
+  });
+
+  it("uses the production Study Shelf logo in the shared entry points", () => {
+    expect(header).toContain('/manus-storage/study-shelf-logo_65280ab1.png');
+    expect(gate).toContain('/manus-storage/study-shelf-logo_65280ab1.png');
+  });
+
+  it("keeps note cards numbered and cycles their six pastel tones", () => {
+    expect(card).toContain('const tones = ["sage", "sky", "peach", "lilac", "butter", "rose"]');
+    expect(card).toContain('String(cardNumber).padStart(2, "0")');
+    expect(card).toContain("archive-note-card--${tone}");
+    expect(library).toContain("cardNumber={index + 1}");
+  });
+
+  it("uses Google/Supabase sign-in from the external deployment header", () => {
+    expect(header).toContain("startExternalGoogleSignIn");
+    expect(header).toContain("if (!isExternalDeployment) { startLogin(); return; }");
+    expect(header).toContain("handleSignIn");
+  });
+
+  it("suppresses non-essential redesign motion when reduced motion is requested", () => {
+    expect(css).toContain(".archive-hero-card");
+    expect(css).toContain(".motion-card");
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(css).toContain("*, *::before, *::after { animation-duration: 0.01ms !important");
+    expect(css).toContain('html[data-reduced-motion-verify="true"]');
+    expect(bootstrap).toContain('get("motion") === "reduce"');
+  });
+});

@@ -1,4 +1,3 @@
-import AuthLoading from "@/components/AuthLoading";
 import SignInGate from "@/components/SignInGate";
 import NoteCard, { type LibraryNote } from "@/components/NoteCard";
 import { startLogin } from "@/const";
@@ -13,143 +12,20 @@ import { Link } from "wouter";
 
 export default function Library() {
   const { isAuthenticated, loading } = useAuth();
-  const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [fileType, setFileType] = useState<"" | NoteFileType>("");
-  const [sort, setSort] = useState<"recent" | "title" | "downloads">("recent");
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setDebouncedQuery(query), 240);
-    return () => window.clearTimeout(timer);
-  }, [query]);
-
-  const searchInput = useMemo(
-    () => ({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort, page: 1, pageSize: 12 }),
-    [debouncedQuery, fileType, sort],
-  );
+  const [query, setQuery] = useState(""); const [debouncedQuery, setDebouncedQuery] = useState(""); const [fileType, setFileType] = useState<"" | NoteFileType>(""); const [sort, setSort] = useState<"recent" | "title" | "downloads">("recent");
+  useEffect(() => { const timer = window.setTimeout(() => setDebouncedQuery(query), 240); return () => window.clearTimeout(timer); }, [query]);
+  const searchInput = useMemo(() => ({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort, page: 1, pageSize: 12 }), [debouncedQuery, fileType, sort]);
   const notesQuery = trpc.notes.search.useQuery(searchInput, { enabled: isAuthenticated });
   const externalNotesQuery = useExternalLibrary({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort }, isAuthenticated);
   const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
   const activeQuery = isExternalDeployment ? externalNotesQuery : notesQuery;
   const notes = (isExternalDeployment ? externalNotesQuery.data : notesQuery.data?.items ?? []) as LibraryNote[];
-  const hasFilters = Boolean(query || fileType || sort !== "recent");
-  const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
-
+  const hasFilters = Boolean(query || fileType || sort !== "recent"); const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
   if (loading) return <AuthLoading />;
   if (!isAuthenticated) return <SignInGate />;
-
-  return (
-    <main>
-      <section className="container pb-12 pt-12 sm:pb-16 sm:pt-20">
-        <div className="grid items-end gap-10 lg:grid-cols-[1.5fr_0.8fr]">
-          <div className="motion-rise">
-            <p className="eyebrow">A considered collection</p>
-            <h1 className="editorial-title mt-5 max-w-4xl text-5xl leading-[0.95] text-[#171b4f] sm:text-7xl lg:text-[5.6rem]">
-              Notes worth keeping close.
-            </h1>
-          </div>
-          <div className="motion-rise motion-stagger-1 border-l border-[#171b4f]/18 pl-5 text-base leading-7 text-[#171b4f]/72 sm:pl-7">
-            A private shelf for your study circle — made for the pages, slides, and summaries that make a semester feel more navigable.
-          </div>
-        </div>
-
-        <div className="motion-reveal motion-stagger-2 relative mt-12 overflow-hidden rounded-[1.55rem] border border-[#171b4f]/15 bg-[#ece4d5] p-4 shadow-[8px_8px_0_rgba(23,27,79,0.1)] sm:p-5">
-          <div className="absolute bottom-0 right-0 h-28 w-28 translate-x-10 translate-y-10 rounded-full border border-[#171b4f]/12" />
-          <div className="relative grid gap-3 lg:grid-cols-[1fr_auto_auto]">
-            <label className="relative block">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#171b4f]/55" />
-              <input
-                value={query}
-                onChange={event => setQuery(event.target.value)}
-                className="library-search-input h-13 w-full rounded-xl border border-[#171b4f]/15 bg-[#f7f1e3] pl-12 pr-4 text-base text-[#171b4f] outline-none placeholder:text-[#171b4f]/42 focus:ring-2 focus:ring-[#d28b17]"
-                placeholder="Search titles, subjects, descriptions, and tags"
-                aria-label="Search notes"
-              />
-            </label>
-            <label className="relative">
-              <SlidersHorizontal className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#171b4f]/55" />
-              <select
-                value={fileType}
-                onChange={event => setFileType(event.target.value as "" | NoteFileType)}
-                className="h-13 min-w-42 appearance-none rounded-xl border border-[#171b4f]/15 bg-[#f7f1e3] pl-10 pr-10 text-sm text-[#171b4f] outline-none focus:ring-2 focus:ring-[#d28b17]"
-                aria-label="Filter by file type"
-              >
-                <option value="">All formats</option>
-                {NOTE_FILE_TYPES.map(type => <option key={type} value={type}>{NOTE_FILE_TYPE_LABELS[type]}</option>)}
-              </select>
-              <ArrowDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#171b4f]/55" />
-            </label>
-            <label className="relative">
-              <select
-                value={sort}
-                onChange={event => setSort(event.target.value as typeof sort)}
-                className="h-13 min-w-42 appearance-none rounded-xl border border-[#171b4f]/15 bg-[#f7f1e3] px-4 pr-10 text-sm text-[#171b4f] outline-none focus:ring-2 focus:ring-[#d28b17]"
-                aria-label="Sort notes"
-              >
-                <option value="recent">Most recent</option>
-                <option value="downloads">Most downloaded</option>
-                <option value="title">Title A–Z</option>
-              </select>
-              <ArrowDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#171b4f]/55" />
-            </label>
-          </div>
-        </div>
-      </section>
-
-      <section className="container pb-20">
-        <div className="motion-rise motion-stagger-3 mb-7 flex flex-wrap items-end justify-between gap-4 border-b border-[#171b4f]/16 pb-5">
-          <div>
-            <p className="eyebrow">The library</p>
-            <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[#171b4f]">Browse the shelf</h2>
-          </div>
-          {canUpload ? <Link href="/upload" className="editorial-text-button"><Upload className="h-4 w-4" />Add a note</Link> : null}
-        </div>
-
-        {activeQuery.isLoading ? (
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 6 }, (_, index) => <NoteSkeleton key={index} />)}
-          </div>
-        ) : activeQuery.error ? (
-          <LibraryState icon={<BookOpen />} title="The shelf could not be opened." description="Please refresh the page to try searching again." action="Refresh library" onAction={() => void activeQuery.refetch()} />
-        ) : notes.length ? (
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {notes.map((note, index) => <NoteCard key={note.id} note={note} style={{ "--card-index": index } as CSSProperties} />)}
-          </div>
-        ) : hasFilters ? (
-          <LibraryState
-            icon={<Search />}
-            title="No notes match this search."
-            description="Try a shorter phrase, another format, or reset the filters to browse everything on the shelf."
-            action="Clear filters"
-            onAction={() => { setQuery(""); setFileType(""); setSort("recent"); }}
-          />
-        ) : canUpload ? (
-          <LibraryState
-            icon={<LibraryBig />}
-            title="The shelf is waiting for its first note."
-            description="Start the collection by adding a useful handout, study guide, lecture deck, or set of class notes."
-            action="Upload the first note"
-            onAction={startLogin}
-            linkTo="/upload"
-          />
-        ) : (
-          <LibraryState icon={<LibraryBig />} title="The shelf is ready for its first note." description="This shared library is curated by its owner. You will be able to search and download notes as they are added." />
-        )}
-      </section>
-    </main>
-  );
+  return <main className="archive-library"><section className="container"><div className="motion-rise flex flex-wrap items-end justify-between gap-7"><div><p className="eyebrow">Study Shelf collection</p><h1 className="archive-display mt-5">Browse the shelf</h1></div><p className="max-w-sm text-base leading-7 text-[#151c4a]/70">Find the lecture decks, revision guides, and notes that make each subject easier to return to.</p></div><div className="archive-filter-panel motion-reveal motion-stagger-1 mt-10"><div className="grid gap-3 lg:grid-cols-[1fr_auto_auto_auto]"><label className="archive-input-shell relative block"><Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#151c4a]/55" /><input value={query} onChange={event => setQuery(event.target.value)} className="library-search-input h-13 w-full rounded-full pl-12 pr-4 text-base outline-none placeholder:text-[#151c4a]/42" placeholder="Search titles, subjects, descriptions, and tags…" aria-label="Search notes" /></label><label className="relative"><SlidersHorizontal className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#151c4a]/55" /><select value={fileType} onChange={event => setFileType(event.target.value as "" | NoteFileType)} className="archive-select h-13 min-w-42 appearance-none pl-10 pr-10 text-sm font-semibold outline-none" aria-label="Filter by file type"><option value="">All formats</option>{NOTE_FILE_TYPES.map(type => <option key={type} value={type}>{NOTE_FILE_TYPE_LABELS[type]}</option>)}</select><ArrowDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#151c4a]/55" /></label><label className="relative"><select value={sort} onChange={event => setSort(event.target.value as typeof sort)} className="archive-select h-13 min-w-42 appearance-none px-4 pr-10 text-sm font-semibold outline-none" aria-label="Sort notes"><option value="recent">Most recent</option><option value="downloads">Most downloaded</option><option value="title">Title A–Z</option></select><ArrowDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#151c4a]/55" /></label>{canUpload ? <Link href="/upload" className="editorial-button editorial-button--indigo h-13 whitespace-nowrap"><Upload className="h-4 w-4" />Add a note</Link> : null}</div></div></section><section className="container pb-20 pt-13"><div className="archive-section-rule motion-rise motion-stagger-2 mb-7 flex flex-wrap items-end justify-between gap-4 pb-5"><div><p className="eyebrow">The archive</p><h2 className="mt-2 text-4xl text-[#151c4a]">Recently added</h2></div><span className="text-sm font-semibold text-[#151c4a]/62">{notes.length} {notes.length === 1 ? "note" : "notes"} on the shelf</span></div>{activeQuery.isLoading ? <div className="archive-note-grid">{Array.from({ length: 6 }, (_, index) => <NoteSkeleton key={index} />)}</div> : activeQuery.error ? <LibraryState icon={<BookOpen />} title="The shelf could not be opened." description="Please refresh the page to try searching again." action="Refresh library" onAction={() => void activeQuery.refetch()} /> : notes.length ? <div className="archive-note-grid">{notes.map((note, index) => <NoteCard key={note.id} note={note} cardNumber={index + 1} style={{ "--card-index": index } as CSSProperties} />)}</div> : hasFilters ? <LibraryState icon={<Search />} title="No notes match this search." description="Try a shorter phrase, another format, or reset the filters to browse everything on the shelf." action="Clear filters" onAction={() => { setQuery(""); setFileType(""); setSort("recent"); }} /> : canUpload ? <LibraryState icon={<LibraryBig />} title="The shelf is waiting for its first note." description="Start the collection by adding a useful handout, study guide, lecture deck, or set of class notes." action="Upload the first note" linkTo="/upload" /> : <LibraryState icon={<LibraryBig />} title="The shelf is ready for its first note." description="This shared library is curated by its owner. You will be able to search and download notes as they are added." />}</section></main>;
 }
 
-function NoteSkeleton() {
-  return <div className="min-h-72 animate-pulse rounded-[1.3rem] border border-[#171b4f]/12 bg-[#f7f1e3] p-6"><div className="h-6 w-16 rounded bg-[#171b4f]/10" /><div className="mt-10 h-3 w-28 rounded bg-[#171b4f]/10" /><div className="mt-4 h-8 w-4/5 rounded bg-[#171b4f]/10" /><div className="mt-3 h-6 w-3/5 rounded bg-[#171b4f]/8" /><div className="mt-14 h-px w-full bg-[#171b4f]/10" /></div>;
-}
-
-function LibraryState({ icon, title, description, action, onAction, linkTo }: { icon: React.ReactNode; title: string; description: string; action?: string; onAction?: () => void; linkTo?: string }) {
-  const content = <><span className="mb-5 inline-flex rounded-full bg-[#d28b17]/14 p-3 text-[#b36f0c]">{icon}</span><h3 className="text-3xl font-semibold tracking-[-0.045em] text-[#171b4f]">{title}</h3><p className="mx-auto mt-4 max-w-lg leading-7 text-[#171b4f]/65">{description}</p></>;
-  return (
-    <div className="motion-reveal rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center">
-      {content}
-      {action ? linkTo ? <Link href={linkTo} className="editorial-button editorial-button--indigo mt-8">{action}<ArrowUpRight className="h-4 w-4" /></Link> : <button className="editorial-button editorial-button--indigo mt-8" onClick={onAction}>{action}<ArrowUpRight className="h-4 w-4" /></button> : null}
-    </div>
-  );
-}
+function NoteSkeleton() { return <div className="min-h-80 animate-pulse rounded-[1.6rem] border border-[#151c4a]/14 bg-[#fffaf0]/75 p-6"><div className="h-11 w-16 rounded bg-[#151c4a]/10" /><div className="mt-9 h-6 w-16 rounded bg-[#151c4a]/10" /><div className="mt-5 h-8 w-4/5 rounded bg-[#151c4a]/10" /><div className="mt-3 h-6 w-3/5 rounded bg-[#151c4a]/8" /></div>; }
+function AuthLoading() { return <main className="container flex min-h-[48vh] items-center justify-center py-24"><span className="text-sm font-semibold tracking-wide text-[#151c4a]/58">Opening the archive…</span></main>; }
+function LibraryState({ icon, title, description, action, onAction, linkTo }: { icon: React.ReactNode; title: string; description: string; action?: string; onAction?: () => void; linkTo?: string }) { const content = <><span className="mb-5 inline-flex rounded-full bg-[#f2bd9d]/55 p-3 text-[#151c4a]">{icon}</span><h3 className="text-3xl text-[#151c4a]">{title}</h3><p className="mx-auto mt-4 max-w-lg leading-7 text-[#151c4a]/65">{description}</p></>; return <div className="motion-reveal rounded-[1.5rem] border border-dashed border-[#151c4a]/28 bg-[#fffaf0]/68 px-6 py-14 text-center">{content}{action ? linkTo ? <Link href={linkTo} className="editorial-button editorial-button--indigo mt-8">{action}<ArrowUpRight className="h-4 w-4" /></Link> : <button className="editorial-button editorial-button--indigo mt-8" onClick={onAction}>{action}<ArrowUpRight className="h-4 w-4" /></button> : null}</div>; }

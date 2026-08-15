@@ -57,29 +57,24 @@ export default function NoteDetail({ noteId }: { noteId: string }) {
     } catch (error) { toast.error(error instanceof Error ? error.message : "The download could not be started."); }
   };
 
-  return (
-    <main className="container py-10 pb-20 sm:py-14 sm:pb-24">
-      <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#171b4f]/68 transition-colors hover:text-[#171b4f]"><ArrowLeft className="h-4 w-4" />Back to library</Link>
-      <div className="mt-9 grid gap-10 lg:grid-cols-[1.35fr_0.65fr] lg:gap-16">
-        <section>
-          <div className="flex items-center gap-3"><span className="file-badge"><FileText className="h-3.5 w-3.5" />{formatFileType(note.fileType)}</span><p className="text-xs uppercase tracking-[0.16em] text-[#171b4f]/54">{note.course}{note.term ? ` · ${note.term}` : ""}</p></div>
-          <h1 className="editorial-title mt-7 max-w-4xl text-5xl leading-[0.99] text-[#171b4f] sm:text-7xl">{note.title}</h1>
-          {note.description && <p className="mt-8 max-w-3xl text-lg leading-8 text-[#171b4f]/73">{note.description}</p>}
-          <div className="mt-10 flex flex-wrap gap-2">{note.tags.length ? note.tags.map(tag => <span key={tag} className="rounded-full border border-[#171b4f]/14 bg-[#ece4d5]/75 px-3 py-1.5 text-sm text-[#171b4f]/72">#{tag}</span>) : <span className="text-sm text-[#171b4f]/55">No tags were added.</span>}</div>
-          <div className="mt-12 flex flex-wrap items-center gap-5 border-y border-[#171b4f]/15 py-6"><div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full bg-[#171b4f] text-[#f7f1e3]"><UserRound className="h-4 w-4" /></span><div><p className="text-xs uppercase tracking-[0.14em] text-[#171b4f]/50">Shared by</p><p className="mt-1 text-sm font-semibold text-[#171b4f]">{note.uploaderName}</p></div></div><div className="h-10 w-px bg-[#171b4f]/14" /><div><p className="text-xs uppercase tracking-[0.14em] text-[#171b4f]/50">Added</p><p className="mt-1 text-sm font-semibold text-[#171b4f]">{formatDate(note.createdAt)}</p></div></div>
-        </section>
-        <aside className="self-start rounded-[1.5rem] border border-[#171b4f]/16 bg-[#ece4d5]/72 p-6 shadow-[8px_8px_0_rgba(210,139,23,0.34)] sm:p-7">
-          <p className="eyebrow">Ready to read</p>
-          <p className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-[#171b4f]">{note.originalFileName}</p>
-          <dl className="mt-7 divide-y divide-[#171b4f]/13 border-y border-[#171b4f]/13 text-sm"><Meta label="File type" value={formatFileType(note.fileType)} /><Meta label="File size" value={formatFileSize(note.fileSize)} /><Meta label="Downloads" value={`${note.downloadCount} ${note.downloadCount === 1 ? "download" : "downloads"}`} /></dl>
-          <button className="editorial-button editorial-button--amber mt-7 w-full justify-center" disabled={isExternalDeployment ? externalDownload.isPending : download.isPending} onClick={() => void handleDownload()}>{(isExternalDeployment ? externalDownload.isPending : download.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Preparing…</> : <><Download className="h-4 w-4" />Download note</>}</button>
-          <p className="mt-4 text-center text-xs leading-5 text-[#171b4f]/56">The library records each download so useful material is easier to spot.</p>
-        </aside>
-      </div>
-    </main>
-  );
+  return <main className="container py-8 pb-20 sm:py-12 sm:pb-24">
+    <Link href="/" className="editorial-text-button"><ArrowLeft className="h-4 w-4" />Back to library</Link>
+    <div className="archive-detail-layout mt-7">
+      <section className="archive-document-stage motion-reveal">
+        <div className="archive-document-sheet"><p className="eyebrow">Study Shelf · {formatFileType(note.fileType)}</p><h2 className="mt-6 text-4xl leading-[0.9] text-[#151c4a]">{note.course}</h2><p className="mt-5 max-w-48 text-sm leading-6 text-[#151c4a]/65">{note.term || "Shared study material"}</p><p className="absolute bottom-7 left-7 right-7 text-xs font-semibold uppercase tracking-[0.13em] text-[#151c4a]/56">Original file available to download</p></div>
+      </section>
+      <section className="archive-detail-panel motion-rise motion-stagger-1">
+        <div className="flex flex-wrap items-center gap-3"><span className="file-badge"><FileText className="h-3.5 w-3.5" />{formatFileType(note.fileType)}</span><span className="text-xs font-bold uppercase tracking-[0.14em] text-[#151c4a]/55">{note.course}{note.term ? ` · ${note.term}` : ""}</span></div>
+        <h1 className="archive-detail-title mt-7">{note.title}</h1>
+        {note.description && <p className="mt-7 max-w-2xl text-base leading-7 text-[#151c4a]/74">{note.description}</p>}
+        <div className="mt-7 flex flex-wrap gap-2">{note.tags.length ? note.tags.map(tag => <span key={tag} className="inline-flex items-center gap-1 rounded-full border border-[#151c4a]/20 bg-[#fffaf0]/54 px-3 py-1.5 text-sm font-semibold text-[#151c4a]/75"><Tag className="h-3 w-3" />{tag}</span>) : <span className="text-sm text-[#151c4a]/58">No tags were added.</span>}</div>
+        <button className="editorial-button editorial-button--indigo mt-8 w-full justify-center py-4 text-base" disabled={isExternalDeployment ? externalDownload.isPending : download.isPending} onClick={() => void handleDownload()}>{(isExternalDeployment ? externalDownload.isPending : download.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Preparing download…</> : <><Download className="h-5 w-5" />Download note</>}</button>
+        <dl className="archive-meta-grid"><Meta label="Shared by" value={note.uploaderName} icon={<UserRound className="mr-1 inline h-3.5 w-3.5" />} /><Meta label="Added" value={formatDate(note.createdAt)} /><Meta label="File size" value={formatFileSize(note.fileSize)} /><Meta label="Downloads" value={`${note.downloadCount} ${note.downloadCount === 1 ? "download" : "downloads"}`} /></dl>
+      </section>
+    </div>
+  </main>;
 }
 
-function Meta({ label, value }: { label: string; value: string }) {
-  return <div className="flex items-center justify-between gap-5 py-3.5"><dt className="text-[#171b4f]/60">{label}</dt><dd className="text-right font-semibold text-[#171b4f]">{value}</dd></div>;
+function Meta({ label, value, icon }: { label: string; value: string; icon?: React.ReactNode }) {
+  return <div><dt>{label}</dt><dd>{icon}{value}</dd></div>;
 }

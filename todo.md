@@ -88,3 +88,13 @@
 - [x] Verify non-essential iOS-style motion is suppressed under a reduced-motion preference.
 - [x] Publish the iOS-style motion refinement and validate the live deployment on desktop and mobile.
 - [x] Capture explicit production evidence that the deployed Study Shelf interface renders correctly at a 390 × 844 mobile viewport.
+- [x] Audit the supplied Study Shelf UI references and map their archival editorial patterns to the working application.
+- [x] Publish the supplied Study Shelf logo as a production-safe static brand asset.
+- [x] Redesign shared navigation, authentication gate, and library browsing around the new archival grid and pastel-note-card system.
+- [x] Redesign upload, note detail, and My Notes experiences while preserving all existing data and authorization flows.
+- [x] Add regression coverage and verify the redesigned interface across desktop, mobile, reduced-motion, and the production build.
+- [x] Restore Google/Supabase sign-in in the redesigned logged-out header and mobile navigation.
+- [x] Add regression coverage for logo usage, archival layout hooks, and numbered pastel note cards.
+- [x] Verify redesigned screens explicitly under the reduced-motion preference before release.
+- [x] Perform browser-level reduced-motion verification for the redesigned library, upload, and personal collection screens.
+- [x] Capture and review authenticated reduced-motion renderings of the upload and personal collection interfaces.

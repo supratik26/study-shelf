@@ -8,6 +8,10 @@ import App from "./App";
 import { startLogin } from "./const";
 import "./index.css";
 
+if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("motion") === "reduce") {
+  document.documentElement.dataset.reducedMotionVerify = "true";
+}
+
 const queryClient = new QueryClient();
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
