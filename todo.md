@@ -78,3 +78,4 @@
 - [ ] Preserve owner-only uploads by checking the signed-in Google account email.
 - [ ] Test and publish the Google-only sign-in experience with updated regression coverage and documentation.
 - [ ] Disable Supabase Email authentication after the deployed Google-only flow is verified.
+- [ ] Repair the GitHub Actions pnpm bootstrap so the Google Sign-In release verification can pass remotely.
