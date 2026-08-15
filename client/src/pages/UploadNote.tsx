@@ -2,6 +2,9 @@ import AuthLoading from "@/components/AuthLoading";
 import SignInGate from "@/components/SignInGate";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
+import { publishExternalNote } from "@/lib/externalNotes";
+import { isExternalDeployment } from "@/lib/supabase";
+import { useMutation } from "@tanstack/react-query";
 import { MAX_NOTE_FILE_BYTES, MAX_NOTE_FILE_LABEL, MIME_TYPES_BY_FILE_TYPE, NOTE_FILE_TYPES, NOTE_FILE_TYPE_LABELS, type NoteFileType } from "@shared/notes";
 import { AlertCircle, ArrowLeft, CheckCircle2, FileText, FolderUp, Loader2, UploadCloud } from "lucide-react";
 import { FormEvent, useRef, useState } from "react";
@@ -49,6 +52,13 @@ export default function UploadNote() {
       setLocation(`/notes/${note.id}`);
     },
   });
+  const createExternalNote = useMutation({
+    mutationFn: publishExternalNote,
+    onSuccess: note => {
+      toast.success("Your note is now on the shelf.");
+      setLocation(`/notes/${note.id}`);
+    },
+  });
 
   const selectFile = (nextFile: File | undefined) => {
     if (!nextFile) return;
@@ -81,6 +91,13 @@ export default function UploadNote() {
     const fileType = fileTypeFromName(file.name);
     if (!fileType) return;
     try {
+      if (isExternalDeployment) {
+        await createExternalNote.mutateAsync({
+          title, course, term, description, tags: tags.split(",").map(tag => tag.trim()).filter(Boolean),
+          file, fileType, mimeType: fileMimeType(file, fileType),
+        });
+        return;
+      }
       const fileData = await fileToBase64(file);
       await createNote.mutateAsync({
         title,
@@ -137,7 +154,7 @@ export default function UploadNote() {
           <Field label="A little context" className="mt-5"><textarea value={description} onChange={event => setDescription(event.target.value)} className="editorial-input min-h-28 resize-y py-3" maxLength={3000} placeholder="What is included, which topics it covers, or how someone might use it." /></Field>
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#171b4f]/14 pt-6">
             <p className="flex items-center gap-2 text-sm text-[#171b4f]/60"><FolderUp className="h-4 w-4 text-[#d28b17]" />Your note will be visible to signed-in members.</p>
-            <button className="editorial-button editorial-button--indigo" disabled={createNote.isPending}>{createNote.isPending ? <><Loader2 className="h-4 w-4 animate-spin" />Publishing…</> : <><FileText className="h-4 w-4" />Publish note</>}</button>
+            <button className="editorial-button editorial-button--indigo" disabled={isExternalDeployment ? createExternalNote.isPending : createNote.isPending}>{(isExternalDeployment ? createExternalNote.isPending : createNote.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Publishing…</> : <><FileText className="h-4 w-4" />Publish note</>}</button>
           </div>
         </form>
       </div>

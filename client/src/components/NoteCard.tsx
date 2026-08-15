@@ -4,7 +4,7 @@ import { ArrowUpRight, Download, FileText } from "lucide-react";
 import { Link } from "wouter";
 
 export type LibraryNote = {
-  id: number;
+  id: string | number;
   title: string;
   course: string;
   term: string | null;

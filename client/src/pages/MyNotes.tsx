@@ -3,6 +3,9 @@ import SignInGate from "@/components/SignInGate";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { formatDate, formatFileSize, formatFileType } from "@/lib/noteFormat";
 import { trpc } from "@/lib/trpc";
+import { removeExternalNote, updateExternalNote, useExternalMyNotes } from "@/lib/externalNotes";
+import { isExternalDeployment } from "@/lib/supabase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { NoteFileType } from "@shared/notes";
 import { AlertTriangle, FileText, LibraryBig, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { FormEvent, useState } from "react";
@@ -10,33 +13,41 @@ import { Link } from "wouter";
 import { toast } from "sonner";
 
 type OwnedNote = {
-  id: number; title: string; description: string | null; course: string; term: string | null; tags: string[]; originalFileName: string; fileType: NoteFileType; fileSize: number; downloadCount: number; createdAt: Date;
+  id: string | number; title: string; description: string | null; course: string; term: string | null; tags: string[]; originalFileName: string; fileType: NoteFileType; fileSize: number; downloadCount: number; createdAt: Date;
 };
 
 export default function MyNotes() {
-  const { isAuthenticated, loading } = useAuth();
-  const myNotes = trpc.notes.myUploads.useQuery(undefined, { enabled: isAuthenticated });
+  const { isAuthenticated, loading, user } = useAuth();
+  const myNotes = trpc.notes.myUploads.useQuery(undefined, { enabled: !isExternalDeployment && isAuthenticated });
+  const externalMyNotes = useExternalMyNotes(typeof user?.id === "string" ? user.id : undefined, isAuthenticated);
+  const activeMyNotes = isExternalDeployment ? externalMyNotes : myNotes;
   const utils = trpc.useUtils();
+  const queryClient = useQueryClient();
   const remove = trpc.notes.remove.useMutation({ onSuccess: async () => { await Promise.all([utils.notes.myUploads.invalidate(), utils.notes.search.invalidate()]); toast.success("The note was removed from the library."); } });
   const update = trpc.notes.update.useMutation({ onSuccess: async () => { await Promise.all([utils.notes.myUploads.invalidate(), utils.notes.search.invalidate()]); toast.success("The note details were updated."); } });
+  const externalRemove = useMutation({ mutationFn: removeExternalNote, onSuccess: async () => { await Promise.all([queryClient.invalidateQueries({ queryKey: ["external-my-notes"] }), queryClient.invalidateQueries({ queryKey: ["external-library"] })]); toast.success("The note was removed from the library."); } });
+  const externalUpdate = useMutation({ mutationFn: ({ noteId, values }: { noteId: string; values: { title: string; course: string; term: string; description: string; tags: string[] } }) => updateExternalNote(noteId, values), onSuccess: async () => { await Promise.all([queryClient.invalidateQueries({ queryKey: ["external-my-notes"] }), queryClient.invalidateQueries({ queryKey: ["external-library"] })]); toast.success("The note details were updated."); } });
   const [editing, setEditing] = useState<OwnedNote | null>(null);
-  const notes = (myNotes.data?.items ?? []) as OwnedNote[];
+  const notes = (isExternalDeployment ? externalMyNotes.data : myNotes.data?.items ?? []) as OwnedNote[];
 
   if (loading) return <AuthLoading label="Opening your contributions" />;
   if (!isAuthenticated) return <SignInGate title="Keep your contributions in view." description="Sign in to see the notes you have added to the shared shelf." />;
 
   const deleteNote = async (note: OwnedNote) => {
     if (!window.confirm(`Remove “${note.title}” from the shared library?`)) return;
-    try { await remove.mutateAsync({ noteId: note.id }); } catch (error) { toast.error(error instanceof Error ? error.message : "This note could not be removed."); }
+    try {
+      if (isExternalDeployment) await externalRemove.mutateAsync(String(note.id));
+      else await remove.mutateAsync({ noteId: Number(note.id) });
+    } catch (error) { toast.error(error instanceof Error ? error.message : "This note could not be removed."); }
   };
 
   return (
     <main className="container py-12 pb-20 sm:py-16 sm:pb-24">
       <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[#171b4f]/16 pb-8"><div><p className="eyebrow">Your contribution</p><h1 className="editorial-title mt-4 text-5xl leading-[0.98] text-[#171b4f] sm:text-6xl">My notes</h1><p className="mt-4 max-w-lg leading-7 text-[#171b4f]/68">Edit the details, keep track of interest, or remove a note that no longer belongs on the shelf.</p></div><Link href="/upload" className="editorial-button editorial-button--amber"><Plus className="h-4 w-4" />Add a note</Link></div>
       <section className="mt-8">
-        {myNotes.isLoading ? <div className="space-y-4">{Array.from({ length: 3 }, (_, index) => <div key={index} className="h-32 animate-pulse rounded-2xl bg-[#171b4f]/8" />)}</div> : myNotes.error ? <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 p-10 text-center"><AlertTriangle className="mx-auto h-7 w-7 text-[#b36f0c]" /><h2 className="mt-4 text-2xl font-semibold text-[#171b4f]">Your notes could not be loaded.</h2><button className="editorial-text-button mt-5" onClick={() => void myNotes.refetch()}>Try again</button></div> : notes.length ? <div className="space-y-4">{notes.map(note => <article key={note.id} className="rounded-[1.3rem] border border-[#171b4f]/14 bg-[#f7f1e3] p-5 transition-shadow hover:shadow-[6px_7px_0_rgba(23,27,79,0.1)] sm:p-6"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div className="min-w-0"><div className="flex flex-wrap items-center gap-3"><span className="file-badge"><FileText className="h-3.5 w-3.5" />{formatFileType(note.fileType)}</span><span className="text-xs uppercase tracking-[0.15em] text-[#171b4f]/52">{note.course}{note.term ? ` · ${note.term}` : ""}</span></div><Link href={`/notes/${note.id}`} className="mt-3 block truncate text-2xl font-semibold tracking-[-0.035em] text-[#171b4f] hover:underline">{note.title}</Link><p className="mt-2 text-sm text-[#171b4f]/62">{note.originalFileName} · {formatFileSize(note.fileSize)} · {formatDate(note.createdAt)} · {note.downloadCount} downloads</p></div><div className="flex shrink-0 items-center gap-2"><button className="editorial-text-button" onClick={() => setEditing(note)}><Pencil className="h-3.5 w-3.5" />Edit</button><button className="editorial-text-button text-red-700 hover:bg-red-50" disabled={remove.isPending} onClick={() => void deleteNote(note)}><Trash2 className="h-3.5 w-3.5" />Remove</button></div></div></article>)}</div> : <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center"><LibraryBig className="mx-auto h-8 w-8 text-[#b36f0c]" /><h2 className="mt-5 text-3xl font-semibold tracking-[-0.045em] text-[#171b4f]">Your shelf is still a blank page.</h2><p className="mx-auto mt-4 max-w-lg leading-7 text-[#171b4f]/65">Add your first useful note and it will appear here for you to manage.</p><Link href="/upload" className="editorial-button editorial-button--indigo mt-8"><Plus className="h-4 w-4" />Add your first note</Link></div>}
+        {activeMyNotes.isLoading ? <div className="space-y-4">{Array.from({ length: 3 }, (_, index) => <div key={index} className="h-32 animate-pulse rounded-2xl bg-[#171b4f]/8" />)}</div> : activeMyNotes.error ? <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 p-10 text-center"><AlertTriangle className="mx-auto h-7 w-7 text-[#b36f0c]" /><h2 className="mt-4 text-2xl font-semibold text-[#171b4f]">Your notes could not be loaded.</h2><button className="editorial-text-button mt-5" onClick={() => void activeMyNotes.refetch()}>Try again</button></div> : notes.length ? <div className="space-y-4">{notes.map(note => <article key={note.id} className="rounded-[1.3rem] border border-[#171b4f]/14 bg-[#f7f1e3] p-5 transition-shadow hover:shadow-[6px_7px_0_rgba(23,27,79,0.1)] sm:p-6"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div className="min-w-0"><div className="flex flex-wrap items-center gap-3"><span className="file-badge"><FileText className="h-3.5 w-3.5" />{formatFileType(note.fileType)}</span><span className="text-xs uppercase tracking-[0.15em] text-[#171b4f]/52">{note.course}{note.term ? ` · ${note.term}` : ""}</span></div><Link href={`/notes/${note.id}`} className="mt-3 block truncate text-2xl font-semibold tracking-[-0.035em] text-[#171b4f] hover:underline">{note.title}</Link><p className="mt-2 text-sm text-[#171b4f]/62">{note.originalFileName} · {formatFileSize(note.fileSize)} · {formatDate(note.createdAt)} · {note.downloadCount} downloads</p></div><div className="flex shrink-0 items-center gap-2"><button className="editorial-text-button" onClick={() => setEditing(note)}><Pencil className="h-3.5 w-3.5" />Edit</button><button className="editorial-text-button text-red-700 hover:bg-red-50" disabled={isExternalDeployment ? externalRemove.isPending : remove.isPending} onClick={() => void deleteNote(note)}><Trash2 className="h-3.5 w-3.5" />Remove</button></div></div></article>)}</div> : <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center"><LibraryBig className="mx-auto h-8 w-8 text-[#b36f0c]" /><h2 className="mt-5 text-3xl font-semibold tracking-[-0.045em] text-[#171b4f]">Your shelf is still a blank page.</h2><p className="mx-auto mt-4 max-w-lg leading-7 text-[#171b4f]/65">Add your first useful note and it will appear here for you to manage.</p><Link href="/upload" className="editorial-button editorial-button--indigo mt-8"><Plus className="h-4 w-4" />Add your first note</Link></div>}
       </section>
-      {editing && <EditPanel note={editing} pending={update.isPending} onClose={() => setEditing(null)} onSave={async values => { try { await update.mutateAsync({ noteId: editing.id, ...values }); setEditing(null); } catch (error) { toast.error(error instanceof Error ? error.message : "The note details could not be updated."); } }} />}
+      {editing && <EditPanel note={editing} pending={isExternalDeployment ? externalUpdate.isPending : update.isPending} onClose={() => setEditing(null)} onSave={async values => { try { if (isExternalDeployment) await externalUpdate.mutateAsync({ noteId: String(editing.id), values }); else await update.mutateAsync({ noteId: Number(editing.id), ...values }); setEditing(null); } catch (error) { toast.error(error instanceof Error ? error.message : "The note details could not be updated."); } }} />}
     </main>
   );
 }

@@ -14,6 +14,18 @@
 - [x] Add responsive states, accessible controls, toast feedback, loading skeletons, empty states, and error states across the app.
 - [x] Add and run Vitest coverage for validation, authorization, searching, and download-count behavior.
 - [x] Run type checks, production build, and visual verification on desktop and mobile.
-- [ ] Save a final checkpoint and deliver the completed website.
+- [x] Save a final checkpoint and deliver the completed website.
 - [x] Add explicit authentication-loading states to each protected route before rendering its main interface.
 - [x] Extend Vitest coverage for search query, file-type filtering, and sorting contracts.
+- [x] Deliver the completed website checkpoint to the user.
+- [x] Audit managed Manus dependencies that block direct external hosting.
+- [x] Select a supported external deployment target and compatible replacements for authentication, database, and file storage.
+- [ ] Adapt the project’s runtime and configuration for the selected provider.
+- [ ] Implement the Vercel-compatible Supabase authentication, notes data, signed-upload, and signed-download runtime.
+- [ ] Add provider-specific deployment files, environment-variable templates, and external-hosting documentation.
+- [ ] Verify the external-ready build and deliver the migration handoff.
+- [x] Define the Vercel serverless runtime boundary and Supabase service mapping for Study Shelf.
+- [x] Add a non-secret Vercel and Supabase environment-variable template and reference it in the migration guide.
+- [x] Add GitHub Actions continuous-integration checks for type checking, tests, and production builds.
+- [x] Write a step-by-step GitHub, Supabase, and Vercel deployment guide, including required manual configuration.
+- [ ] Verify the Vercel-ready project configuration and provide the external hosting handoff.

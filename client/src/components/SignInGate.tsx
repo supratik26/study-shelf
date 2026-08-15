@@ -1,4 +1,5 @@
 import { startLogin } from "@/const";
+import { isExternalDeployment } from "@/lib/supabase";
 import { ArrowUpRight, LockKeyhole } from "lucide-react";
 
 type SignInGateProps = {
@@ -21,7 +22,7 @@ export default function SignInGate({
           <h1 className="editorial-title text-4xl leading-[1.04] sm:text-6xl">{title}</h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-[#f7f1e3]/75">{description}</p>
           <button className="editorial-button editorial-button--amber mt-9" onClick={startLogin}>
-            Continue with Manus
+            {isExternalDeployment ? "Continue with Google" : "Continue with Manus"}
             <ArrowUpRight className="h-4 w-4" />
           </button>
           <p className="mt-4 text-xs tracking-wide text-[#f7f1e3]/60">One click opens your secure study space.</p>

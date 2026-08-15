@@ -1,6 +1,8 @@
 import { startLogin } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
+import { useExternalAuth } from "@/lib/externalAuth";
+import { isExternalDeployment } from "@/lib/supabase";
 import { useCallback, useEffect, useMemo } from "react";
 
 type UseAuthOptions = {
@@ -9,6 +11,7 @@ type UseAuthOptions = {
 };
 
 export function useAuth(options?: UseAuthOptions) {
+  if (isExternalDeployment) return useExternalAuth();
   // Login is started via startLogin() in the effect below, only when we actually
   // navigate — never during render. startLogin() mints a one-time nonce + writes
   // the state cookie, so calling it per render would overwrite the cookie and

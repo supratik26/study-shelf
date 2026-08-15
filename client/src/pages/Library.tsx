@@ -4,6 +4,8 @@ import NoteCard, { type LibraryNote } from "@/components/NoteCard";
 import { startLogin } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
+import { useExternalLibrary } from "@/lib/externalNotes";
+import { isExternalDeployment } from "@/lib/supabase";
 import { NOTE_FILE_TYPES, NOTE_FILE_TYPE_LABELS, type NoteFileType } from "@shared/notes";
 import { ArrowDown, ArrowUpRight, BookOpen, LibraryBig, Search, SlidersHorizontal, Upload } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -26,7 +28,9 @@ export default function Library() {
     [debouncedQuery, fileType, sort],
   );
   const notesQuery = trpc.notes.search.useQuery(searchInput, { enabled: isAuthenticated });
-  const notes = (notesQuery.data?.items ?? []) as LibraryNote[];
+  const externalNotesQuery = useExternalLibrary({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort }, isAuthenticated);
+  const activeQuery = isExternalDeployment ? externalNotesQuery : notesQuery;
+  const notes = (isExternalDeployment ? externalNotesQuery.data : notesQuery.data?.items ?? []) as LibraryNote[];
   const hasFilters = Boolean(query || fileType || sort !== "recent");
 
   if (loading) return <AuthLoading />;
@@ -102,12 +106,12 @@ export default function Library() {
           </Link>
         </div>
 
-        {notesQuery.isLoading ? (
+        {activeQuery.isLoading ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 6 }, (_, index) => <NoteSkeleton key={index} />)}
           </div>
-        ) : notesQuery.error ? (
-          <LibraryState icon={<BookOpen />} title="The shelf could not be opened." description="Please refresh the page to try searching again." action="Refresh library" onAction={() => void notesQuery.refetch()} />
+        ) : activeQuery.error ? (
+          <LibraryState icon={<BookOpen />} title="The shelf could not be opened." description="Please refresh the page to try searching again." action="Refresh library" onAction={() => void activeQuery.refetch()} />
         ) : notes.length ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {notes.map(note => <NoteCard key={note.id} note={note} />)}

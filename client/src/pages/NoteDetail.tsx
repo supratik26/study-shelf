@@ -3,17 +3,37 @@ import SignInGate from "@/components/SignInGate";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { formatDate, formatFileSize, formatFileType } from "@/lib/noteFormat";
 import { trpc } from "@/lib/trpc";
+import { downloadExternalNote, useExternalNote } from "@/lib/externalNotes";
+import { isExternalDeployment } from "@/lib/supabase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Download, FileText, Loader2, Tag, UserRound } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 
-export default function NoteDetail({ noteId }: { noteId: number }) {
+export default function NoteDetail({ noteId }: { noteId: string }) {
   const { isAuthenticated, loading } = useAuth();
-  const noteQuery = trpc.notes.getById.useQuery({ noteId }, { enabled: isAuthenticated && Number.isFinite(noteId) });
+  const numericNoteId = Number(noteId);
+  const noteQuery = trpc.notes.getById.useQuery({ noteId: numericNoteId }, { enabled: !isExternalDeployment && isAuthenticated && Number.isFinite(numericNoteId) });
+  const externalNoteQuery = useExternalNote(noteId, isAuthenticated);
+  const activeNoteQuery = isExternalDeployment ? externalNoteQuery : noteQuery;
   const utils = trpc.useUtils();
+  const queryClient = useQueryClient();
   const download = trpc.notes.registerDownload.useMutation({
     onSuccess: async result => {
-      await Promise.all([utils.notes.getById.invalidate({ noteId }), utils.notes.search.invalidate(), utils.notes.myUploads.invalidate()]);
+      await Promise.all([utils.notes.getById.invalidate({ noteId: numericNoteId }), utils.notes.search.invalidate(), utils.notes.myUploads.invalidate()]);
+      const anchor = document.createElement("a");
+      anchor.href = result.downloadUrl;
+      anchor.download = result.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      toast.success("Your download is starting.");
+    },
+  });
+  const externalDownload = useMutation({
+    mutationFn: downloadExternalNote,
+    onSuccess: async result => {
+      await Promise.all([queryClient.invalidateQueries({ queryKey: ["external-note", noteId] }), queryClient.invalidateQueries({ queryKey: ["external-library"] })]);
       const anchor = document.createElement("a");
       anchor.href = result.downloadUrl;
       anchor.download = result.fileName;
@@ -26,12 +46,15 @@ export default function NoteDetail({ noteId }: { noteId: number }) {
 
   if (loading) return <AuthLoading label="Finding this note" />;
   if (!isAuthenticated) return <SignInGate title="The detail is in the materials." description="Sign in to read full note details and download from your study group’s shelf." />;
-  if (noteQuery.isLoading) return <main className="container py-14"><div className="h-4 w-32 animate-pulse rounded bg-[#171b4f]/10" /><div className="mt-12 h-16 max-w-3xl animate-pulse rounded bg-[#171b4f]/10" /><div className="mt-6 h-8 max-w-xl animate-pulse rounded bg-[#171b4f]/8" /></main>;
-  if (noteQuery.error || !noteQuery.data) return <main className="container py-20"><Link href="/" className="editorial-text-button"><ArrowLeft className="h-4 w-4" />Back to library</Link><div className="mt-12 rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 p-10 text-center"><h1 className="text-3xl font-semibold text-[#171b4f]">This note is no longer on the shelf.</h1><p className="mt-3 text-[#171b4f]/65">It may have been removed by the person who shared it.</p></div></main>;
+  if (activeNoteQuery.isLoading) return <main className="container py-14"><div className="h-4 w-32 animate-pulse rounded bg-[#171b4f]/10" /><div className="mt-12 h-16 max-w-3xl animate-pulse rounded bg-[#171b4f]/10" /><div className="mt-6 h-8 max-w-xl animate-pulse rounded bg-[#171b4f]/8" /></main>;
+  if (activeNoteQuery.error || !activeNoteQuery.data) return <main className="container py-20"><Link href="/" className="editorial-text-button"><ArrowLeft className="h-4 w-4" />Back to library</Link><div className="mt-12 rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 p-10 text-center"><h1 className="text-3xl font-semibold text-[#171b4f]">This note is no longer on the shelf.</h1><p className="mt-3 text-[#171b4f]/65">It may have been removed by the person who shared it.</p></div></main>;
 
-  const note = noteQuery.data;
+  const note = activeNoteQuery.data;
   const handleDownload = async () => {
-    try { await download.mutateAsync({ noteId }); } catch (error) { toast.error(error instanceof Error ? error.message : "The download could not be started."); }
+    try {
+      if (isExternalDeployment) await externalDownload.mutateAsync(noteId);
+      else await download.mutateAsync({ noteId: numericNoteId });
+    } catch (error) { toast.error(error instanceof Error ? error.message : "The download could not be started."); }
   };
 
   return (
@@ -49,7 +72,7 @@ export default function NoteDetail({ noteId }: { noteId: number }) {
           <p className="eyebrow">Ready to read</p>
           <p className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-[#171b4f]">{note.originalFileName}</p>
           <dl className="mt-7 divide-y divide-[#171b4f]/13 border-y border-[#171b4f]/13 text-sm"><Meta label="File type" value={formatFileType(note.fileType)} /><Meta label="File size" value={formatFileSize(note.fileSize)} /><Meta label="Downloads" value={`${note.downloadCount} ${note.downloadCount === 1 ? "download" : "downloads"}`} /></dl>
-          <button className="editorial-button editorial-button--amber mt-7 w-full justify-center" disabled={download.isPending} onClick={() => void handleDownload()}>{download.isPending ? <><Loader2 className="h-4 w-4 animate-spin" />Preparing…</> : <><Download className="h-4 w-4" />Download note</>}</button>
+          <button className="editorial-button editorial-button--amber mt-7 w-full justify-center" disabled={isExternalDeployment ? externalDownload.isPending : download.isPending} onClick={() => void handleDownload()}>{(isExternalDeployment ? externalDownload.isPending : download.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Preparing…</> : <><Download className="h-4 w-4" />Download note</>}</button>
           <p className="mt-4 text-center text-xs leading-5 text-[#171b4f]/56">The library records each download so useful material is easier to spot.</p>
         </aside>
       </div>

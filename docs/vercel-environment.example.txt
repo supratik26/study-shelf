@@ -1,0 +1,11 @@
+# Copy these variable names into Vercel → Project Settings → Environment Variables.
+# Replace every placeholder in Vercel. Do not commit populated credentials.
+
+# Client-visible Supabase configuration (required for Vite build, Preview, and Production)
+VITE_DEPLOY_TARGET=vercel
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+
+# Vercel Function-only configuration (never prefix service-role values with VITE_)
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+APP_ORIGIN=https://your-project.vercel.app

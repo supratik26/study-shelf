@@ -17,7 +17,7 @@ function Router() {
       <Route path={"/"} component={Library} />
       <Route path={"/upload"} component={UploadNote} />
       <Route path={"/my-notes"} component={MyNotes} />
-      <Route path={"/notes/:noteId"}>{params => <NoteDetail noteId={Number(params.noteId)} />}</Route>
+      <Route path={"/notes/:noteId"}>{params => <NoteDetail noteId={params.noteId} />}</Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
