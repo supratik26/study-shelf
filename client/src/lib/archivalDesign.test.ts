@@ -20,8 +20,19 @@ describe("archival redesign contracts", () => {
   });
 
   it("uses the production Study Shelf logo in the shared entry points", () => {
-    expect(header).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png');
-    expect(gate).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png');
+    expect(header).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png');
+    expect(gate).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png');
+  });
+
+  it("keeps the AMOLED dark palette and theme toggle styling available", () => {
+    expect(css).toContain("html.dark");
+    expect(css).toContain("--paper: #000000");
+    expect(css).toContain("--foreground: #ebe6ff");
+    expect(css).toContain(".theme-toggle");
+    expect(css).toContain(".dark .archive-note-card--sage");
+    expect(css).toContain(".dark .archive-upload-frame");
+    expect(css).toContain(".dark .archive-detail-panel");
+    expect(css).toContain(".dark .archive-managed-note");
   });
 
   it("keeps note cards numbered and cycles their six pastel tones", () => {

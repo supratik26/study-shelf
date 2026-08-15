@@ -106,3 +106,12 @@
 - [x] Confirm the Vercel alias points to the fixed bundle and provide an explicit cache-refresh recovery path.
 - [x] Confirm the live alias references the final repaired JavaScript asset after deployment.
 - [x] Deliver explicit mobile cache-refresh guidance for any browser still holding the older error bundle.
+- [x] Add a persistent light, dark, and system-aware theme preference with a header control.
+- [x] Replace the Study Shelf brand asset with the supplied AMOLED-compatible logo.
+- [x] Apply the supplied AMOLED dark visual language across the shared layout and all primary screens.
+- [x] Add theme regression coverage and verify dark mode on desktop, mobile, and production builds.
+- [x] Add a persisted Light, Dark, and System theme picker to the header controls.
+- [x] Apply and inspect AMOLED-specific dark treatments for upload, note detail, and personal collection screens.
+- [ ] Verify all primary screens in dark mode on desktop, mobile, and the live production deployment.
+- [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
+- [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.

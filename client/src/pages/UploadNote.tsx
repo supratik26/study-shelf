@@ -120,7 +120,7 @@ export default function UploadNote() {
   if (isExternalDeployment && externalUploadAccess.isLoading) return <AuthLoading label="Checking publisher access" />;
   if (isExternalDeployment && externalUploadAccess.data !== true) {
     return (
-      <main className="container py-12 sm:py-16">
+      <main className="archive-upload-page container py-12 sm:py-16">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#171b4f]/68 transition-colors hover:text-[#171b4f]"><ArrowLeft className="h-4 w-4" />Back to library</Link>
         <section className="mt-8 max-w-3xl rounded-[1.65rem] border border-[#171b4f]/16 bg-[#ece4d5]/62 p-7 shadow-[10px_10px_0_rgba(23,27,79,0.1)] sm:p-10">
           <p className="eyebrow">Read-only member access</p>
@@ -132,7 +132,7 @@ export default function UploadNote() {
     );
   }
 
-  return <main className="container py-8 pb-20 sm:py-12 sm:pb-24">
+  return <main className="archive-upload-page container py-8 pb-20 sm:py-12 sm:pb-24">
     <Link href="/" className="editorial-text-button"><ArrowLeft className="h-4 w-4" />Back to library</Link>
     <section className="archive-upload-frame motion-reveal mx-auto mt-7 max-w-5xl p-5 sm:p-8 lg:p-10">
       <div className="text-center"><p className="eyebrow">Contribution desk</p><h1 className="archive-upload-heading mt-4">Share your knowledge</h1><p className="mx-auto mt-5 max-w-xl leading-7 text-[#151c4a]/72">Give your study materials a place to live, and make the next person’s search a little easier.</p></div>

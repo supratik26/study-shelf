@@ -57,7 +57,7 @@ export default function NoteDetail({ noteId }: { noteId: string }) {
     } catch (error) { toast.error(error instanceof Error ? error.message : "The download could not be started."); }
   };
 
-  return <main className="container py-8 pb-20 sm:py-12 sm:pb-24">
+  return <main className="archive-detail-page container py-8 pb-20 sm:py-12 sm:pb-24">
     <Link href="/" className="editorial-text-button"><ArrowLeft className="h-4 w-4" />Back to library</Link>
     <div className="archive-detail-layout mt-7">
       <section className="archive-document-stage motion-reveal">
