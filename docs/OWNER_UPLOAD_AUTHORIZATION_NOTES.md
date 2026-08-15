@@ -50,4 +50,24 @@ The SQL Editor was found to retain the prior policy-migration text alongside the
 
 The stale query was safely replaced. The SQL Editor visibly contains only a single `SELECT` against `auth.users` for the approved uploader email and is ready for read-only execution.
 
+The requested site-wide creator credit was published in commit `056e000`. Vercel marked the production deployment Ready, and the clean production domain visibly renders the exact text “Made with ❤️ by Supratik” in the footer.
+
+A transaction-scoped owner RLS test is staged in the authenticated Supabase SQL Editor. It simulates the approved user’s JWT claims, attempts an insert matching the owner and email, produces a verification row only if the RLS policy permits the action, and ends with `ROLLBACK` so no test note or file is retained.
+
+Before the staged rollback-only test could run, the Supabase dashboard session expired. The query was not executed and no database changes were made; the test must be re-opened after the dashboard session is restored.
+
+After the session was restored, the rollback-only test completed successfully and returned `owner note insertion accepted by RLS`. The transaction ended with `ROLLBACK`, so no test note or storage object was retained.
+
+A paired rollback-only non-owner test is staged and verified. It simulates an unrelated authenticated user and treats only `insufficient_privilege`—the expected RLS denial—as success; any other error or an unexpected allowed insert surfaces as a failure. The final `ROLLBACK` preserves the database state.
+
+The non-owner test completed successfully and returned `non-owner note insertion denied by RLS`, while the owner test returned the matching acceptance result. Direct endpoint tests also verify that `/api/upload-access` reports `canUpload: true` only for the approved Gmail and that `/api/upload-ticket` returns a signed-upload ticket only for that owner, rejecting a signed-in non-owner before storage is reached. The complete test suite now has 17 passing tests.
+
+The shared production browser remained unauthenticated after repeated existing-link attempts and showed Supabase’s `email rate limit exceeded` response when the owner email was present. No more email requests will be made until the rate limit is cleared or an available project setting safely raises it.
+
+Supabase Auth Rate Limits shows the project is configured to send only **2 emails per hour**, which explains the repeated magic-link delivery block. The dashboard allows this setting to be changed; any increase must be confirmed by the owner because it changes an anti-abuse control.
+
+The owner approved an increase to 6 emails per hour. The standard form-entry attempt did not retain the new value, so the currently displayed setting remains 2 and no rate-limit change has yet been saved.
+
+The Supabase dashboard exposes the email rate as a disabled input (`RATE_LIMIT_EMAIL_SENT`), so the project cannot raise the 2-email-per-hour cap through this configuration screen. The rate-limit adjustment remains unapplied; the existing API, policy, and unit verification evidence is unaffected.
+
 The Vercel production deployment for commit `346f0f4` is ready. The clean production URL serves the revised navigation: the Upload entry is absent for a visitor without approved uploader access, while the Library and My Notes routes remain available. This matches the intended read-only member experience before sign-in.

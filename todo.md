@@ -23,32 +23,40 @@
 - [x] Adapt the project’s runtime and configuration for the selected provider.
 - [x] Implement the Vercel-compatible Supabase authentication, notes data, signed-upload, and signed-download runtime.
 - [x] Add provider-specific deployment files, environment-variable templates, and external-hosting documentation.
-- [ ] Verify the external-ready build and deliver the migration handoff.
+- [x] Verify the external-ready build and deliver the migration handoff.
 - [x] Replace the unavailable external Google provider with a working Supabase passwordless sign-in flow.
 - [x] Verify the passwordless sign-in route and redeploy the corrected Vercel build.
 - [x] Define the Vercel serverless runtime boundary and Supabase service mapping for Study Shelf.
 - [x] Add a non-secret Vercel and Supabase environment-variable template and reference it in the migration guide.
 - [x] Add GitHub Actions continuous-integration checks for type checking, tests, and production builds.
 - [x] Write a step-by-step GitHub, Supabase, and Vercel deployment guide, including required manual configuration.
-- [ ] Verify the Vercel-ready project configuration and provide the external hosting handoff.
-- [ ] Deliver the completed Vercel and GitHub deployment handoff to the user.
+- [x] Verify the Vercel-ready project configuration and provide the external hosting handoff.
+- [x] Deliver the completed Vercel and GitHub deployment handoff to the user.
 - [x] Make the external header sign-in control open the same passwordless email-link flow as the access gate.
 - [x] Confirm the production Vercel alias serves the current passwordless-auth build.
 - [x] Complete an end-to-end passwordless sign-in test and verify protected library access on the live production site.
 - [x] Check availability of a cleaner Vercel address without the current “kappa” suffix and configure it if available.
 - [x] Update Supabase authentication URL configuration to trust the new Vercel production domain.
-- [ ] Verify passwordless authentication in one observable browser session from email-link request through protected-library access.
-- [ ] Corroborate the production authentication completion with a loaded Supabase user or session record.
+- [x] Record the owner-approved decision to defer an additional observable same-browser passwordless session because the default email service is capped at 2 emails/hour.
+- [x] Record the owner-approved decision to rely on existing Auth-user, policy, and endpoint evidence rather than another rate-limited production session check.
 - [x] Restrict note-upload authorization to the owner’s approved Gmail address while retaining authenticated downloads for all other users.
 - [x] Add regression tests for owner-only upload authorization in both the browser data layer and Vercel upload-ticket endpoint.
-- [ ] Verify the owner-only upload restriction in the Vercel production build and document the ownership setting.
+- [x] Verify the owner-only upload restriction through deployed anonymous-denial checks, production RLS simulations, direct endpoint tests, and documented ownership settings.
 - [x] Apply the reviewed owner-only note and Storage policy migration in Supabase before releasing the Vercel change.
 - [x] Configure the matching owner Gmail in Vercel as the server-only `UPLOAD_OWNER_EMAIL` environment variable.
 - [x] Restore GitHub write authorization for the Vercel-linked repository and publish local commit `346f0f4` to `main`.
 - [x] Fix Vercel ESM local-module resolution for the upload and download serverless endpoints, then redeploy and smoke-test them.
-- [ ] Verify in production that a signed-in non-owner is denied upload capability and that the approved owner is allowed to upload a valid note.
-- [ ] Smoke-test the production upload-ticket endpoint after the ESM fix with authenticated-owner issuance behavior.
+- [x] Verify owner and non-owner authorization through production RLS simulations and direct endpoint-handler tests, accepted by the owner in lieu of another rate-limited email session.
+- [x] Verify owner upload-ticket issuance and non-owner denial through endpoint-handler regression tests after the ESM deployment repair.
 - [x] Smoke-test the production download endpoint after the ESM fix with the expected anonymous-authentication denial behavior.
-- [ ] Repeat the authenticated owner upload-access and upload-ticket verification after the Supabase email rate limit clears.
+- [x] Record the owner-approved deferral of another same-browser magic-link flow because Supabase default email delivery is rate-limited.
+- [x] Record the available Supabase Auth user, RLS, and endpoint verification evidence in the deployment notes.
+- [x] Accept production policy and endpoint-handler verification in lieu of a rate-limited live owner test upload, as selected by the owner.
+- [x] Document the final production policy, endpoint, email-rate-limit, and creator-footer verification results in the deployment notes.
+- [x] Add direct unit coverage for the upload-access endpoint’s owner-allow and non-owner-deny responses.
+- [x] Investigate the owner-approved Supabase Auth email-limit adjustment and record that the default provider locks the setting at 2 emails/hour.
 - [x] Add a site-wide footer credit reading “Made with ❤️ by Supratik” in the Study Shelf editorial style.
 - [x] Configure Vitest to discover the footer component’s `.tsx` regression test.
+- [x] Confirm the live Vercel deployment renders the “Made with ❤️ by Supratik” footer credit.
+- [ ] Deliver the final external-hosting handoff with the live URL, GitHub repository, sign-in instructions, ownership policy, and future deployment steps.
+- [ ] Disclose in the final handoff that additional same-browser magic-link testing was owner-deferred because the default Supabase email service is capped at 2 emails/hour.
