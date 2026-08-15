@@ -27,151 +27,72 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --radius: 0.85rem;
+  --background: oklch(0.962 0.019 85);
+  --foreground: oklch(0.25 0.08 277);
+  --card: oklch(0.976 0.015 85);
+  --card-foreground: oklch(0.25 0.08 277);
+  --popover: oklch(0.976 0.015 85);
+  --popover-foreground: oklch(0.25 0.08 277);
+  --primary: oklch(0.25 0.08 277);
+  --primary-foreground: oklch(0.96 0.018 88);
+  --secondary: oklch(0.92 0.027 85);
+  --secondary-foreground: oklch(0.25 0.08 277);
+  --muted: oklch(0.93 0.023 85);
+  --muted-foreground: oklch(0.44 0.06 277);
+  --accent: oklch(0.7 0.14 73);
+  --accent-foreground: oklch(0.25 0.08 277);
+  --destructive: oklch(0.55 0.21 28);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.72 0.035 85);
+  --input: oklch(0.72 0.035 85);
+  --ring: oklch(0.7 0.14 73);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+  * { @apply border-border outline-ring/50; }
   body {
     @apply bg-background text-foreground;
+    min-width: 320px;
+    font-family: "Lora", Georgia, serif;
+    background-image: radial-gradient(circle at 92% 4%, rgba(210, 139, 23, 0.11), transparent 20rem), linear-gradient(rgba(23, 27, 79, 0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 27, 79, 0.026) 1px, transparent 1px);
+    background-size: auto, 34px 34px, 34px 34px;
   }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+  button:not(:disabled), [role="button"]:not([aria-disabled="true"]), [type="button"]:not(:disabled), [type="submit"]:not(:disabled), [type="reset"]:not(:disabled), a[href], select:not(:disabled), input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled) { @apply cursor-pointer; }
+  ::selection { background: rgba(210, 139, 23, 0.33); color: #171b4f; }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
+  .container { width: 100%; margin-inline: auto; padding-inline: 1rem; }
+  .flex { min-height: 0; min-width: 0; }
+  .editorial-title { font-weight: 650; letter-spacing: -0.057em; }
+  .eyebrow { color: #17205b; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.21em; line-height: 1.2; text-transform: uppercase; }
+  .editorial-button { align-items: center; border-radius: 9999px; display: inline-flex; font-size: 0.875rem; font-weight: 600; gap: 0.55rem; justify-content: center; padding: 0.78rem 1.2rem; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .editorial-button:active { transform: scale(0.97); }
+  .editorial-button:focus-visible, .editorial-text-button:focus-visible { outline: 2px solid #d28b17; outline-offset: 3px; }
+  .editorial-button:disabled { cursor: not-allowed; opacity: 0.62; }
+  .editorial-button--amber { background: #d28b17; color: #171b4f; box-shadow: 3px 3px 0 rgba(23, 27, 79, 0.22); }
+  .editorial-button--amber:hover { background: #e3a239; box-shadow: 5px 5px 0 rgba(23, 27, 79, 0.22); transform: translate(-1px, -1px); }
+  .editorial-button--indigo { background: #171b4f; color: #f7f1e3; box-shadow: 3px 3px 0 rgba(210, 139, 23, 0.78); }
+  .editorial-button--indigo:hover { background: #242c72; box-shadow: 5px 5px 0 rgba(210, 139, 23, 0.78); transform: translate(-1px, -1px); }
+  .editorial-text-button { align-items: center; border-radius: 9999px; color: #171b4f; display: inline-flex; font-size: 0.84rem; font-weight: 600; gap: 0.38rem; padding: 0.65rem 0.85rem; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .editorial-text-button:hover { background: rgba(23, 27, 79, 0.08); }
+  .editorial-text-button:active { transform: scale(0.97); }
+  .note-card { background: #f7f1e3; border: 1px solid rgba(23, 27, 79, 0.15); border-radius: 1.3rem; padding: 1.45rem; transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .note-card:hover { box-shadow: 7px 8px 0 rgba(23, 27, 79, 0.1); transform: translate(-2px, -2px); }
+  .file-badge { align-items: center; background: rgba(210, 139, 23, 0.14); border: 1px solid rgba(210, 139, 23, 0.32); border-radius: 9999px; color: #8a5507; display: inline-flex; font-size: 0.69rem; font-weight: 650; gap: 0.35rem; letter-spacing: 0.08em; padding: 0.36rem 0.55rem; text-transform: uppercase; }
+  .editorial-input { background: #f7f1e3; border: 1px solid rgba(23, 27, 79, 0.19); border-radius: 0.78rem; color: #171b4f; display: block; font-family: inherit; font-size: 0.94rem; outline: none; padding: 0.76rem 0.9rem; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1); width: 100%; }
+  .editorial-input::placeholder { color: rgba(23, 27, 79, 0.42); }
+  .editorial-input:focus { border-color: #d28b17; box-shadow: 0 0 0 3px rgba(210, 139, 23, 0.18); }
+  .upload-zone { align-items: center; background: rgba(247, 241, 227, 0.72); border: 1.5px dashed rgba(23, 27, 79, 0.28); border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; min-height: 13rem; padding: 1.5rem; text-align: center; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 180ms cubic-bezier(0.23, 1, 0.32, 1); width: 100%; }
+  .upload-zone:hover, .upload-zone--dragging { background: rgba(210, 139, 23, 0.11); border-color: #d28b17; transform: translateY(-1px); }
+  @media (min-width: 640px) { .container { padding-inline: 1.5rem; } }
+  @media (min-width: 1024px) { .container { max-width: 1280px; padding-inline: 2rem; } }
+}
 
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }

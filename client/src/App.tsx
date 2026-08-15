@@ -3,14 +3,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import SiteHeader from "./components/SiteHeader";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import Library from "./pages/Library";
+import MyNotes from "./pages/MyNotes";
+import NoteDetail from "./pages/NoteDetail";
+import UploadNote from "./pages/UploadNote";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={Library} />
+      <Route path={"/upload"} component={UploadNote} />
+      <Route path={"/my-notes"} component={MyNotes} />
+      <Route path={"/notes/:noteId"}>{params => <NoteDetail noteId={Number(params.noteId)} />}</Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -32,6 +39,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <SiteHeader />
           <Router />
         </TooltipProvider>
       </ThemeProvider>

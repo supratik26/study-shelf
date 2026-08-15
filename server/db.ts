@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm";
+import { and, asc, desc, eq, like, or, sql, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertNote, InsertUser, notes, users } from "../drizzle/schema";
+import type { NoteFileType } from "../shared/notes";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +90,123 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export type NoteSearchInput = {
+  query?: string;
+  fileType?: NoteFileType;
+  sort: "recent" | "title" | "downloads";
+  page: number;
+  pageSize: number;
+};
+
+export type NoteMetadataUpdate = Pick<InsertNote, "title" | "course" | "term" | "description" | "tags">;
+
+async function getRequiredDb() {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  return db;
+}
+
+export async function createNote(input: InsertNote) {
+  const db = await getRequiredDb();
+  await db.insert(notes).values(input);
+  return getNoteByStorageKey(input.storageKey);
+}
+
+export async function getNoteByStorageKey(storageKey: string) {
+  const db = await getRequiredDb();
+  const result = await db.select().from(notes).where(eq(notes.storageKey, storageKey)).limit(1);
+  return result[0];
+}
+
+export async function getNoteById(noteId: number) {
+  const db = await getRequiredDb();
+  const result = await db.select().from(notes).where(eq(notes.id, noteId)).limit(1);
+  return result[0];
+}
+
+export async function getNoteWithOwner(noteId: number) {
+  const db = await getRequiredDb();
+  const result = await db
+    .select({ note: notes, ownerName: users.name })
+    .from(notes)
+    .innerJoin(users, eq(notes.ownerId, users.id))
+    .where(eq(notes.id, noteId))
+    .limit(1);
+  return result[0];
+}
+
+export async function searchNotes(input: NoteSearchInput) {
+  const db = await getRequiredDb();
+  const conditions: SQL[] = [];
+  const query = input.query?.trim().slice(0, 120) ?? "";
+
+  if (query) {
+    const pattern = `%${query}%`;
+    const searchCondition = or(
+      like(notes.title, pattern),
+      like(notes.course, pattern),
+      like(notes.description, pattern),
+      like(notes.tags, pattern),
+    );
+    if (searchCondition) conditions.push(searchCondition);
+  }
+  if (input.fileType) conditions.push(eq(notes.fileType, input.fileType));
+
+  const whereClause = conditions.length ? and(...conditions) : undefined;
+  const orderBy =
+    input.sort === "downloads"
+      ? [desc(notes.downloadCount), desc(notes.createdAt)]
+      : input.sort === "title"
+        ? [asc(notes.title)]
+        : [desc(notes.createdAt)];
+
+  const rows = await db
+    .select({
+      id: notes.id,
+      title: notes.title,
+      course: notes.course,
+      term: notes.term,
+      tags: notes.tags,
+      fileType: notes.fileType,
+      downloadCount: notes.downloadCount,
+      createdAt: notes.createdAt,
+      ownerName: users.name,
+    })
+    .from(notes)
+    .innerJoin(users, eq(notes.ownerId, users.id))
+    .where(whereClause)
+    .orderBy(...orderBy)
+    .limit(input.pageSize)
+    .offset((input.page - 1) * input.pageSize);
+
+  return rows;
+}
+
+export async function listNotesByOwner(ownerId: number) {
+  const db = await getRequiredDb();
+  return db
+    .select()
+    .from(notes)
+    .where(eq(notes.ownerId, ownerId))
+    .orderBy(desc(notes.createdAt));
+}
+
+export async function updateNoteMetadata(noteId: number, input: NoteMetadataUpdate) {
+  const db = await getRequiredDb();
+  await db.update(notes).set(input).where(eq(notes.id, noteId));
+  return getNoteById(noteId);
+}
+
+export async function removeNote(noteId: number) {
+  const db = await getRequiredDb();
+  await db.delete(notes).where(eq(notes.id, noteId));
+}
+
+export async function incrementNoteDownloadCount(noteId: number) {
+  const db = await getRequiredDb();
+  await db
+    .update(notes)
+    .set({ downloadCount: sql`${notes.downloadCount} + 1` })
+    .where(eq(notes.id, noteId));
+  return getNoteById(noteId);
+}
