@@ -17,3 +17,7 @@ The production release includes Supabase row-level-security checks for both the 
 > The default Supabase email provider is locked at **2 emails per hour** for this project. The owner chose not to wait for another same-browser magic-link test after that rate limit was reached. The deployed policy and endpoint verification evidence is documented in `docs/OWNER_UPLOAD_AUTHORIZATION_NOTES.md`.
 
 The site footer now displays **“Made with ❤️ by Supratik.”**
+
+## Typography refresh
+
+The site now uses **DM Serif Display** for its editorial headings and **Source Sans 3** for navigation, forms, buttons, and reading interface text. The typography regression tests, TypeScript check, and Vercel build pass; GitHub commit `0cb63e4` is deployed through the connected Vercel project and its production deployment is marked Ready. The live production domain was visually checked after that release, and computed styles confirmed `DM Serif Display, Georgia, serif` for the hero heading and `Source Sans 3, Arial, sans-serif` for interface controls.

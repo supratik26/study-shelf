@@ -63,4 +63,5 @@
 - [x] Create a concise user-facing external-hosting handoff artifact for Study Shelf.
 - [x] Replace the Lora-only type system with DM Serif Display for editorial headings and Source Sans 3 for interface text.
 - [x] Add regression coverage that confirms the new Google Fonts configuration and global font-role tokens.
-- [ ] Verify and publish the live typography refresh on Vercel.
+- [x] Verify and publish the live typography refresh on Vercel.
+- [x] Open the ready production domain and verify the computed DM Serif Display heading and Source Sans 3 interface font families.
