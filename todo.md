@@ -121,5 +121,11 @@
 - [x] Recheck the final live Upload and Note Detail dark mobile routes after the shared heading refinement.
 - [x] Replace the oversized landing-card logo treatment with a cleaner integrated composition in light and dark themes.
 - [x] Verify the refined landing composition across mobile, desktop, and the production build.
+- [x] Restore the missing mobile navigation options in dark mode and keep every item visibly labelled.
+- [x] Round the Study Shelf header logo treatment in both light and dark themes.
+- [x] Authorize devilluciferbest@gmail.com alongside the existing owner for note uploads across server and Supabase enforcement.
+- [x] Add regression coverage and verify the mobile menu, logo treatment, and dual-owner upload policy.
+- [ ] Verify the rounded header logo visually in final light and dark renders.
+- [ ] Confirm the Vercel deployment using the new dual-owner environment setting and validate second-owner upload access live where possible.
 - [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.

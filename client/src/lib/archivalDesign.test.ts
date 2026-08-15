@@ -52,6 +52,13 @@ describe("archival redesign contracts", () => {
     expect(header).toContain("handleSignIn");
   });
 
+  it("keeps all mobile navigation labels visible in dark mode and rounds the header logo", () => {
+    expect(header).toContain("site-mobile-menu-item--active");
+    expect(header).toContain("site-mobile-menu-item--inactive");
+    expect(css).toContain(".dark .site-mobile-menu-item--inactive");
+    expect(css).toContain(".archive-brand-mark { background: transparent; border-radius: 0.85rem; box-shadow: none; overflow: hidden; }");
+  });
+
   it("defaults external query collections while Supabase data is still loading", () => {
     expect(library).toContain("externalNotesQuery.data ?? []");
     expect(myNotes).toContain("externalMyNotes.data ?? []");

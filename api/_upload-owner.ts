@@ -4,11 +4,15 @@ export function normalizeEmail(email: string | null | undefined) {
   return typeof email === "string" ? email.trim().toLowerCase() : "";
 }
 
+export function getApprovedUploaderEmails(value: string | null | undefined) {
+  return typeof value === "string" ? Array.from(new Set(value.split(/[;,\n]/).map(normalizeEmail).filter(Boolean))) : [];
+}
+
 export function isApprovedUploader(userEmail: string | null | undefined, ownerEmail: string | null | undefined) {
-  const normalizedOwner = normalizeEmail(ownerEmail);
-  return Boolean(normalizedOwner && normalizeEmail(userEmail) === normalizedOwner);
+  const normalizedUser = normalizeEmail(userEmail);
+  return Boolean(normalizedUser && getApprovedUploaderEmails(ownerEmail).includes(normalizedUser));
 }
 
 export function isConfiguredOwnerEmail(value: string | null | undefined) {
-  return Boolean(normalizeEmail(value));
+  return getApprovedUploaderEmails(value).length > 0;
 }

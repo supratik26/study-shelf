@@ -30,7 +30,7 @@ function createResponse() {
 
 describe("Vercel upload ticket validation", () => {
   beforeEach(() => {
-    process.env.UPLOAD_OWNER_EMAIL = "supratikkundu2006@gmail.com";
+    process.env.UPLOAD_OWNER_EMAIL = "supratikkundu2006@gmail.com,devilluciferbest@gmail.com";
     mocks.getAuthorizedUser.mockReset();
     mocks.getServerSupabase.mockReset();
   });
@@ -44,9 +44,11 @@ describe("Vercel upload ticket validation", () => {
     expect(validateUploadMetadata({ fileName: "lecture.pptx", fileType: "pptx", mimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation", fileSize: 10 * 1024 * 1024 + 1 }).ok).toBe(false);
   });
 
-  it("issues signed upload tickets only for the configured owner email", () => {
-    expect(canIssueUploadTicket("supratikkundu2006@gmail.com", "supratikkundu2006@gmail.com")).toBe(true);
-    expect(canIssueUploadTicket("FRIEND@example.com", "supratikkundu2006@gmail.com")).toBe(false);
+  it("issues signed upload tickets only for configured owner emails", () => {
+    const owners = "supratikkundu2006@gmail.com,devilluciferbest@gmail.com";
+    expect(canIssueUploadTicket("supratikkundu2006@gmail.com", owners)).toBe(true);
+    expect(canIssueUploadTicket("DEVILLUCIFERBEST@gmail.com", owners)).toBe(true);
+    expect(canIssueUploadTicket("FRIEND@example.com", owners)).toBe(false);
     expect(canIssueUploadTicket("supratikkundu2006@gmail.com", undefined)).toBe(false);
   });
 
@@ -61,6 +63,18 @@ describe("Vercel upload ticket validation", () => {
     expect(response.statusCode).toBe(200);
     expect(body.value).toMatchObject({ token: "signed-token", path: expect.stringMatching(/^owner-id\/.+\.pdf$/) });
     expect(createSignedUploadUrl).toHaveBeenCalledOnce();
+  });
+
+  it("returns a signed-upload ticket to the additional approved administrator", async () => {
+    mocks.getAuthorizedUser.mockResolvedValue({ id: "co-owner-id", email: "devilluciferbest@gmail.com" });
+    const createSignedUploadUrl = vi.fn().mockResolvedValue({ data: { token: "second-owner-token" }, error: null });
+    mocks.getServerSupabase.mockReturnValue({ storage: { from: vi.fn().mockReturnValue({ createSignedUploadUrl }) } });
+    const { response, body } = createResponse();
+
+    await handler({ method: "POST", headers: {}, body: { fileName: "notes.pdf", fileType: "pdf", mimeType: "application/pdf", fileSize: 1024 } }, response);
+
+    expect(response.statusCode).toBe(200);
+    expect(body.value).toMatchObject({ token: "second-owner-token", path: expect.stringMatching(/^co-owner-id\/.+\.pdf$/) });
   });
 
   it("denies a signed-in non-owner before it can request an upload ticket", async () => {

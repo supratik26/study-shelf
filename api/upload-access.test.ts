@@ -28,12 +28,22 @@ function createResponse() {
 
 describe("upload-access endpoint", () => {
   beforeEach(() => {
-    process.env.UPLOAD_OWNER_EMAIL = "supratikkundu2006@gmail.com";
+    process.env.UPLOAD_OWNER_EMAIL = "supratikkundu2006@gmail.com,devilluciferbest@gmail.com";
     mocks.getAuthorizedUser.mockReset();
   });
 
   it("allows only the configured owner after authentication", async () => {
     mocks.getAuthorizedUser.mockResolvedValue({ email: "SUPRATIKKUNDU2006@gmail.com" });
+    const { response, body } = createResponse();
+
+    await handler({ method: "GET", headers: {} }, response);
+
+    expect(response.statusCode).toBe(200);
+    expect(body.value).toEqual({ canUpload: true });
+  });
+
+  it("allows the additional configured upload administrator after authentication", async () => {
+    mocks.getAuthorizedUser.mockResolvedValue({ email: "DEVILLUCIFERBEST@gmail.com" });
     const { response, body } = createResponse();
 
     await handler({ method: "GET", headers: {} }, response);
