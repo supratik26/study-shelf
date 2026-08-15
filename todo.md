@@ -82,3 +82,8 @@
 - [x] Review the supplied animation CSS and JSX, then map suitable motion patterns to Study Shelf components.
 - [x] Add accessible animation tokens, entrance motion, hover feedback, search focus treatment, and mobile-menu transitions.
 - [x] Verify reduced-motion behavior, responsive rendering, tests, and the production build before publishing the animation update.
+- [x] Audit the existing animation system and map iOS-style spring, press, and layered-surface patterns to Study Shelf.
+- [x] Implement iOS-style motion tokens, tactile interactions, and polished mobile-menu transitions.
+- [x] Verify the iOS-style refinement across responsive layouts, reduced-motion settings, tests, and the production build.
+- [x] Verify non-essential iOS-style motion is suppressed under a reduced-motion preference.
+- [ ] Publish the iOS-style motion refinement and validate the live deployment on desktop and mobile.

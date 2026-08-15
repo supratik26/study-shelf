@@ -9,6 +9,8 @@ describe("Study Shelf motion system", () => {
   it("defines shared motion timing and honors reduced-motion preferences", () => {
     expect(css).toContain("--duration-base: 260ms");
     expect(css).toContain("--ease-out: cubic-bezier(0.23, 1, 0.32, 1)");
+    expect(css).toContain("--ease-ios-spring: cubic-bezier(0.22, 1, 0.36, 1)");
+    expect(css).toContain("--ease-ios-press: cubic-bezier(0.2, 0.8, 0.2, 1)");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain("animation-duration: 0.01ms !important");
   });
@@ -18,5 +20,12 @@ describe("Study Shelf motion system", () => {
     expect(library).toContain("library-search-input");
     expect(header).toContain("site-mobile-menu");
     expect(header).toContain("site-menu-button--open");
+  });
+
+  it("uses tactile press feedback and a layered mobile sheet", () => {
+    expect(css).toContain(".note-card:active");
+    expect(css).toContain(".site-menu-button:active");
+    expect(css).toContain("@keyframes shelf-sheet-in");
+    expect(css).toContain("backdrop-filter: blur(18px)");
   });
 });
