@@ -15,7 +15,7 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 // stash across renders.
 export const startLogin = () => {
   if (isExternalDeployment) {
-    window.location.assign("/");
+    window.location.assign("/#sign-in");
     return;
   }
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;

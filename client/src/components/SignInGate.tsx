@@ -30,7 +30,7 @@ export default function SignInGate({
     }
   };
   return (
-    <section className="container py-14 sm:py-20">
+    <section id="sign-in" className="container scroll-mt-24 py-14 sm:py-20">
       <div className="relative overflow-hidden rounded-[2rem] border border-[#171b4f]/15 bg-[#171b4f] px-6 py-12 text-[#f7f1e3] shadow-[12px_14px_0_rgba(210,139,23,0.9)] sm:px-12 sm:py-16">
         <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full border border-[#f7f1e3]/25" />
         <div className="absolute bottom-8 right-8 hidden h-24 w-24 rotate-45 border border-[#f7f1e3]/20 sm:block" />

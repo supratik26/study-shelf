@@ -20,14 +20,18 @@
 - [x] Deliver the completed website checkpoint to the user.
 - [x] Audit managed Manus dependencies that block direct external hosting.
 - [x] Select a supported external deployment target and compatible replacements for authentication, database, and file storage.
-- [ ] Adapt the project’s runtime and configuration for the selected provider.
-- [ ] Implement the Vercel-compatible Supabase authentication, notes data, signed-upload, and signed-download runtime.
-- [ ] Add provider-specific deployment files, environment-variable templates, and external-hosting documentation.
+- [x] Adapt the project’s runtime and configuration for the selected provider.
+- [x] Implement the Vercel-compatible Supabase authentication, notes data, signed-upload, and signed-download runtime.
+- [x] Add provider-specific deployment files, environment-variable templates, and external-hosting documentation.
 - [ ] Verify the external-ready build and deliver the migration handoff.
-- [ ] Replace the unavailable external Google provider with a working Supabase passwordless sign-in flow.
-- [ ] Verify the passwordless sign-in route and redeploy the corrected Vercel build.
+- [x] Replace the unavailable external Google provider with a working Supabase passwordless sign-in flow.
+- [x] Verify the passwordless sign-in route and redeploy the corrected Vercel build.
 - [x] Define the Vercel serverless runtime boundary and Supabase service mapping for Study Shelf.
 - [x] Add a non-secret Vercel and Supabase environment-variable template and reference it in the migration guide.
 - [x] Add GitHub Actions continuous-integration checks for type checking, tests, and production builds.
 - [x] Write a step-by-step GitHub, Supabase, and Vercel deployment guide, including required manual configuration.
 - [ ] Verify the Vercel-ready project configuration and provide the external hosting handoff.
+- [ ] Deliver the completed Vercel and GitHub deployment handoff to the user.
+- [x] Make the external header sign-in control open the same passwordless email-link flow as the access gate.
+- [ ] Confirm the production Vercel alias serves the current passwordless-auth build.
+- [ ] Complete an end-to-end passwordless sign-in test and verify protected library access on the live production site.
