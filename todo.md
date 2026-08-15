@@ -86,4 +86,5 @@
 - [x] Implement iOS-style motion tokens, tactile interactions, and polished mobile-menu transitions.
 - [x] Verify the iOS-style refinement across responsive layouts, reduced-motion settings, tests, and the production build.
 - [x] Verify non-essential iOS-style motion is suppressed under a reduced-motion preference.
-- [ ] Publish the iOS-style motion refinement and validate the live deployment on desktop and mobile.
+- [x] Publish the iOS-style motion refinement and validate the live deployment on desktop and mobile.
+- [x] Capture explicit production evidence that the deployed Study Shelf interface renders correctly at a 390 × 844 mobile viewport.
