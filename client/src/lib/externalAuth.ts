@@ -15,11 +15,11 @@ function mapUser(user: User | null): ExternalUser | null {
   return { id: user.id, name: metadataName || user.email || null, email: user.email ?? null, role: "user" };
 }
 
-export async function startExternalLogin() {
+export async function sendExternalMagicLink(email: string) {
   assertSupabaseConfigured();
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: window.location.origin },
+  const { error } = await supabase.auth.signInWithOtp({
+    email: email.trim(),
+    options: { emailRedirectTo: window.location.origin },
   });
   if (error) throw error;
 }

@@ -1,6 +1,5 @@
 import { OAUTH_STATE_COOKIE, encodeOAuthState } from "@shared/const";
 import { isExternalDeployment } from "@/lib/supabase";
-import { startExternalLogin } from "@/lib/externalAuth";
 
 export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
@@ -16,7 +15,7 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 // stash across renders.
 export const startLogin = () => {
   if (isExternalDeployment) {
-    void startExternalLogin();
+    window.location.assign("/");
     return;
   }
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;

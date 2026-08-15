@@ -24,6 +24,8 @@
 - [ ] Implement the Vercel-compatible Supabase authentication, notes data, signed-upload, and signed-download runtime.
 - [ ] Add provider-specific deployment files, environment-variable templates, and external-hosting documentation.
 - [ ] Verify the external-ready build and deliver the migration handoff.
+- [ ] Replace the unavailable external Google provider with a working Supabase passwordless sign-in flow.
+- [ ] Verify the passwordless sign-in route and redeploy the corrected Vercel build.
 - [x] Define the Vercel serverless runtime boundary and Supabase service mapping for Study Shelf.
 - [x] Add a non-secret Vercel and Supabase environment-variable template and reference it in the migration guide.
 - [x] Add GitHub Actions continuous-integration checks for type checking, tests, and production builds.
