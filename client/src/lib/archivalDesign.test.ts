@@ -21,7 +21,9 @@ describe("archival redesign contracts", () => {
 
   it("uses the production Study Shelf logo in the shared entry points", () => {
     expect(header).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png');
-    expect(gate).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png');
+    expect(gate).toContain("archive-hero-shelf");
+    expect(gate).toContain("archive-hero-wordmark");
+    expect(gate).not.toContain("archive-hero-logo");
   });
 
   it("keeps the AMOLED dark palette and theme toggle styling available", () => {

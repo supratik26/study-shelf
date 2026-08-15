@@ -5,7 +5,6 @@ import { ArrowUpRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 type SignInGateProps = { title?: string; description?: string };
-const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png";
 
 export default function SignInGate({ title = "The archive is open.", description = "A curated collection of high-quality study materials for your academic journey. Share notes, discover resources, and elevate your learning." }: SignInGateProps) {
   const [pending, setPending] = useState(false);
@@ -15,7 +14,7 @@ export default function SignInGate({ title = "The archive is open.", description
     <section id="sign-in" className="archive-landing container scroll-mt-24">
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.85fr] lg:gap-20">
         <div className="archive-landing-copy motion-rise"><p className="eyebrow mb-7">A shared study archive</p><h1 className="archive-landing-title">{title}</h1><p className="mt-8 max-w-xl text-[#151c4a]/78">{description}</p>{isExternalDeployment ? <div className="mt-9"><button type="button" className="editorial-button editorial-button--amber" onClick={() => void beginGoogleSignIn()} disabled={pending}>{pending ? <><Loader2 className="h-4 w-4 animate-spin" />Opening Google…</> : <><span aria-hidden="true" className="grid h-4 w-4 place-items-center rounded-full bg-[#151c4a] text-[0.64rem] font-bold text-[#fffaf0]">G</span>Continue with Google <ArrowUpRight className="h-4 w-4" /></>}</button><p className="mt-4 text-xs font-medium tracking-wide text-[#151c4a]/58">Google keeps your study shelf private without waiting for an email link.</p>{message && <p className="mt-3 text-sm text-[#b24842]" role="status">{message}</p>}</div> : <div className="mt-9"><button type="button" className="editorial-button editorial-button--amber" onClick={startLogin}>Continue with Manus<ArrowUpRight className="h-4 w-4" /></button></div>}</div>
-        <div className="archive-hero-card motion-reveal motion-stagger-2" aria-hidden="true"><img className="archive-hero-logo" src={logoUrl} alt="" /></div>
+        <div className="archive-hero-card motion-reveal motion-stagger-2" aria-hidden="true"><div className="archive-hero-shelf"><span /><span /><span /></div><p className="archive-hero-wordmark">Study<br />Shelf</p><p className="archive-hero-caption">A place for<br />thoughtful notes</p></div>
       </div>
     </section>
   );

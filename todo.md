@@ -119,5 +119,7 @@
 - [x] Re-verify the live My Notes dark route at a phone viewport after deploying the overflow containment fix.
 - [x] Adjust mobile sign-in headline sizing so long route-specific titles wrap without clipping.
 - [x] Recheck the final live Upload and Note Detail dark mobile routes after the shared heading refinement.
+- [x] Replace the oversized landing-card logo treatment with a cleaner integrated composition in light and dark themes.
+- [x] Verify the refined landing composition across mobile, desktop, and the production build.
 - [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.

@@ -141,9 +141,16 @@
   .archive-landing-copy { max-width: 37rem; }
   .archive-landing-title { color: var(--ink); font-family: var(--font-editorial); font-size: clamp(4rem, 9.5vw, 8.5rem); letter-spacing: -0.065em; line-height: 0.78; text-transform: uppercase; }
   .archive-landing-copy p { font-size: clamp(1rem, 1.7vw, 1.25rem); line-height: 1.45; }
-  .archive-hero-card { align-items: center; background: var(--peach); border: 1.5px solid var(--ink); border-radius: 1.85rem; box-shadow: 13px 13px 0 var(--lilac), 25px 25px 0 rgba(201, 221, 235, 0.75); display: flex; justify-content: center; min-height: 22rem; padding: 2rem; position: relative; transform: rotate(4deg); }
-  .archive-hero-card::after { border: 1.5px solid rgba(21, 28, 74, 0.18); border-radius: 999px; content: ""; height: 76%; position: absolute; right: 1.2rem; top: 1.2rem; width: 45%; }
-  .archive-hero-logo { filter: drop-shadow(0 8px 0 rgba(21, 28, 74, 0.15)); max-width: min(20rem, 78%); position: relative; transform: rotate(-4deg); z-index: 1; }
+  .archive-hero-card { align-items: flex-start; background: var(--peach); border: 1.5px solid var(--ink); border-radius: 1.85rem; box-shadow: 13px 13px 0 var(--lilac), 25px 25px 0 rgba(201, 221, 235, 0.75); display: flex; flex-direction: column; justify-content: space-between; min-height: 22rem; overflow: hidden; padding: clamp(1.65rem, 4vw, 2.6rem); position: relative; transform: rotate(2deg); }
+  .archive-hero-card::after { border: 1.5px solid rgba(21, 28, 74, 0.18); border-radius: 999px; content: ""; height: 76%; position: absolute; right: -3rem; top: -2.5rem; width: 58%; }
+  .archive-hero-shelf { align-items: end; display: flex; gap: 0.65rem; height: 9.5rem; position: relative; z-index: 1; }
+  .archive-hero-shelf::after { background: var(--ink); bottom: 0; content: ""; height: 0.35rem; left: -0.3rem; position: absolute; right: -0.3rem; }
+  .archive-hero-shelf span { background: var(--ink); border: 1px solid var(--ink); border-radius: 0.5rem 0.5rem 0 0; display: block; transform: rotate(-3deg); width: 2.45rem; }
+  .archive-hero-shelf span:nth-child(1) { background: var(--sage); height: 6.4rem; transform: rotate(1deg); }
+  .archive-hero-shelf span:nth-child(2) { background: var(--lilac); height: 8.5rem; }
+  .archive-hero-shelf span:nth-child(3) { background: var(--sky); height: 5.2rem; transform: rotate(-9deg); }
+  .archive-hero-wordmark { color: var(--ink); font-family: var(--font-editorial); font-size: clamp(3.3rem, 6.5vw, 6.2rem); letter-spacing: -0.07em; line-height: 0.72; margin: 0; position: relative; text-transform: uppercase; z-index: 1; }
+  .archive-hero-caption { align-self: flex-end; color: rgba(21, 28, 74, 0.68); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.13em; line-height: 1.35; margin: 0; position: relative; text-align: right; text-transform: uppercase; z-index: 1; }
 
   .archive-library { padding-block: clamp(2.5rem, 5vw, 5rem); }
   .archive-display { color: var(--ink); font-family: var(--font-editorial); font-size: clamp(3.75rem, 8vw, 7rem); letter-spacing: -0.064em; line-height: 0.78; text-transform: uppercase; }
@@ -283,7 +290,11 @@ html.dark {
 .dark .site-mobile-menu-item:hover { background: rgba(235, 230, 255, 0.08); }
 .dark .archive-hero-card { background: #0e0e11; border-color: #c4bcff; box-shadow: 13px 13px 0 #211c36, 25px 25px 0 rgba(128, 216, 255, 0.16); }
 .dark .archive-hero-card::after { border-color: rgba(235, 230, 255, 0.14); }
-.dark .archive-hero-logo { filter: drop-shadow(0 10px 20px rgba(152, 255, 217, 0.16)); }
+.dark .archive-hero-shelf::after, .dark .archive-hero-shelf span { border-color: #ebe6ff; background: #ebe6ff; }
+.dark .archive-hero-shelf span:nth-child(1) { background: #98ffd9; }
+.dark .archive-hero-shelf span:nth-child(2) { background: #c4bcff; }
+.dark .archive-hero-shelf span:nth-child(3) { background: #80d8ff; }
+.dark .archive-hero-caption { color: #a7a4b5; }
 .dark .archive-filter-panel { background: linear-gradient(105deg, #0d1921, #0e0e11 48%, #19160c); border-color: rgba(235, 230, 255, 0.28); box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.56); }
 .dark .archive-input-shell, .dark .archive-select { background: #111116; border-color: rgba(235, 230, 255, 0.24); color: #ebe6ff; }
 .dark .library-search-input { color: #ebe6ff; }
