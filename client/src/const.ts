@@ -1,5 +1,6 @@
 import { OAUTH_STATE_COOKIE, encodeOAuthState } from "@shared/const";
 import { isExternalDeployment } from "@/lib/supabase";
+import { startExternalGoogleSignIn } from "@/lib/externalAuth";
 
 export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
@@ -15,7 +16,9 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 // stash across renders.
 export const startLogin = () => {
   if (isExternalDeployment) {
-    window.location.assign("/#sign-in");
+    void startExternalGoogleSignIn().catch(error => {
+      console.error("Could not start Google Sign-In", error);
+    });
     return;
   }
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;

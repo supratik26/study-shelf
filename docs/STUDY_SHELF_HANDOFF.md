@@ -4,7 +4,7 @@ Study Shelf is live on Vercel at **[study-shelf-notes.vercel.app](https://study-
 
 | Topic | Details |
 |---|---|
-| Sign in | Use **Sign in to study**, enter an email address, then open the passwordless email link. |
+| Sign in | Use **Continue with Google** and choose a Google account. No sign-in email is sent. |
 | Upload permissions | Only the approved owner Gmail can access upload capability or obtain a signed upload ticket. Other signed-in students can browse and download notes. |
 | Supported files | PDF, DOCX, PPTX, TXT, and Markdown files up to 10 MB. |
 | Download tracking | Every download is registered server-side before its private file link is issued. |
@@ -12,9 +12,9 @@ Study Shelf is live on Vercel at **[study-shelf-notes.vercel.app](https://study-
 
 ## Verification status
 
-The production release includes Supabase row-level-security checks for both the approved owner and a non-owner, deployed anonymous API-denial checks, and direct endpoint regression tests for owner upload-ticket issuance and non-owner denial. The full suite passes **17 tests**, TypeScript checks, and the Vercel production build.
+The production release includes Supabase row-level-security checks for both the approved owner and a non-owner, deployed anonymous API-denial checks, direct endpoint regression tests for owner upload-ticket issuance and non-owner denial, and Google OAuth configuration coverage. The full suite passes **21 tests**, TypeScript checks, and the Vercel production build.
 
-> The default Supabase email provider is locked at **2 emails per hour** for this project. The owner chose not to wait for another same-browser magic-link test after that rate limit was reached. The deployed policy and endpoint verification evidence is documented in `docs/OWNER_UPLOAD_AUTHORIZATION_NOTES.md`.
+> Study Shelf now uses Google Sign-In instead of Supabase magic-link email. The Google OAuth client is scoped to the production Vercel origin and Supabase callback URL, while the owner-only upload check continues to use the signed-in account’s email address.
 
 The site footer now displays **“Made with ❤️ by Supratik.”**
 

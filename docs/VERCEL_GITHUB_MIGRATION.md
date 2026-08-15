@@ -10,7 +10,7 @@ The current live application uses Manus-managed OAuth, database procedures, and 
 
 | Existing responsibility | Vercel and Supabase replacement | Notes |
 |---|---|---|
-| Manus OAuth | Supabase Auth with passwordless email links | Enable Supabase Email and add the Vercel production and preview redirect URLs. |
+| Manus OAuth | Supabase Auth with Google OAuth | Enable the Supabase Google provider, register the Vercel production origin and Supabase callback URL in Google Cloud, and add the Vercel production redirect URL. |
 | MySQL and Drizzle note records | Supabase Postgres `public.notes` | Apply the base migration and owner-only upload migration; Row Level Security limits note creation to the approved owner and edit/removal to the uploader. |
 | Managed object storage | Private Supabase Storage `notes` bucket | The migration constrains size and MIME types at bucket level; ownership is scoped to the user UUID folder. |
 | tRPC upload and download procedures | Vercel Functions plus Supabase RPC | Use a short-lived signed upload URL for files and call `register_note_download` server-side before returning a signed download URL. |
@@ -28,7 +28,7 @@ The `build:vercel` script disables Manus-only Vite runtime and debug plugins. It
 
 Create a Supabase project, open its SQL Editor, and run `supabase/migrations/20260815_study_shelf.sql` followed by `supabase/migrations/20260815_owner_only_uploads.sql`. The SQL creates the `profiles` and `notes` tables, authenticated shared-library policies, owner-only note creation and file-upload policies, a download-count RPC, a private `notes` bucket, and file access policies.
 
-In **Authentication → Providers**, enable Email. In **Authentication → URL Configuration**, add your Vercel production URL and any desired preview URLs. Copy the project URL and publishable key from the Supabase Connect panel. Keep the service-role key server-only.
+In **Authentication → Providers**, enable Google and enter a Google Cloud web OAuth client ID and secret. Register `https://<project-ref>.supabase.co/auth/v1/callback` as that client’s authorized redirect URI and add the Vercel production URL as its authorized JavaScript origin. In **Authentication → URL Configuration**, add your Vercel production URL and any desired preview URLs. Copy the project URL and publishable key from the Supabase Connect panel. Keep the service-role key server-only.
 
 | Vercel variable | Scope | Purpose |
 |---|---|---|
@@ -43,7 +43,7 @@ In **Authentication → Providers**, enable Email. In **Authentication → URL C
 Before deployment, replace the existing Manus-only dependencies in `client/src/_core/hooks/useAuth.ts`, `client/src/const.ts`, `server/`, and the tRPC calls with the following service boundaries:
 
 1. Create a browser Supabase client from `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`.
-2. Replace the Manus sign-in action with `supabase.auth.signInWithOtp`, using the active Vercel URL as the email-link redirect destination.
+2. Replace the Manus sign-in action with `supabase.auth.signInWithOAuth({ provider: "google" })`, using the active Vercel URL as the post-sign-in redirect destination.
 3. Replace `notes.search`, `notes.getById`, `notes.myUploads`, `notes.update`, and `notes.remove` hooks with Supabase Postgres queries protected by the SQL policies.
 4. Implement Vercel Functions that validate the authenticated user, exact uploader email, file extension, MIME type, metadata, and 10 MB maximum before issuing a signed Supabase upload URL. Upload file bytes directly from the browser to Storage.
 5. Implement a Vercel Function that verifies the bearer token, calls `public.register_note_download`, and returns a short-lived signed download URL. This keeps download counting server-side.
@@ -56,8 +56,8 @@ Supabase’s React documentation uses `@supabase/supabase-js` with the project U
 2. In Vercel, import the GitHub repository. Vercel automatically supports GitHub-driven deployments; pushes and pull requests receive deployments by default.[4]
 3. Add the Supabase variables in **Vercel → Project Settings → Environment Variables**, using Production, Preview, and Development scopes deliberately.
 4. Set the Vercel build command to `pnpm run build:vercel` and output directory to `dist/public` if Vercel does not read `vercel.json` automatically.
-5. Configure the Supabase Email redirect URLs for the Vercel production domain. Add your custom domain after the first successful deployment.
-6. Push to a non-main branch first and verify the Vercel preview. Confirm passwordless sign-in, owner-only direct Storage upload, library search, signed downloads, and download-count increments before merging to `main`.
+5. Configure the Supabase URL redirect allowlist for the Vercel production domain and register the corresponding Supabase callback URL with the Google Cloud OAuth client. Add your custom domain to both places after the first successful deployment.
+6. Push to a non-main branch first and verify the Vercel preview. Confirm Google Sign-In, owner-only direct Storage upload, library search, signed downloads, and download-count increments before merging to `main`.
 
 ## Data and rollout caution
 

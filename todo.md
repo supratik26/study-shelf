@@ -67,3 +67,14 @@
 - [x] Open the ready production domain and verify the computed DM Serif Display heading and Source Sans 3 interface font families.
 - [x] Refresh and revalidate the Vercel production alias against the latest ready deployment after the reported `DEPLOYMENT_NOT_FOUND` error.
 - [x] Confirm the live alias renders in an actual mobile viewport and document the exact revalidation action.
+- [ ] Select and configure a custom SMTP provider for Supabase passwordless-email delivery.
+- [ ] Verify the custom SMTP configuration and update the Study Shelf sign-in guidance.
+- [ ] Replace the Resend-only route with a Gmail-verified SMTP provider that does not require a custom domain.
+- [ ] Verify the owner Gmail sender identity and configure Supabase with the selected provider’s SMTP credentials.
+- [ ] Configure the owner Gmail account for SMTP using a dedicated Google app password.
+- [ ] Apply and verify the Gmail SMTP credentials in Supabase Auth for passwordless sign-in emails.
+- [ ] Replace passwordless email authentication with Google Sign-In for the external Vercel deployment.
+- [x] Configure the Google OAuth client, Supabase provider settings, and production redirect URLs.
+- [ ] Preserve owner-only uploads by checking the signed-in Google account email.
+- [ ] Test and publish the Google-only sign-in experience with updated regression coverage and documentation.
+- [ ] Disable Supabase Email authentication after the deployed Google-only flow is verified.
