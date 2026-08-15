@@ -58,5 +58,6 @@
 - [x] Add a site-wide footer credit reading “Made with ❤️ by Supratik” in the Study Shelf editorial style.
 - [x] Configure Vitest to discover the footer component’s `.tsx` regression test.
 - [x] Confirm the live Vercel deployment renders the “Made with ❤️ by Supratik” footer credit.
-- [ ] Deliver the final external-hosting handoff with the live URL, GitHub repository, sign-in instructions, ownership policy, and future deployment steps.
-- [ ] Disclose in the final handoff that additional same-browser magic-link testing was owner-deferred because the default Supabase email service is capped at 2 emails/hour.
+- [x] Prepare the final external-hosting handoff with the live URL, GitHub repository, sign-in instructions, ownership policy, and future deployment steps.
+- [x] Include in the final handoff that additional same-browser magic-link testing was owner-deferred because the default Supabase email service is capped at 2 emails/hour.
+- [x] Create a concise user-facing external-hosting handoff artifact for Study Shelf.

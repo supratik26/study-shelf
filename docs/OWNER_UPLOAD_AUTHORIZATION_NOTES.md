@@ -70,4 +70,8 @@ The owner approved an increase to 6 emails per hour. The standard form-entry att
 
 The Supabase dashboard exposes the email rate as a disabled input (`RATE_LIMIT_EMAIL_SENT`), so the project cannot raise the 2-email-per-hour cap through this configuration screen. The rate-limit adjustment remains unapplied; the existing API, policy, and unit verification evidence is unaffected.
 
+The owner selected the documented verification option that accepts the completed Supabase policy simulations, live anonymous endpoint checks, and endpoint-handler tests instead of waiting for the locked default email cap to reset. Commit `032d682` was published to GitHub and its Vercel deployment is in progress.
+
+Vercel completed the deployment for commit `032d682` successfully and marked it Ready. The clean production alias remains `https://study-shelf-notes.vercel.app` and continues to serve the completed Study Shelf application.
+
 The Vercel production deployment for commit `346f0f4` is ready. The clean production URL serves the revised navigation: the Upload entry is absent for a visitor without approved uploader access, while the Library and My Notes routes remain available. This matches the intended read-only member experience before sign-in.
