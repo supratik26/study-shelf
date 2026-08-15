@@ -65,3 +65,5 @@
 - [x] Add regression coverage that confirms the new Google Fonts configuration and global font-role tokens.
 - [x] Verify and publish the live typography refresh on Vercel.
 - [x] Open the ready production domain and verify the computed DM Serif Display heading and Source Sans 3 interface font families.
+- [x] Refresh and revalidate the Vercel production alias against the latest ready deployment after the reported `DEPLOYMENT_NOT_FOUND` error.
+- [x] Confirm the live alias renders in an actual mobile viewport and document the exact revalidation action.
