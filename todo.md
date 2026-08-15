@@ -125,7 +125,9 @@
 - [x] Round the Study Shelf header logo treatment in both light and dark themes.
 - [x] Authorize devilluciferbest@gmail.com alongside the existing owner for note uploads across server and Supabase enforcement.
 - [x] Add regression coverage and verify the mobile menu, logo treatment, and dual-owner upload policy.
-- [ ] Verify the rounded header logo visually in final light and dark renders.
-- [ ] Confirm the Vercel deployment using the new dual-owner environment setting and validate second-owner upload access live where possible.
+- [x] Verify the rounded header logo visually in final light and dark renders.
+- [x] Confirm the Vercel deployment using the new dual-owner environment setting and validate second-owner upload access live where possible.
+- [x] Inspect and record the rounded header logo in final light and dark visual renders.
+- [x] Verify the second approved uploader through an authenticated production session, or document the exact session limitation.
 - [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.

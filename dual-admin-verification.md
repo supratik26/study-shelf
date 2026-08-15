@@ -1,0 +1,5 @@
+# Dual-Admin and Header Verification
+
+The final 390×844 light and AMOLED dark renders show that the compact Study Shelf header mark now has clean rounded corners, preserves the new logo’s proportions, and remains legible against both header backgrounds. The repaired dark mobile menu also visibly presents Explore, Upload, My Notes, the Light/Dark/System picker, and the sign-in action.
+
+For upload authorization, server regression tests approve both `supratikkundu2006@gmail.com` and `devilluciferbest@gmail.com` while denying unlisted accounts. The Supabase `notes` and Storage insert policies were successfully updated through the SQL editor, and Vercel’s `UPLOAD_OWNER_EMAIL` variable was saved for Production and Preview as the same comma-separated pair. A fresh Vercel deployment was confirmed by the current production JavaScript asset. A live upload by the second account was not performed because no authenticated browser session for that Gmail was available; the second uploader should sign in with that Gmail and use the Upload page for a final account-level smoke test.
