@@ -33,6 +33,8 @@ describe("archival redesign contracts", () => {
     expect(css).toContain(".dark .archive-upload-frame");
     expect(css).toContain(".dark .archive-detail-panel");
     expect(css).toContain(".dark .archive-managed-note");
+    expect(css).toContain("@media (max-width: 639px)");
+    expect(css).toContain(".archive-landing-title { font-size: clamp(3.05rem, 14.8vw, 3.85rem)");
   });
 
   it("keeps note cards numbered and cycles their six pastel tones", () => {

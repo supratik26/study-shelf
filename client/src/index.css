@@ -337,3 +337,7 @@ html.dark {
 .dark .archive-empty-state { background: #0e0e11 !important; border-color: rgba(196, 188, 255, 0.4) !important; }
 .dark .archive-edit-overlay { background: rgba(0, 0, 0, 0.78) !important; }
 .dark .archive-edit-panel { background: #111116 !important; border: 1px solid rgba(196, 188, 255, 0.35); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72); }
+
+@media (max-width: 639px) {
+  .archive-landing-title { font-size: clamp(3.05rem, 14.8vw, 3.85rem); line-height: 0.82; overflow-wrap: anywhere; }
+}
