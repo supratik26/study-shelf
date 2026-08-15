@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-interface);
+  --font-serif: var(--font-editorial);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -30,6 +32,8 @@
 }
 
 :root {
+  --font-interface: "Source Sans 3", Arial, sans-serif;
+  --font-editorial: "DM Serif Display", Georgia, serif;
   --radius: 0.85rem;
   --background: oklch(0.962 0.019 85);
   --foreground: oklch(0.25 0.08 277);
@@ -57,10 +61,11 @@
   body {
     @apply bg-background text-foreground;
     min-width: 320px;
-    font-family: "Lora", Georgia, serif;
+    font-family: var(--font-interface);
     background-image: radial-gradient(circle at 92% 4%, rgba(210, 139, 23, 0.11), transparent 20rem), linear-gradient(rgba(23, 27, 79, 0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 27, 79, 0.026) 1px, transparent 1px);
     background-size: auto, 34px 34px, 34px 34px;
   }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-editorial); }
   button:not(:disabled), [role="button"]:not([aria-disabled="true"]), [type="button"]:not(:disabled), [type="submit"]:not(:disabled), [type="reset"]:not(:disabled), a[href], select:not(:disabled), input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled) { @apply cursor-pointer; }
   ::selection { background: rgba(210, 139, 23, 0.33); color: #171b4f; }
 }
@@ -68,7 +73,7 @@
 @layer components {
   .container { width: 100%; margin-inline: auto; padding-inline: 1rem; }
   .flex { min-height: 0; min-width: 0; }
-  .editorial-title { font-weight: 650; letter-spacing: -0.057em; }
+  .editorial-title { font-family: var(--font-editorial); font-weight: 400; letter-spacing: -0.045em; }
   .eyebrow { color: #17205b; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.21em; line-height: 1.2; text-transform: uppercase; }
   .editorial-button { align-items: center; border-radius: 9999px; display: inline-flex; font-size: 0.875rem; font-weight: 600; gap: 0.55rem; justify-content: center; padding: 0.78rem 1.2rem; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1); }
   .editorial-button:active { transform: scale(0.97); }
