@@ -44,5 +44,9 @@
 - [ ] Verify the owner-only upload restriction in the Vercel production build and document the ownership setting.
 - [x] Apply the reviewed owner-only note and Storage policy migration in Supabase before releasing the Vercel change.
 - [x] Configure the matching owner Gmail in Vercel as the server-only `UPLOAD_OWNER_EMAIL` environment variable.
-- [ ] Restore GitHub write authorization for the Vercel-linked repository and publish local commit `346f0f4` to `main`.
-- [ ] Fix Vercel ESM local-module resolution for the upload and download serverless endpoints, then redeploy and smoke-test them.
+- [x] Restore GitHub write authorization for the Vercel-linked repository and publish local commit `346f0f4` to `main`.
+- [x] Fix Vercel ESM local-module resolution for the upload and download serverless endpoints, then redeploy and smoke-test them.
+- [ ] Verify in production that a signed-in non-owner is denied upload capability and that the approved owner is allowed to upload a valid note.
+- [ ] Smoke-test the production upload-ticket endpoint after the ESM fix with authenticated-owner issuance behavior.
+- [x] Smoke-test the production download endpoint after the ESM fix with the expected anonymous-authentication denial behavior.
+- [ ] Repeat the authenticated owner upload-access and upload-ticket verification after the Supabase email rate limit clears.

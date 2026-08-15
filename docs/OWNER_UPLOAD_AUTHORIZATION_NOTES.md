@@ -34,4 +34,14 @@ The Vercel server setting and Supabase policy are complete, and the local implem
 
 GitHub authorization was refreshed successfully and commit `346f0f4` was published to `main`. Vercel automatically created the production deployment “Restrict external uploads to library owner”; it was building at the latest check.
 
+After the first deployment exposed an ESM helper-resolution defect in the new `/api/upload-access` function, commit `1dd8de8` was published with explicit `.js` extensions for every local Vercel API helper import. Vercel automatically started the repair deployment, which was still building at the latest check.
+
+The repair deployment remained in Vercel’s build state during two subsequent checks. Its final status and the live API smoke test are still pending.
+
+Vercel completed the repair deployment for commit `1dd8de8` successfully. The `main`-branch production deployment is marked Ready at `https://study-shelf-b5fry382e-supratik1.vercel.app`; the clean production alias will now be used for endpoint verification.
+
+The repaired `https://study-shelf-notes.vercel.app/api/upload-access` endpoint now returns the expected `401` JSON response for an anonymous request rather than a runtime module error. This confirms the function loads successfully and does not expose upload access before authentication.
+
+The repaired production `/api/upload-ticket` and `/api/download` endpoints were also smoke-tested anonymously and each returned their expected `401` JSON response rather than a module-resolution failure. A subsequent owner sign-in attempt was blocked by Supabase’s email rate limit, so the signed-in owner allow-path and live upload remain pending until delivery is available again.
+
 The Vercel production deployment for commit `346f0f4` is ready. The clean production URL serves the revised navigation: the Upload entry is absent for a visitor without approved uploader access, while the Library and My Notes routes remain available. This matches the intended read-only member experience before sign-in.
