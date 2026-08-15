@@ -67,15 +67,15 @@
 - [x] Open the ready production domain and verify the computed DM Serif Display heading and Source Sans 3 interface font families.
 - [x] Refresh and revalidate the Vercel production alias against the latest ready deployment after the reported `DEPLOYMENT_NOT_FOUND` error.
 - [x] Confirm the live alias renders in an actual mobile viewport and document the exact revalidation action.
-- [ ] Select and configure a custom SMTP provider for Supabase passwordless-email delivery.
-- [ ] Verify the custom SMTP configuration and update the Study Shelf sign-in guidance.
-- [ ] Replace the Resend-only route with a Gmail-verified SMTP provider that does not require a custom domain.
-- [ ] Verify the owner Gmail sender identity and configure Supabase with the selected provider’s SMTP credentials.
-- [ ] Configure the owner Gmail account for SMTP using a dedicated Google app password.
-- [ ] Apply and verify the Gmail SMTP credentials in Supabase Auth for passwordless sign-in emails.
-- [ ] Replace passwordless email authentication with Google Sign-In for the external Vercel deployment.
+- [x] Select and configure a custom SMTP provider for Supabase passwordless-email delivery (superseded by the owner-approved Google-only sign-in route).
+- [x] Verify the custom SMTP configuration and update the Study Shelf sign-in guidance (superseded by Google-only sign-in).
+- [x] Replace the Resend-only route with a Gmail-verified SMTP provider that does not require a custom domain (provider research completed; the route was superseded by Google-only sign-in).
+- [x] Verify the owner Gmail sender identity and configure Supabase with the selected provider’s SMTP credentials (superseded by Google-only sign-in).
+- [x] Configure the owner Gmail account for SMTP using a dedicated Google app password (superseded by Google-only sign-in).
+- [x] Apply and verify the Gmail SMTP credentials in Supabase Auth for passwordless sign-in emails (superseded by Google-only sign-in).
+- [x] Replace passwordless email authentication with Google Sign-In for the external Vercel deployment.
 - [x] Configure the Google OAuth client, Supabase provider settings, and production redirect URLs.
-- [ ] Preserve owner-only uploads by checking the signed-in Google account email.
-- [ ] Test and publish the Google-only sign-in experience with updated regression coverage and documentation.
-- [ ] Disable Supabase Email authentication after the deployed Google-only flow is verified.
-- [ ] Repair the GitHub Actions pnpm bootstrap so the Google Sign-In release verification can pass remotely.
+- [x] Preserve owner-only uploads by checking the signed-in Google account email.
+- [x] Test and publish the Google-only sign-in experience with updated regression coverage and documentation.
+- [x] Disable Supabase Email authentication after the deployed Google-only flow is verified.
+- [x] Repair the GitHub Actions pnpm bootstrap so the Google Sign-In release verification can pass remotely.

@@ -77,3 +77,11 @@ The Google OAuth client ID has been entered into the Supabase provider form. The
 The client secret has now been placed in the Supabase Google provider form through the protected browser field. Credential values remain excluded from source code and project documentation. The next steps are enabling Google sign-in and saving the provider configuration with the default secure nonce and email requirements unchanged.
 
 Supabase confirmed that the Google provider settings were saved successfully and now lists Google as **Enabled**. The client secret remains protected in Supabase; Email authentication remains temporarily enabled only until the application’s Google-only interface and redirect flow are verified.
+
+The deployed production Study Shelf page now presents **Continue with Google** rather than an email entry form. Selecting it successfully reached Google’s account chooser with the expected Supabase callback URI and the production Study Shelf post-sign-in redirect destination, confirming the OAuth initiation path is live.
+
+The owner completed the live Google sign-in and returned to Study Shelf as **Supratik Kundu**. The authenticated navigation now exposes Upload and My Notes, confirming the signed-in Google email preserves the owner-only upload access. With this verified, the Supabase Email-provider retirement page has been opened; its settings are still loading before the obsolete provider can be disabled.
+
+The Supabase Email-provider toggle has been switched off. Google remains enabled. Saving this final setting will complete the requested Google-only authentication configuration.
+
+Supabase confirmed the provider update: **Email is Disabled** and **Google is Enabled**. Study Shelf now has the requested Google-only authentication method, with the owner session and upload access already verified in production.
