@@ -4,7 +4,7 @@ import NoteCard, { type LibraryNote } from "@/components/NoteCard";
 import { startLogin } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { useExternalLibrary } from "@/lib/externalNotes";
+import { useExternalLibrary, useExternalUploadAccess } from "@/lib/externalNotes";
 import { isExternalDeployment } from "@/lib/supabase";
 import { NOTE_FILE_TYPES, NOTE_FILE_TYPE_LABELS, type NoteFileType } from "@shared/notes";
 import { ArrowDown, ArrowUpRight, BookOpen, LibraryBig, Search, SlidersHorizontal, Upload } from "lucide-react";
@@ -29,9 +29,11 @@ export default function Library() {
   );
   const notesQuery = trpc.notes.search.useQuery(searchInput, { enabled: isAuthenticated });
   const externalNotesQuery = useExternalLibrary({ query: debouncedQuery || undefined, fileType: fileType || undefined, sort }, isAuthenticated);
+  const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
   const activeQuery = isExternalDeployment ? externalNotesQuery : notesQuery;
   const notes = (isExternalDeployment ? externalNotesQuery.data : notesQuery.data?.items ?? []) as LibraryNote[];
   const hasFilters = Boolean(query || fileType || sort !== "recent");
+  const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
 
   if (loading) return <AuthLoading />;
   if (!isAuthenticated) return <SignInGate />;
@@ -100,10 +102,7 @@ export default function Library() {
             <p className="eyebrow">The library</p>
             <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[#171b4f]">Browse the shelf</h2>
           </div>
-          <Link href="/upload" className="editorial-text-button">
-            <Upload className="h-4 w-4" />
-            Add a note
-          </Link>
+          {canUpload ? <Link href="/upload" className="editorial-text-button"><Upload className="h-4 w-4" />Add a note</Link> : null}
         </div>
 
         {activeQuery.isLoading ? (
@@ -124,7 +123,7 @@ export default function Library() {
             action="Clear filters"
             onAction={() => { setQuery(""); setFileType(""); setSort("recent"); }}
           />
-        ) : (
+        ) : canUpload ? (
           <LibraryState
             icon={<LibraryBig />}
             title="The shelf is waiting for its first note."
@@ -133,6 +132,8 @@ export default function Library() {
             onAction={startLogin}
             linkTo="/upload"
           />
+        ) : (
+          <LibraryState icon={<LibraryBig />} title="The shelf is ready for its first note." description="This shared library is curated by its owner. You will be able to search and download notes as they are added." />
         )}
       </section>
     </main>
@@ -143,12 +144,12 @@ function NoteSkeleton() {
   return <div className="min-h-72 animate-pulse rounded-[1.3rem] border border-[#171b4f]/12 bg-[#f7f1e3] p-6"><div className="h-6 w-16 rounded bg-[#171b4f]/10" /><div className="mt-10 h-3 w-28 rounded bg-[#171b4f]/10" /><div className="mt-4 h-8 w-4/5 rounded bg-[#171b4f]/10" /><div className="mt-3 h-6 w-3/5 rounded bg-[#171b4f]/8" /><div className="mt-14 h-px w-full bg-[#171b4f]/10" /></div>;
 }
 
-function LibraryState({ icon, title, description, action, onAction, linkTo }: { icon: React.ReactNode; title: string; description: string; action: string; onAction?: () => void; linkTo?: string }) {
+function LibraryState({ icon, title, description, action, onAction, linkTo }: { icon: React.ReactNode; title: string; description: string; action?: string; onAction?: () => void; linkTo?: string }) {
   const content = <><span className="mb-5 inline-flex rounded-full bg-[#d28b17]/14 p-3 text-[#b36f0c]">{icon}</span><h3 className="text-3xl font-semibold tracking-[-0.045em] text-[#171b4f]">{title}</h3><p className="mx-auto mt-4 max-w-lg leading-7 text-[#171b4f]/65">{description}</p></>;
   return (
     <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center">
       {content}
-      {linkTo ? <Link href={linkTo} className="editorial-button editorial-button--indigo mt-8">{action}<ArrowUpRight className="h-4 w-4" /></Link> : <button className="editorial-button editorial-button--indigo mt-8" onClick={onAction}>{action}<ArrowUpRight className="h-4 w-4" /></button>}
+      {action ? linkTo ? <Link href={linkTo} className="editorial-button editorial-button--indigo mt-8">{action}<ArrowUpRight className="h-4 w-4" /></Link> : <button className="editorial-button editorial-button--indigo mt-8" onClick={onAction}>{action}<ArrowUpRight className="h-4 w-4" /></button> : null}
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { startLogin } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useExternalUploadAccess } from "@/lib/externalNotes";
+import { isExternalDeployment } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { BookOpen, Loader2, LogOut, Menu, Upload, X } from "lucide-react";
 import { useState } from "react";
@@ -16,6 +18,9 @@ export default function SiteHeader() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading, isAuthenticated, logout } = useAuth();
+  const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
+  const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
+  const visibleNavigation = canUpload ? navigation : navigation.filter(item => item.href !== "/upload");
 
   const handleLogout = async () => {
     try {
@@ -37,7 +42,7 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-          {navigation.map(item => (
+          {visibleNavigation.map(item => (
             <Link
               key={item.href}
               href={item.href}
@@ -84,7 +89,7 @@ export default function SiteHeader() {
       {isOpen && (
         <div className="border-t border-[#171b4f]/12 bg-[#f7f1e3] px-4 pb-5 pt-3 md:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1" aria-label="Mobile navigation">
-            {navigation.map(item => (
+            {visibleNavigation.map(item => (
               <Link
                 key={item.href}
                 href={item.href}

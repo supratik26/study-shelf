@@ -33,5 +33,14 @@
 - [ ] Verify the Vercel-ready project configuration and provide the external hosting handoff.
 - [ ] Deliver the completed Vercel and GitHub deployment handoff to the user.
 - [x] Make the external header sign-in control open the same passwordless email-link flow as the access gate.
-- [ ] Confirm the production Vercel alias serves the current passwordless-auth build.
-- [ ] Complete an end-to-end passwordless sign-in test and verify protected library access on the live production site.
+- [x] Confirm the production Vercel alias serves the current passwordless-auth build.
+- [x] Complete an end-to-end passwordless sign-in test and verify protected library access on the live production site.
+- [x] Check availability of a cleaner Vercel address without the current “kappa” suffix and configure it if available.
+- [x] Update Supabase authentication URL configuration to trust the new Vercel production domain.
+- [ ] Verify passwordless authentication in one observable browser session from email-link request through protected-library access.
+- [ ] Corroborate the production authentication completion with a loaded Supabase user or session record.
+- [ ] Restrict note-upload authorization to the owner’s approved Gmail address while retaining authenticated downloads for all other users.
+- [ ] Add regression tests for owner-only upload authorization in both the browser data layer and Vercel upload-ticket endpoint.
+- [ ] Verify the owner-only upload restriction in the Vercel production build and document the ownership setting.
+- [x] Apply the reviewed owner-only note and Storage policy migration in Supabase before releasing the Vercel change.
+- [x] Configure the matching owner Gmail in Vercel as the server-only `UPLOAD_OWNER_EMAIL` environment variable.

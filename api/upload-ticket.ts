@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { getAuthorizedUser, getServerSupabase } from "./_supabase";
+import { isApprovedUploader, isConfiguredOwnerEmail, UPLOAD_OWNER_EMAIL_ENV } from "./_upload-owner";
 
 type RequestLike = { method?: string; headers: Record<string, string | string[] | undefined>; body?: unknown };
 type ResponseLike = { status: (code: number) => ResponseLike; json: (body: unknown) => void; setHeader: (name: string, value: string) => void };
@@ -25,11 +26,16 @@ export function validateUploadMetadata(body: Record<string, unknown>) {
   return { ok: true as const, fileType };
 }
 
+export function canIssueUploadTicket(userEmail: string | null | undefined, ownerEmail: string | null | undefined) {
+  return isConfiguredOwnerEmail(ownerEmail) && isApprovedUploader(userEmail, ownerEmail);
+}
+
 export default async function handler(req: RequestLike, res: ResponseLike) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return fail(res, 405, "Method not allowed.");
   const user = await getAuthorizedUser(req.headers);
   if (!user) return fail(res, 401, "Sign in before uploading a note.");
+  if (!canIssueUploadTicket(user.email, process.env[UPLOAD_OWNER_EMAIL_ENV])) return fail(res, 403, "Only the library owner may publish notes.");
   const body = (req.body ?? {}) as Record<string, unknown>;
   const validation = validateUploadMetadata(body);
   if (!validation.ok) return fail(res, 400, validation.error);

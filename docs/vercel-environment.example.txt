@@ -9,3 +9,5 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 # Vercel Function-only configuration (never prefix service-role values with VITE_)
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 APP_ORIGIN=https://your-project.vercel.app
+# Exact Gmail address that may request signed note-upload URLs
+UPLOAD_OWNER_EMAIL=owner@gmail.com

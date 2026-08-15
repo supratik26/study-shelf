@@ -2,7 +2,7 @@ import AuthLoading from "@/components/AuthLoading";
 import SignInGate from "@/components/SignInGate";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { publishExternalNote } from "@/lib/externalNotes";
+import { publishExternalNote, useExternalUploadAccess } from "@/lib/externalNotes";
 import { isExternalDeployment } from "@/lib/supabase";
 import { useMutation } from "@tanstack/react-query";
 import { MAX_NOTE_FILE_BYTES, MAX_NOTE_FILE_LABEL, MIME_TYPES_BY_FILE_TYPE, NOTE_FILE_TYPES, NOTE_FILE_TYPE_LABELS, type NoteFileType } from "@shared/notes";
@@ -34,6 +34,7 @@ function fileToBase64(file: File) {
 
 export default function UploadNote() {
   const { isAuthenticated, loading } = useAuth();
+  const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
   const [, setLocation] = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -116,6 +117,20 @@ export default function UploadNote() {
 
   if (loading) return <AuthLoading label="Opening the submission desk" />;
   if (!isAuthenticated) return <SignInGate title="Contribute something worth returning to." description="Sign in to add a carefully made set of notes to your shared study library." />;
+  if (isExternalDeployment && externalUploadAccess.isLoading) return <AuthLoading label="Checking publisher access" />;
+  if (isExternalDeployment && externalUploadAccess.data !== true) {
+    return (
+      <main className="container py-12 sm:py-16">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#171b4f]/68 transition-colors hover:text-[#171b4f]"><ArrowLeft className="h-4 w-4" />Back to library</Link>
+        <section className="mt-8 max-w-3xl rounded-[1.65rem] border border-[#171b4f]/16 bg-[#ece4d5]/62 p-7 shadow-[10px_10px_0_rgba(23,27,79,0.1)] sm:p-10">
+          <p className="eyebrow">Read-only member access</p>
+          <h1 className="editorial-title mt-5 text-5xl leading-[0.98] text-[#171b4f] sm:text-6xl">The shelf is curated by its owner.</h1>
+          <p className="mt-6 max-w-2xl text-base leading-7 text-[#171b4f]/70">You can search and download every shared note. Publishing is reserved for the library owner so the collection stays consistent.</p>
+          <Link href="/" className="editorial-button editorial-button--indigo mt-8"><FileText className="h-4 w-4" />Browse the library</Link>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="container py-10 sm:py-16">

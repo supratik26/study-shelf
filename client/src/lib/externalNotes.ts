@@ -79,12 +79,33 @@ export function useExternalMyNotes(ownerId: string | undefined, enabled: boolean
   });
 }
 
+export async function getExternalUploadAccess() {
+  assertSupabaseConfigured();
+  const { data: sessionData } = await supabase.auth.getSession();
+  const token = sessionData.session?.access_token;
+  if (!token) return false;
+  const response = await fetch("/api/upload-access", { headers: { Authorization: `Bearer ${token}` } });
+  const result = await response.json() as { canUpload?: boolean; error?: string };
+  if (!response.ok) throw new Error(result.error || "Upload permission could not be checked.");
+  return result.canUpload === true;
+}
+
+export function useExternalUploadAccess(enabled: boolean) {
+  return useQuery({
+    queryKey: ["external-upload-access"],
+    enabled: isExternalDeployment && enabled,
+    queryFn: getExternalUploadAccess,
+    staleTime: 60_000,
+  });
+}
+
 export async function publishExternalNote(input: { title: string; course: string; term: string; description: string; tags: string[]; file: File; fileType: NoteFileType; mimeType: string }) {
   assertSupabaseConfigured();
   const { data: sessionData } = await supabase.auth.getSession();
   const token = sessionData.session?.access_token;
   const user = sessionData.session?.user;
   if (!token || !user) throw new Error("Sign in before publishing a note.");
+  if (!(await getExternalUploadAccess())) throw new Error("Only the library owner may publish notes.");
   const ticketResponse = await fetch("/api/upload-ticket", {
     method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ fileName: input.file.name, fileType: input.fileType, mimeType: input.mimeType, fileSize: input.file.size }),
