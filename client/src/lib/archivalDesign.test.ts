@@ -19,8 +19,8 @@ describe("archival redesign contracts", () => {
   });
 
   it("uses the production Study Shelf logo in the shared entry points", () => {
-    expect(header).toContain('/manus-storage/study-shelf-logo_65280ab1.png');
-    expect(gate).toContain('/manus-storage/study-shelf-logo_65280ab1.png');
+    expect(header).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png');
+    expect(gate).toContain('https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png');
   });
 
   it("keeps note cards numbered and cycles their six pastel tones", () => {

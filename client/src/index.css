@@ -117,8 +117,8 @@
 
   .archive-header { background: rgba(255, 250, 240, 0.92); border-bottom: 1px solid rgba(21, 28, 74, 0.15); }
   .archive-brand { color: var(--ink); }
-  .archive-brand-mark { background: var(--ink); border-radius: 50%; box-shadow: 3px 3px 0 rgba(242, 189, 157, 0.85); overflow: hidden; }
-  .archive-brand-mark img { display: block; height: 100%; object-fit: cover; object-position: 50% 10%; transform: scale(1.56); width: 100%; }
+  .archive-brand-mark { background: transparent; border-radius: 0.7rem; box-shadow: none; overflow: visible; }
+  .archive-brand-mark img { display: block; height: 100%; object-fit: contain; object-position: center; transform: none; width: 100%; }
   .archive-brand-name { font-family: var(--font-editorial); font-size: 1.35rem; letter-spacing: -0.04em; }
   .archive-brand-subtitle { color: rgba(21, 28, 74, 0.6); font-size: 0.53rem; font-weight: 800; letter-spacing: 0.19em; text-transform: uppercase; }
   .archive-nav-link { border-bottom: 2px solid transparent; color: rgba(21, 28, 74, 0.73); font-size: 0.93rem; font-weight: 700; padding: 0.55rem 0.25rem; transition: border-color var(--duration-fast) var(--ease-ios-spring), color var(--duration-fast) var(--ease-ios-spring), transform var(--duration-fast) var(--ease-ios-press); }

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 
-const logoUrl = "/manus-storage/study-shelf-logo_65280ab1.png";
+const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png";
 const navigation = [{ href: "/", label: "Explore" }, { href: "/upload", label: "Upload" }, { href: "/my-notes", label: "My Notes" }];
 
 export default function SiteHeader() {

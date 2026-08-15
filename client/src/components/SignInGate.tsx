@@ -5,7 +5,7 @@ import { ArrowUpRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 type SignInGateProps = { title?: string; description?: string };
-const logoUrl = "/manus-storage/study-shelf-logo_65280ab1.png";
+const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/kKyIgaBRWlXhTpEB.png";
 
 export default function SignInGate({ title = "The archive is open.", description = "A curated collection of high-quality study materials for your academic journey. Share notes, discover resources, and elevate your learning." }: SignInGateProps) {
   const [pending, setPending] = useState(false);

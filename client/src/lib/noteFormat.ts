@@ -13,6 +13,7 @@ export function formatFileSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(bytes >= 10 * 1024 * 1024 ? 0 : 1)} MB`;
 }
 
-export function formatTags(tags: string[]) {
-  return tags.length ? tags.map(tag => `#${tag}`).join("  ") : "No tags added";
+export function formatTags(tags: unknown) {
+  const values = Array.isArray(tags) ? tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0) : [];
+  return values.length ? values.map(tag => `#${tag.trim()}`).join("  ") : "No tags added";
 }

@@ -19,13 +19,25 @@ export type ExternalNote = {
 };
 
 type NoteRow = {
-  id: string; title: string; description: string | null; course: string; term: string | null; tags: string[] | null;
+  id: string; title: string; description: string | null; course: string; term: string | null; tags: unknown;
   original_file_name: string; file_type: NoteFileType; mime_type: string; file_size: number; download_count: number; created_at: string;
 };
 
+export function normalizeTags(tags: unknown): string[] {
+  if (Array.isArray(tags)) return tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0).map(tag => tag.trim());
+  if (typeof tags !== "string") return [];
+  try {
+    const parsed = JSON.parse(tags);
+    if (Array.isArray(parsed)) return normalizeTags(parsed);
+  } catch {
+    // Legacy records may contain a comma-separated text field rather than JSON.
+  }
+  return tags.split(",").map(tag => tag.trim()).filter(Boolean);
+}
+
 function mapNote(row: NoteRow): ExternalNote {
   return {
-    id: row.id, title: row.title, description: row.description, course: row.course, term: row.term, tags: row.tags ?? [],
+    id: row.id, title: row.title, description: row.description, course: row.course, term: row.term, tags: normalizeTags(row.tags),
     originalFileName: row.original_file_name, fileType: row.file_type, mimeType: row.mime_type, fileSize: Number(row.file_size),
     downloadCount: row.download_count, createdAt: new Date(row.created_at), uploaderName: "A Study Shelf member",
   };

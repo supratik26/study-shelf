@@ -7,7 +7,7 @@ vi.mock("./supabase", () => ({
   supabase: { auth: { getSession: mocks.getSession } },
 }));
 
-import { getExternalUploadAccess } from "./externalNotes";
+import { getExternalUploadAccess, normalizeTags } from "./externalNotes";
 
 describe("external upload access", () => {
   afterEach(() => {
@@ -31,5 +31,11 @@ describe("external upload access", () => {
 
     await expect(getExternalUploadAccess()).resolves.toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("normalizes malformed legacy tag values so card rendering never receives an undefined array", () => {
+    expect(normalizeTags(undefined)).toEqual([]);
+    expect(normalizeTags("revision, chemistry")).toEqual(["revision", "chemistry"]);
+    expect(normalizeTags('["lecture", "summary"]')).toEqual(["lecture", "summary"]);
   });
 });

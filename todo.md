@@ -98,3 +98,6 @@
 - [x] Verify redesigned screens explicitly under the reduced-motion preference before release.
 - [x] Perform browser-level reduced-motion verification for the redesigned library, upload, and personal collection screens.
 - [x] Capture and review authenticated reduced-motion renderings of the upload and personal collection interfaces.
+- [ ] Fix the production runtime error caused by incomplete note metadata in the redesigned library.
+- [ ] Correct Study Shelf logo crop, scale, and alignment in the responsive header and landing treatment.
+- [ ] Add regression coverage and verify the production repair on desktop and mobile.
