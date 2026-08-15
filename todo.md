@@ -112,6 +112,10 @@
 - [x] Add theme regression coverage and verify dark mode on desktop, mobile, and production builds.
 - [x] Add a persisted Light, Dark, and System theme picker to the header controls.
 - [x] Apply and inspect AMOLED-specific dark treatments for upload, note detail, and personal collection screens.
-- [ ] Verify all primary screens in dark mode on desktop, mobile, and the live production deployment.
+- [x] Verify all primary screens in dark mode on desktop, mobile, and the live production deployment.
+- [ ] Verify the live production dark mode across every primary route at desktop size.
+- [ ] Verify the live production dark mode across every primary route at a true mobile viewport.
+- [x] Eliminate the horizontal overflow exposed by the rotated dark hero on the My Notes mobile route.
+- [ ] Re-verify the live My Notes dark route at a phone viewport after deploying the overflow containment fix.
 - [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.
