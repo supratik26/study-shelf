@@ -32,13 +32,13 @@ export default function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#171b4f]/15 bg-[#f7f1e3]/95 backdrop-blur-md">
+    <header className="site-header sticky top-0 z-40 border-b border-[#171b4f]/15 bg-[#f7f1e3]/95 backdrop-blur-md">
       <div className="container flex h-18 items-center justify-between gap-5">
         <Link href="/" className="group flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#171b4f] text-[#f7f1e3] transition-transform duration-200 group-hover:scale-105">
+          <span className="site-logo-icon grid h-9 w-9 place-items-center rounded-full bg-[#171b4f] text-[#f7f1e3] transition-transform duration-200 group-hover:scale-105">
             <BookOpen className="h-4 w-4" strokeWidth={1.8} />
           </span>
-          <span className="leading-none"><span className="block text-lg font-semibold tracking-[-0.045em] text-[#171b4f]">Study Shelf</span><span className="mt-1 block text-[0.54rem] font-semibold uppercase tracking-[0.16em] text-[#171b4f]/53">Study archive</span></span>
+          <span className="site-logo-copy leading-none"><span className="block text-lg font-semibold tracking-[-0.045em] text-[#171b4f]">Study Shelf</span><span className="mt-1 block text-[0.54rem] font-semibold uppercase tracking-[0.16em] text-[#171b4f]/53">Study archive</span></span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
@@ -77,7 +77,7 @@ export default function SiteHeader() {
         </div>
 
         <button
-          className="grid h-10 w-10 place-items-center rounded-full border border-[#171b4f]/16 text-[#171b4f] md:hidden"
+          className={cn("site-menu-button grid h-10 w-10 place-items-center rounded-full border border-[#171b4f]/16 text-[#171b4f] md:hidden", isOpen && "site-menu-button--open")}
           onClick={() => setIsOpen(open => !open)}
           aria-label={isOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={isOpen}
@@ -87,7 +87,7 @@ export default function SiteHeader() {
       </div>
 
       {isOpen && (
-        <div className="border-t border-[#171b4f]/12 bg-[#f7f1e3] px-4 pb-5 pt-3 md:hidden">
+        <div className="site-mobile-menu border-t border-[#171b4f]/12 bg-[#f7f1e3] px-4 pb-5 pt-3 md:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1" aria-label="Mobile navigation">
             {visibleNavigation.map(item => (
               <Link
@@ -95,7 +95,7 @@ export default function SiteHeader() {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={cn(
-                  "rounded-xl px-4 py-3 text-base",
+                  "site-mobile-menu-item rounded-xl px-4 py-3 text-base",
                   location === item.href ? "bg-[#171b4f] text-[#f7f1e3]" : "text-[#171b4f] hover:bg-[#171b4f]/7",
                 )}
               >

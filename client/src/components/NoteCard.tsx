@@ -15,9 +15,9 @@ export type LibraryNote = {
   uploaderName: string;
 };
 
-export default function NoteCard({ note }: { note: LibraryNote }) {
+export default function NoteCard({ note, style }: { note: LibraryNote; style?: React.CSSProperties }) {
   return (
-    <article className="note-card group flex min-h-72 flex-col justify-between">
+    <article className="note-card motion-card group flex min-h-72 flex-col justify-between" style={style}>
       <div>
         <div className="flex items-start justify-between gap-4">
           <span className="file-badge">
@@ -27,7 +27,7 @@ export default function NoteCard({ note }: { note: LibraryNote }) {
           <Link
             href={`/notes/${note.id}`}
             aria-label={`View ${note.title}`}
-            className="grid h-8 w-8 place-items-center rounded-full border border-[#171b4f]/14 text-[#171b4f] transition-all duration-200 group-hover:bg-[#171b4f] group-hover:text-[#f7f1e3]"
+            className="note-card-link grid h-8 w-8 place-items-center rounded-full border border-[#171b4f]/14 text-[#171b4f] group-hover:bg-[#171b4f] group-hover:text-[#f7f1e3]"
           >
             <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -46,7 +46,7 @@ export default function NoteCard({ note }: { note: LibraryNote }) {
           <span>{formatDate(note.createdAt)}</span>
         </div>
         <div className="mt-4 flex items-center gap-2 font-medium text-[#171b4f]">
-          <Download className="h-3.5 w-3.5 text-[#d28b17]" />
+          <Download className="note-download-icon h-3.5 w-3.5 text-[#d28b17]" />
           {note.downloadCount} {note.downloadCount === 1 ? "download" : "downloads"}
         </div>
       </div>

@@ -79,3 +79,6 @@
 - [x] Test and publish the Google-only sign-in experience with updated regression coverage and documentation.
 - [x] Disable Supabase Email authentication after the deployed Google-only flow is verified.
 - [x] Repair the GitHub Actions pnpm bootstrap so the Google Sign-In release verification can pass remotely.
+- [x] Review the supplied animation CSS and JSX, then map suitable motion patterns to Study Shelf components.
+- [x] Add accessible animation tokens, entrance motion, hover feedback, search focus treatment, and mobile-menu transitions.
+- [x] Verify reduced-motion behavior, responsive rendering, tests, and the production build before publishing the animation update.

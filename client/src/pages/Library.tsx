@@ -8,7 +8,7 @@ import { useExternalLibrary, useExternalUploadAccess } from "@/lib/externalNotes
 import { isExternalDeployment } from "@/lib/supabase";
 import { NOTE_FILE_TYPES, NOTE_FILE_TYPE_LABELS, type NoteFileType } from "@shared/notes";
 import { ArrowDown, ArrowUpRight, BookOpen, LibraryBig, Search, SlidersHorizontal, Upload } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "wouter";
 
 export default function Library() {
@@ -42,18 +42,18 @@ export default function Library() {
     <main>
       <section className="container pb-12 pt-12 sm:pb-16 sm:pt-20">
         <div className="grid items-end gap-10 lg:grid-cols-[1.5fr_0.8fr]">
-          <div>
+          <div className="motion-rise">
             <p className="eyebrow">A considered collection</p>
             <h1 className="editorial-title mt-5 max-w-4xl text-5xl leading-[0.95] text-[#171b4f] sm:text-7xl lg:text-[5.6rem]">
               Notes worth keeping close.
             </h1>
           </div>
-          <div className="border-l border-[#171b4f]/18 pl-5 text-base leading-7 text-[#171b4f]/72 sm:pl-7">
+          <div className="motion-rise motion-stagger-1 border-l border-[#171b4f]/18 pl-5 text-base leading-7 text-[#171b4f]/72 sm:pl-7">
             A private shelf for your study circle — made for the pages, slides, and summaries that make a semester feel more navigable.
           </div>
         </div>
 
-        <div className="relative mt-12 overflow-hidden rounded-[1.55rem] border border-[#171b4f]/15 bg-[#ece4d5] p-4 shadow-[8px_8px_0_rgba(23,27,79,0.1)] sm:p-5">
+        <div className="motion-reveal motion-stagger-2 relative mt-12 overflow-hidden rounded-[1.55rem] border border-[#171b4f]/15 bg-[#ece4d5] p-4 shadow-[8px_8px_0_rgba(23,27,79,0.1)] sm:p-5">
           <div className="absolute bottom-0 right-0 h-28 w-28 translate-x-10 translate-y-10 rounded-full border border-[#171b4f]/12" />
           <div className="relative grid gap-3 lg:grid-cols-[1fr_auto_auto]">
             <label className="relative block">
@@ -61,7 +61,7 @@ export default function Library() {
               <input
                 value={query}
                 onChange={event => setQuery(event.target.value)}
-                className="h-13 w-full rounded-xl border border-[#171b4f]/15 bg-[#f7f1e3] pl-12 pr-4 text-base text-[#171b4f] outline-none transition-shadow placeholder:text-[#171b4f]/42 focus:ring-2 focus:ring-[#d28b17]"
+                className="library-search-input h-13 w-full rounded-xl border border-[#171b4f]/15 bg-[#f7f1e3] pl-12 pr-4 text-base text-[#171b4f] outline-none placeholder:text-[#171b4f]/42 focus:ring-2 focus:ring-[#d28b17]"
                 placeholder="Search titles, subjects, descriptions, and tags"
                 aria-label="Search notes"
               />
@@ -97,7 +97,7 @@ export default function Library() {
       </section>
 
       <section className="container pb-20">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 border-b border-[#171b4f]/16 pb-5">
+        <div className="motion-rise motion-stagger-3 mb-7 flex flex-wrap items-end justify-between gap-4 border-b border-[#171b4f]/16 pb-5">
           <div>
             <p className="eyebrow">The library</p>
             <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[#171b4f]">Browse the shelf</h2>
@@ -113,7 +113,7 @@ export default function Library() {
           <LibraryState icon={<BookOpen />} title="The shelf could not be opened." description="Please refresh the page to try searching again." action="Refresh library" onAction={() => void activeQuery.refetch()} />
         ) : notes.length ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {notes.map(note => <NoteCard key={note.id} note={note} />)}
+            {notes.map((note, index) => <NoteCard key={note.id} note={note} style={{ "--card-index": index } as CSSProperties} />)}
           </div>
         ) : hasFilters ? (
           <LibraryState
@@ -147,7 +147,7 @@ function NoteSkeleton() {
 function LibraryState({ icon, title, description, action, onAction, linkTo }: { icon: React.ReactNode; title: string; description: string; action?: string; onAction?: () => void; linkTo?: string }) {
   const content = <><span className="mb-5 inline-flex rounded-full bg-[#d28b17]/14 p-3 text-[#b36f0c]">{icon}</span><h3 className="text-3xl font-semibold tracking-[-0.045em] text-[#171b4f]">{title}</h3><p className="mx-auto mt-4 max-w-lg leading-7 text-[#171b4f]/65">{description}</p></>;
   return (
-    <div className="rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center">
+    <div className="motion-reveal rounded-[1.5rem] border border-dashed border-[#171b4f]/25 bg-[#ece4d5]/55 px-6 py-14 text-center">
       {content}
       {action ? linkTo ? <Link href={linkTo} className="editorial-button editorial-button--indigo mt-8">{action}<ArrowUpRight className="h-4 w-4" /></Link> : <button className="editorial-button editorial-button--indigo mt-8" onClick={onAction}>{action}<ArrowUpRight className="h-4 w-4" /></button> : null}
     </div>
