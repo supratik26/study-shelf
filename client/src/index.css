@@ -339,5 +339,5 @@ html.dark {
 .dark .archive-edit-panel { background: #111116 !important; border: 1px solid rgba(196, 188, 255, 0.35); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72); }
 
 @media (max-width: 639px) {
-  .archive-landing-title { font-size: clamp(3.05rem, 14.8vw, 3.85rem); line-height: 0.82; overflow-wrap: anywhere; }
+  .archive-landing-title { font-size: clamp(2.45rem, 12vw, 3.4rem); line-height: 0.84; overflow-wrap: normal; word-break: normal; }
 }
