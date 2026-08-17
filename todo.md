@@ -134,8 +134,8 @@
 
 
 ## Vercel dashboard sync
-- [ ] Integrate the Quiet Observatory dashboard into the Vercel-connected frontend without removing auth, upload, note, or backend routes.
-- [ ] Preserve existing backend-backed note data and connect redesigned shelf entry points to current routes.
-- [ ] Run typecheck and production build in the GitHub clone.
-- [ ] Commit and push the synchronized frontend to `main`.
-- [ ] Confirm the new production deployment is ready and serving the updated dashboard.
+- [x] Integrate the Quiet Observatory dashboard into the Vercel-connected frontend without removing auth, upload, note, or backend routes.
+- [x] Preserve existing backend-backed note data and connect redesigned shelf entry points to current routes.
+- [x] Run typecheck and production build in the GitHub clone.
+- [x] Commit and push the synchronized frontend to `main`.
+- [x] Confirm the new production deployment is ready and serving the updated dashboard.
