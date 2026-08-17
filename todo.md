@@ -139,3 +139,11 @@
 - [x] Run typecheck and production build in the GitHub clone.
 - [x] Commit and push the synchronized frontend to `main`.
 - [x] Confirm the new production deployment is ready and serving the updated dashboard.
+
+
+## Restore previous smooth deployment
+- [ ] Revert only the Quiet Observatory dashboard sync commits.
+- [ ] Preserve the prior authentication, notes, uploads, backend, and existing visual system.
+- [ ] Run typecheck and production build after restoration.
+- [ ] Push the restoration to the Vercel-connected main branch.
+- [ ] Confirm the restored production deployment is ready.
