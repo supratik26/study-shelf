@@ -96,7 +96,11 @@ export default async function handler(req: RequestLike, res: ResponseLike) {
     });
 
     if (!upstream.ok) {
-      console.error("Goluu provider error", upstream.status, await upstream.text());
+      const providerError = await upstream.text();
+      console.error("Goluu provider error", upstream.status, providerError);
+      if (upstream.status === 429 && providerError.includes("insufficient_quota")) {
+        return fail(res, 503, "Goluu’s AI service is temporarily unavailable. Please ask the site owner to restore the AI service, then try again.");
+      }
       return fail(res, 502, "Goluu could not answer just now. Please try again shortly.");
     }
 

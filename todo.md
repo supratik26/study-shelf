@@ -155,6 +155,13 @@
 - [x] Test the chat interaction and validate the production build.
 - [x] Publish Goluu to Vercel and confirm the ready deployment.
 
+## Goluu live-chat repair
+- [x] Identify why Goluu’s composer is disabled for the current live visitor state.
+- [ ] Restore an active OpenAI quota or replace the current provider credential.
+- [ ] Improve Goluu’s unavailable-provider guidance for signed-in users.
+- [ ] Verify a live signed-in chat request reaches Goluu’s production endpoint.
+- [ ] Publish and confirm the repaired chat experience.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.
