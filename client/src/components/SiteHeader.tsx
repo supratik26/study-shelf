@@ -7,11 +7,14 @@ import { useExternalUploadAccess } from "@/lib/externalNotes";
 import { isExternalDeployment } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { BookOpen, LayoutDashboard, Laptop, Loader2, LogOut, Menu, Moon, NotebookPen, Sun, Upload, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 
-const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png";
+const logoAssets = {
+  light: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/LVcgkhgjeEbQXdek.png",
+  dark: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/mispxaijsVTAqrIf.png",
+} as const;
 const navigation = [
   { href: "/", label: "Explore", icon: BookOpen },
   { href: "/study-space", label: "Study Space", icon: LayoutDashboard },
@@ -38,6 +41,12 @@ export default function SiteHeader() {
   const externalUploadAccess = useExternalUploadAccess(isAuthenticated);
   const canUpload = !isExternalDeployment || externalUploadAccess.data === true;
   const visibleNavigation = canUpload ? navigation : navigation.filter(item => item.href !== "/upload");
+  useEffect(() => {
+    const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    const themeColour = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (favicon) favicon.href = logoAssets[theme];
+    if (themeColour) themeColour.content = theme === "dark" ? "#000000" : "#151c4a";
+  }, [theme]);
   const handleLogout = async () => {
     try { await logout(); toast.success("You have been signed out."); }
     catch { toast.error("We could not sign you out. Please try again."); }
@@ -53,7 +62,10 @@ export default function SiteHeader() {
     <header className="site-header archive-header sticky top-0 z-40">
       <div className="container flex h-19 items-center justify-between gap-5">
         <Link href="/" className="archive-brand group flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <span className="archive-brand-mark site-logo-icon grid h-11 w-11 place-items-center"><img src={logoUrl} alt="" /></span>
+          <span className="archive-brand-mark site-logo-icon grid h-11 w-11 place-items-center">
+            <img className="archive-brand-mark__image archive-brand-mark__image--light" src={logoAssets.light} alt="" decoding="async" />
+            <img className="archive-brand-mark__image archive-brand-mark__image--dark" src={logoAssets.dark} alt="" decoding="async" />
+          </span>
           <span className="site-logo-copy leading-none"><span className="archive-brand-name block">Study Shelf</span><span className="archive-brand-subtitle mt-1 block">Study archive</span></span>
         </Link>
         <nav className="hidden items-center gap-1.5 md:flex" aria-label="Primary navigation">

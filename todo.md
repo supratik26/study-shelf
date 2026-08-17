@@ -183,6 +183,12 @@
 - [x] Validate responsive visual changes, accessibility states, and production build before deployment.
 - [x] Publish the polished interface to the Vercel-connected main branch.
 
+## Adaptive Study Shelf logo
+- [x] Audit the current header, favicon, and light/dark theme logo usage.
+- [x] Generate a redesigned paired logo treatment for the warm-paper and AMOLED-dark themes.
+- [x] Integrate the light and dark logo variants with smooth theme-aware switching.
+- [x] Validate responsive header, favicon, type check, build, and Vercel release.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.
