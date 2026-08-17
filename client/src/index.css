@@ -375,6 +375,53 @@ html.dark {
 .dark .archive-edit-overlay { background: rgba(0, 0, 0, 0.78) !important; }
 .dark .archive-edit-panel { background: #111116 !important; border: 1px solid rgba(196, 188, 255, 0.35); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72); }
 
+/* Goluu is an assistant drawer rather than a page overlay: motion stays transform/opacity-only for a smooth study flow. */
+.goluu-root { bottom: 1.15rem; position: fixed; right: 1.15rem; z-index: 60; }
+.goluu-launcher { align-items: center; background: var(--ink); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 999px; box-shadow: 0 10px 28px rgba(21, 28, 74, 0.24); color: var(--paper); display: inline-flex; font: inherit; font-size: 0.82rem; font-weight: 800; gap: 0.55rem; min-height: 3.25rem; padding: 0.48rem 0.95rem 0.48rem 0.52rem; transform: translateZ(0); transition: transform var(--duration-fast) var(--ease-ios-press), box-shadow var(--duration-fast) var(--ease-ios-spring); will-change: transform; }
+.goluu-launcher span { align-items: center; background: var(--peach); border-radius: 999px; color: var(--ink); display: inline-flex; height: 2.2rem; justify-content: center; width: 2.2rem; }
+.goluu-launcher em { font-style: normal; }
+.goluu-launcher:hover { box-shadow: 0 14px 30px rgba(21, 28, 74, 0.3); transform: translateY(-2px); }
+.goluu-launcher:active { transform: scale(0.97); }
+.goluu-panel { animation: goluu-in 200ms var(--ease-ios-spring) both; background: rgba(255, 250, 240, 0.98); border: 1px solid rgba(21, 28, 74, 0.2); border-radius: 1.45rem; bottom: 4.2rem; box-shadow: 0 20px 52px rgba(21, 28, 74, 0.22); display: flex; flex-direction: column; max-height: min(38rem, calc(100vh - 6.6rem)); overflow: hidden; position: absolute; right: 0; transform-origin: bottom right; width: min(24rem, calc(100vw - 2.3rem)); will-change: transform, opacity; }
+.goluu-panel__header { align-items: center; background: linear-gradient(135deg, var(--sky), var(--lilac)); border-bottom: 1px solid rgba(21, 28, 74, 0.12); display: flex; justify-content: space-between; padding: 0.9rem 1rem; }
+.goluu-identity { align-items: center; display: flex; gap: 0.7rem; }
+.goluu-identity strong, .goluu-identity small { display: block; }
+.goluu-identity strong { color: var(--ink); font-family: var(--font-editorial); font-size: 1.25rem; letter-spacing: -0.04em; line-height: 1; }
+.goluu-identity small { color: rgba(21, 28, 74, 0.64); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em; margin-top: 0.22rem; text-transform: uppercase; }
+.goluu-orb { align-items: center; background: var(--ink); border-radius: 0.8rem; color: var(--butter); display: inline-flex; height: 2.3rem; justify-content: center; width: 2.3rem; }
+.goluu-close { align-items: center; background: rgba(255, 250, 240, 0.62); border: 1px solid rgba(21, 28, 74, 0.16); border-radius: 999px; color: var(--ink); display: inline-flex; height: 2rem; justify-content: center; transition: transform var(--duration-fast) var(--ease-ios-press); width: 2rem; }
+.goluu-close:active { transform: scale(0.9); }
+.goluu-messages { display: flex; flex: 1; flex-direction: column; gap: 0.8rem; min-height: 14rem; overflow-y: auto; overscroll-behavior: contain; padding: 1rem; scrollbar-width: thin; }
+.goluu-message { max-width: 88%; }
+.goluu-message > span { align-items: center; color: rgba(21, 28, 74, 0.56); display: flex; font-size: 0.65rem; font-weight: 800; gap: 0.3rem; letter-spacing: 0.08em; margin: 0 0 0.3rem 0.25rem; text-transform: uppercase; }
+.goluu-message p { font-size: 0.9rem; line-height: 1.48; margin: 0; overflow-wrap: anywhere; padding: 0.7rem 0.8rem; }
+.goluu-message--assistant p { background: #f1ecdf; border-radius: 0.9rem 0.9rem 0.9rem 0.2rem; color: var(--ink); }
+.goluu-message--user { align-self: flex-end; }
+.goluu-message--user > span { justify-content: flex-end; }
+.goluu-message--user p { background: var(--ink); border-radius: 0.9rem 0.9rem 0.2rem 0.9rem; color: var(--paper); }
+.goluu-thinking { align-items: center; color: rgba(21, 28, 74, 0.6); display: flex; font-size: 0.78rem; font-weight: 700; gap: 0.45rem; padding: 0.25rem; }
+.goluu-suggestions { display: flex; flex-wrap: wrap; gap: 0.42rem; padding: 0 1rem 0.75rem; }
+.goluu-suggestions button { background: rgba(21, 28, 74, 0.055); border: 1px solid rgba(21, 28, 74, 0.15); border-radius: 999px; color: var(--ink); font-size: 0.72rem; font-weight: 700; padding: 0.38rem 0.6rem; transition: background-color var(--duration-fast) var(--ease-ios-spring), transform var(--duration-fast) var(--ease-ios-press); }
+.goluu-suggestions button:hover { background: var(--butter); }
+.goluu-suggestions button:active { transform: scale(0.96); }
+.goluu-access-note { color: rgba(21, 28, 74, 0.62); font-size: 0.78rem; line-height: 1.4; margin: 0; padding: 0 1rem 0.75rem; }
+.goluu-compose { border-top: 1px solid rgba(21, 28, 74, 0.13); display: flex; gap: 0.55rem; padding: 0.7rem; }
+.goluu-compose textarea { background: rgba(21, 28, 74, 0.045); border: 1px solid transparent; border-radius: 0.8rem; color: var(--ink); flex: 1; font: inherit; font-size: 0.86rem; line-height: 1.35; max-height: 5rem; min-height: 2.55rem; outline: none; padding: 0.62rem 0.7rem; resize: none; }
+.goluu-compose textarea:focus { border-color: rgba(21, 28, 74, 0.28); background: var(--paper); }
+.goluu-compose button { align-items: center; align-self: flex-end; background: var(--ink); border-radius: 0.75rem; color: var(--paper); display: inline-flex; height: 2.55rem; justify-content: center; transition: transform var(--duration-fast) var(--ease-ios-press), opacity var(--duration-fast) var(--ease-ios-spring); width: 2.55rem; }
+.goluu-compose button:disabled { cursor: not-allowed; opacity: 0.42; }
+.goluu-compose button:not(:disabled):active { transform: scale(0.92); }
+.dark .goluu-panel { background: #101015; border-color: rgba(235, 230, 255, 0.18); box-shadow: 0 20px 52px rgba(0, 0, 0, 0.6); }
+.dark .goluu-panel__header { background: linear-gradient(135deg, #0f1d28, #181328); border-color: rgba(235, 230, 255, 0.13); }
+.dark .goluu-identity strong, .dark .goluu-close, .dark .goluu-suggestions button, .dark .goluu-compose textarea { color: #ebe6ff; }
+.dark .goluu-identity small, .dark .goluu-message > span, .dark .goluu-thinking, .dark .goluu-access-note { color: #a7a4b5; }
+.dark .goluu-orb, .dark .goluu-compose button { background: #ebe6ff; color: #0a0a0d; }
+.dark .goluu-close, .dark .goluu-suggestions button, .dark .goluu-compose textarea { background: rgba(235, 230, 255, 0.07); border-color: rgba(235, 230, 255, 0.15); }
+.dark .goluu-message--assistant p { background: #191820; color: #ebe6ff; }
+.dark .goluu-message--user p { background: #ebe6ff; color: #0a0a0d; }
+@keyframes goluu-in { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.985); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
+@media (max-width: 639px) { .goluu-root { bottom: 0.9rem; right: 0.9rem; } .goluu-panel { bottom: 3.9rem; width: min(24rem, calc(100vw - 1.8rem)); } .goluu-launcher em { display: none; } .goluu-launcher { padding: 0.48rem; } }
+
 @media (max-width: 639px) {
   .archive-landing-title { font-size: clamp(2.45rem, 12vw, 3.4rem); line-height: 0.84; overflow-wrap: normal; word-break: normal; }
 }

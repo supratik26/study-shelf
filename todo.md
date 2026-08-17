@@ -146,3 +146,11 @@
 - [x] Reduce expensive per-card animation and backdrop effects in list-heavy views.
 - [x] Verify the typecheck, production build, and responsive rendering before publishing.
 - [ ] Deploy the fluidity refinements to the Vercel-connected main branch.
+
+## Goluu study assistant
+- [x] Configure the user-provided OpenAI credential as a server-only Vercel environment variable.
+- [x] Audit the deployed serverless runtime and existing AI-compatible configuration.
+- [x] Add Goluu's accessible chat interface with useful study-library guidance and clear answer boundaries.
+- [x] Implement a server-side chatbot endpoint that keeps provider credentials private.
+- [x] Test the chat interaction and validate the production build.
+- [ ] Publish Goluu to Vercel and confirm the ready deployment.
