@@ -208,6 +208,11 @@
 - [x] Verify the mobile note-detail flow, production build, and Vercel release.
 - [x] Tighten the policy so only embedded PDF and file documents retain selection and copy behavior.
 
+## Goluu mobile keyboard behavior
+- [x] Remove automatic compose-field focus when the Goluu panel opens.
+- [x] Verify that the keyboard opens only after an intentional tap in the message field.
+- [x] Validate the production build and publish the interaction fix.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.

@@ -26,12 +26,6 @@ export default function GoluuChat() {
   const [messages, setMessages] = useState<Message[]>([welcome]);
   const [isSending, setIsSending] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    inputRef.current?.focus();
-  }, [isOpen]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -84,7 +78,7 @@ export default function GoluuChat() {
       </div>
       {isAuthenticated ? <div className="goluu-suggestions">{messages.length === 1 && prompts.map(prompt => <button className="motion-press" key={prompt} type="button" onClick={() => void send(prompt)} disabled={isSending}>{prompt}</button>)}</div> : <p className="goluu-access-note">Sign in to Study Shelf to ask Goluu a question.</p>}
       <form className="goluu-compose" onSubmit={onSubmit}>
-        <textarea ref={inputRef} value={input} onChange={event => setInput(event.target.value)} placeholder={isAuthenticated ? "Ask Goluu anything study-related…" : "Sign in to start chatting"} disabled={!isAuthenticated || isSending} maxLength={1_200} rows={1} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(); } }} aria-label="Message Goluu" />
+        <textarea value={input} onChange={event => setInput(event.target.value)} placeholder={isAuthenticated ? "Ask Goluu anything study-related…" : "Sign in to start chatting"} disabled={!isAuthenticated || isSending} maxLength={1_200} rows={1} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(); } }} aria-label="Message Goluu" />
         <button className="motion-press" type="submit" disabled={!input.trim() || !isAuthenticated || isSending} aria-label="Send message"><Send className="h-4 w-4" /></button>
       </form>
     </section> : null}
