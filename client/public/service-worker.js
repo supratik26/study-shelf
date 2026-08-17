@@ -8,6 +8,13 @@ self.addEventListener("fetch", event => {
   const request = event.request;
   const url = new URL(request.url);
   if (url.pathname.startsWith("/api/")) return;
+  if (url.hostname.endsWith(".supabase.co") && url.pathname.includes("/storage/v1/object/sign/")) {
+    event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
+      if (response.ok || response.type === "opaque") caches.open(MATERIAL_CACHE).then(cache => cache.put(request, response.clone()));
+      return response;
+    }).catch(() => caches.match(request))));
+    return;
+  }
   if (request.mode === "navigate") {
     event.respondWith(fetch(request).catch(() => caches.match("/").then(response => response || new Response("Study Shelf is offline. Reconnect to refresh your library."))));
     return;
