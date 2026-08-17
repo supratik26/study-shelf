@@ -133,14 +133,6 @@
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.
 
 
-## Vercel dashboard sync
-- [x] Integrate the Quiet Observatory dashboard into the Vercel-connected frontend without removing auth, upload, note, or backend routes.
-- [x] Preserve existing backend-backed note data and connect redesigned shelf entry points to current routes.
-- [x] Run typecheck and production build in the GitHub clone.
-- [x] Commit and push the synchronized frontend to `main`.
-- [x] Confirm the new production deployment is ready and serving the updated dashboard.
-
-
 ## Restore previous smooth deployment
 - [ ] Revert only the Quiet Observatory dashboard sync commits.
 - [ ] Preserve the prior authentication, notes, uploads, backend, and existing visual system.
