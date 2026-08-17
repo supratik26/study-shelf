@@ -172,6 +172,11 @@
 - [ ] Update Goluu's provider adapter from OpenAI to Gemini.
 - [ ] Deploy and confirm a live Gemini-powered Goluu reply.
 
+## Goluu Gemini runtime repair
+- [ ] Inspect the Gemini error from the user’s failed production request.
+- [ ] Correct the provider credential, model, or request implementation indicated by runtime logs.
+- [ ] Verify a successful Gemini answer through Goluu’s live endpoint.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.

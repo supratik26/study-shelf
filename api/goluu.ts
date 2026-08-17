@@ -77,7 +77,7 @@ export default async function handler(req: RequestLike, res: ResponseLike) {
   if (!apiKey) return fail(res, 503, "Goluu has not been configured yet.");
 
   try {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
     const history = cleanHistory(payload?.history);
     const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
       method: "POST",
