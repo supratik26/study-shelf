@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* Study Shelf design revision: archival editorial update, 2026-08-17 */
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
