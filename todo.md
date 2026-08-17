@@ -162,6 +162,16 @@
 - [ ] Verify a live signed-in chat request reaches Goluu’s production endpoint.
 - [ ] Publish and confirm the repaired chat experience.
 
+## Goluu free-tier provider option
+- [ ] Verify current free-tier provider options that suit a Vercel serverless chatbot.
+- [ ] Select a provider and configure its credential as a server-only Vercel variable.
+- [ ] Update Goluu's endpoint and verify a live response within the provider's free limits.
+
+## Goluu Gemini migration
+- [ ] Store the user-provided Gemini key as a server-only Vercel environment variable.
+- [ ] Update Goluu's provider adapter from OpenAI to Gemini.
+- [ ] Deploy and confirm a live Gemini-powered Goluu reply.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.

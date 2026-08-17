@@ -73,39 +73,38 @@ export default async function handler(req: RequestLike, res: ResponseLike) {
   const message = typeof payload?.message === "string" ? payload.message.trim().slice(0, 1_200) : "";
   if (!message) return fail(res, 400, "Write a question for Goluu first.");
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return fail(res, 503, "Goluu has not been configured yet.");
 
   try {
-    const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
+    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const history = cleanHistory(payload?.history);
+    const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.GOLUU_MODEL || "gpt-4o-mini",
-        temperature: 0.35,
-        max_tokens: 420,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...cleanHistory(payload?.history),
-          { role: "user", content: message },
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: [
+          ...history.map(turn => ({ role: turn.role === "assistant" ? "model" : "user", parts: [{ text: turn.content }] })),
+          { role: "user", parts: [{ text: message }] },
         ],
+        generationConfig: { temperature: 0.35, maxOutputTokens: 420 },
       }),
     });
 
     if (!upstream.ok) {
       const providerError = await upstream.text();
       console.error("Goluu provider error", upstream.status, providerError);
-      if (upstream.status === 429 && providerError.includes("insufficient_quota")) {
-        return fail(res, 503, "Goluu’s AI service is temporarily unavailable. Please ask the site owner to restore the AI service, then try again.");
+      if (upstream.status === 429) {
+        return fail(res, 503, "Goluu has reached its current free-tier limit. Please try again shortly.");
       }
       return fail(res, 502, "Goluu could not answer just now. Please try again shortly.");
     }
 
-    const data = await upstream.json() as { choices?: Array<{ message?: { content?: unknown } }> };
-    const answer = typeof data.choices?.[0]?.message?.content === "string" ? data.choices[0].message.content.trim() : "";
+    const data = await upstream.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: unknown }> } }> };
+    const answer = data.candidates?.[0]?.content?.parts?.map(part => typeof part.text === "string" ? part.text : "").join("").trim() || "";
     if (!answer) return fail(res, 502, "Goluu could not prepare an answer. Please try again.");
     return res.status(200).json({ answer });
   } catch (error) {
