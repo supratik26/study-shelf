@@ -76,18 +76,18 @@ export default function GoluuChat() {
     {isOpen ? <section className="goluu-panel" role="dialog" aria-label="Chat with Goluu" aria-modal="false">
       <header className="goluu-panel__header">
         <div className="goluu-identity"><span className="goluu-orb"><Sparkles className="h-4 w-4" /></span><span><strong>Goluu</strong><small>{loading ? "Checking access…" : isAuthenticated ? "Study companion" : "Sign in to chat"}</small></span></div>
-        <button className="goluu-close" type="button" onClick={() => setIsOpen(false)} aria-label="Close Goluu"><X className="h-4 w-4" /></button>
+        <button className="goluu-close motion-press" type="button" onClick={() => setIsOpen(false)} aria-label="Close Goluu"><X className="h-4 w-4" /></button>
       </header>
       <div className="goluu-messages" ref={listRef} aria-live="polite">
         {messages.map((message, index) => <div key={`${message.role}-${index}`} className={`goluu-message goluu-message--${message.role}`}><span>{message.role === "assistant" ? <Bot className="h-3.5 w-3.5" /> : "You"}</span><p>{message.content}</p></div>)}
-        {isSending && <div className="goluu-thinking"><Loader2 className="h-4 w-4 animate-spin" />Goluu is thinking…</div>}
+        {isSending && <div className="goluu-thinking motion-confirm"><Loader2 className="h-4 w-4 animate-spin" />Goluu is thinking…</div>}
       </div>
-      {isAuthenticated ? <div className="goluu-suggestions">{messages.length === 1 && prompts.map(prompt => <button key={prompt} type="button" onClick={() => void send(prompt)} disabled={isSending}>{prompt}</button>)}</div> : <p className="goluu-access-note">Sign in to Study Shelf to ask Goluu a question.</p>}
+      {isAuthenticated ? <div className="goluu-suggestions">{messages.length === 1 && prompts.map(prompt => <button className="motion-press" key={prompt} type="button" onClick={() => void send(prompt)} disabled={isSending}>{prompt}</button>)}</div> : <p className="goluu-access-note">Sign in to Study Shelf to ask Goluu a question.</p>}
       <form className="goluu-compose" onSubmit={onSubmit}>
         <textarea ref={inputRef} value={input} onChange={event => setInput(event.target.value)} placeholder={isAuthenticated ? "Ask Goluu anything study-related…" : "Sign in to start chatting"} disabled={!isAuthenticated || isSending} maxLength={1_200} rows={1} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(); } }} aria-label="Message Goluu" />
-        <button type="submit" disabled={!input.trim() || !isAuthenticated || isSending} aria-label="Send message"><Send className="h-4 w-4" /></button>
+        <button className="motion-press" type="submit" disabled={!input.trim() || !isAuthenticated || isSending} aria-label="Send message"><Send className="h-4 w-4" /></button>
       </form>
     </section> : null}
-    <button className="goluu-launcher" type="button" onClick={() => setIsOpen(open => !open)} aria-label={isOpen ? "Close Goluu" : "Open Goluu chat"} aria-expanded={isOpen}><span><MessageCircle className="h-5 w-5" /></span><em>Ask Goluu</em></button>
+    <button className="goluu-launcher motion-press" type="button" onClick={() => setIsOpen(open => !open)} aria-label={isOpen ? "Close Goluu" : "Open Goluu chat"} aria-expanded={isOpen}><span><MessageCircle className="h-5 w-5" /></span><em>Ask Goluu</em></button>
   </div>;
 }

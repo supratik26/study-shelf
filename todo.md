@@ -189,6 +189,19 @@
 - [x] Integrate the light and dark logo variants with smooth theme-aware switching.
 - [x] Validate responsive header, favicon, type check, build, and Vercel release.
 
+## High-performance motion system
+- [x] Audit existing motion and identify the high-value interaction surfaces across Study Shelf.
+- [x] Define a snappy timing scale, easing curves, and reduced-motion fallback for the archival interface.
+- [x] Map animation patterns to navigation, cards, workspace actions, Goluu, forms, and state transitions.
+- [x] Implement, profile, validate, and publish the approved motion system without regressing 120 Hz scrolling.
+
+### Approved implementation stages
+- [x] Build shared semantic motion utilities and strengthen reduced-motion safeguards.
+- [x] Apply high-frequency motion to navigation, theme controls, library filtering, buttons, and note cards.
+- [x] Add motion-safe feedback to study queues, collections, reminders, uploads, previews, and annotations.
+- [x] Add Goluu panel, message, suggestion, loading, empty-state, and error-feedback motion.
+- [x] Verify performance, responsive layouts, accessibility, production build, and Vercel release.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.

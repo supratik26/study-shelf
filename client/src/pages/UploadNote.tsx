@@ -60,6 +60,7 @@ export default function UploadNote() {
       setLocation(`/notes/${note.id}`);
     },
   });
+  const isPublishing = isExternalDeployment ? createExternalNote.isPending : createNote.isPending;
 
   const selectFile = (nextFile: File | undefined) => {
     if (!nextFile) return;
@@ -137,9 +138,9 @@ export default function UploadNote() {
     <section className="archive-upload-frame motion-reveal mx-auto mt-7 max-w-5xl p-5 sm:p-8 lg:p-10">
       <div className="text-center"><p className="eyebrow">Contribution desk</p><h1 className="archive-upload-heading mt-4">Share your knowledge</h1><p className="mx-auto mt-5 max-w-xl leading-7 text-[#151c4a]/72">Give your study materials a place to live, and make the next person’s search a little easier.</p></div>
       <form onSubmit={event => void submit(event)} className="mt-9">
-        <button type="button" className={`upload-zone ${isDragging ? "upload-zone--dragging" : ""}`} onClick={() => inputRef.current?.click()} onDragEnter={event => { event.preventDefault(); setIsDragging(true); }} onDragOver={event => event.preventDefault()} onDragLeave={() => setIsDragging(false)} onDrop={event => { event.preventDefault(); setIsDragging(false); selectFile(event.dataTransfer.files[0]); }}>
+        <button type="button" className={`upload-zone ${isDragging ? "upload-zone--dragging" : ""} ${file ? "upload-zone--ready" : ""} ${isPublishing ? "upload-zone--pending" : ""}`} onClick={() => inputRef.current?.click()} onDragEnter={event => { event.preventDefault(); setIsDragging(true); }} onDragOver={event => event.preventDefault()} onDragLeave={() => setIsDragging(false)} onDrop={event => { event.preventDefault(); setIsDragging(false); selectFile(event.dataTransfer.files[0]); }}>
           <input ref={inputRef} type="file" className="sr-only" accept=".pdf,.docx,.pptx,.txt,.md,text/markdown,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation" onChange={event => selectFile(event.target.files?.[0])} />
-          {file ? <CheckCircle2 className="h-9 w-9 text-[#337b65]" /> : <UploadCloud className="h-9 w-9 text-[#d8755c]" strokeWidth={1.6} />}
+          {file ? <CheckCircle2 className="motion-confirm h-9 w-9 text-[#337b65]" /> : <UploadCloud className="h-9 w-9 text-[#d8755c]" strokeWidth={1.6} />}
           <span className="mt-4 text-xl font-bold tracking-[-0.025em] text-[#151c4a]">{file ? file.name : "Drag & drop file here"}</span>
           <span className="mt-1 text-sm text-[#151c4a]/62">{file ? `${(file.size / 1024 / 1024).toFixed(1)} MB · Click to choose another file` : `Or browse your computer · PDF, DOCX, PPTX, TXT, Markdown · ${MAX_NOTE_FILE_LABEL} max`}</span>
         </button>
@@ -150,7 +151,7 @@ export default function UploadNote() {
           <div className="grid gap-4 md:grid-cols-2"><Field label="Term"><input value={term} onChange={event => setTerm(event.target.value)} className="editorial-input" maxLength={100} placeholder="e.g., Spring 2026" /></Field><Field label="Tags"><input value={tags} onChange={event => setTags(event.target.value)} className="editorial-input" placeholder="lecture, revision, essay" /></Field></div>
           <Field label="Context"><textarea value={description} onChange={event => setDescription(event.target.value)} className="editorial-input min-h-28 resize-y py-3" maxLength={3000} placeholder="What is included, which topics it covers, or how someone might use it." /></Field>
         </div>
-        <div className="mt-7 flex flex-wrap items-center justify-between gap-4"><p className="archive-form-note flex max-w-md items-center gap-2"><FolderUp className="h-4 w-4 shrink-0 text-[#337b65]" />Your note will be visible to signed-in members after publishing.</p><button className="editorial-button editorial-button--amber min-w-55" disabled={isExternalDeployment ? createExternalNote.isPending : createNote.isPending}>{(isExternalDeployment ? createExternalNote.isPending : createNote.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Publishing…</> : <><Zap className="h-4 w-4" />Publish to shelf</>}</button></div>
+        <div className="mt-7 flex flex-wrap items-center justify-between gap-4"><p className="archive-form-note flex max-w-md items-center gap-2"><FolderUp className="h-4 w-4 shrink-0 text-[#337b65]" />Your note will be visible to signed-in members after publishing.</p><button className="editorial-button editorial-button--amber min-w-55" disabled={isPublishing}>{isPublishing ? <><Loader2 className="h-4 w-4 animate-spin" />Publishing…</> : <><Zap className="h-4 w-4" />Publish to shelf</>}</button></div>
       </form>
     </section>
   </main>;
