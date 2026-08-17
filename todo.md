@@ -134,8 +134,8 @@
 
 
 ## Restore previous smooth deployment
-- [ ] Revert only the Quiet Observatory dashboard sync commits.
-- [ ] Preserve the prior authentication, notes, uploads, backend, and existing visual system.
-- [ ] Run typecheck and production build after restoration.
+- [x] Revert only the Quiet Observatory dashboard sync commits.
+- [x] Preserve the prior authentication, notes, uploads, backend, and existing visual system.
+- [x] Run typecheck and production build after restoration.
 - [ ] Push the restoration to the Vercel-connected main branch.
 - [ ] Confirm the restored production deployment is ready.
