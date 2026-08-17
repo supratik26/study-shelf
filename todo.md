@@ -131,3 +131,11 @@
 - [x] Verify the second approved uploader through an authenticated production session, or document the exact session limitation.
 - [x] Add page-specific AMOLED classes to the upload, note-detail, and personal collection layouts.
 - [x] Capture explicit dark-mode desktop and mobile renderings for Library, Upload, Note Detail, and My Notes.
+
+
+## Vercel dashboard sync
+- [ ] Integrate the Quiet Observatory dashboard into the Vercel-connected frontend without removing auth, upload, note, or backend routes.
+- [ ] Preserve existing backend-backed note data and connect redesigned shelf entry points to current routes.
+- [ ] Run typecheck and production build in the GitHub clone.
+- [ ] Commit and push the synchronized frontend to `main`.
+- [ ] Confirm the new production deployment is ready and serving the updated dashboard.
