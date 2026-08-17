@@ -10,15 +10,12 @@ import Library from "./pages/Library";
 import MyNotes from "./pages/MyNotes";
 import NoteDetail from "./pages/NoteDetail";
 import UploadNote from "./pages/UploadNote";
-import QuietDashboard from "./pages/QuietDashboard";
-import "./quiet-dashboard.css";
-import { useLocation } from "wouter";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={QuietDashboard} />
+      <Route path={"/"} component={Library} />
       <Route path={"/upload"} component={UploadNote} />
       <Route path={"/my-notes"} component={MyNotes} />
       <Route path={"/notes/:noteId"}>{params => <NoteDetail noteId={params.noteId} />}</Route>
@@ -35,9 +32,6 @@ function Router() {
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
-  const [location] = useLocation();
-  const isDashboard = location === "/";
-
   return (
     <ErrorBoundary>
       <ThemeProvider
@@ -46,9 +40,9 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          {!isDashboard && <SiteHeader />}
+          <SiteHeader />
           <Router />
-          {!isDashboard && <SiteFooter />}
+          <SiteFooter />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
