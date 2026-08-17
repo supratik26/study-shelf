@@ -1,3 +1,4 @@
+// Study Shelf interaction guard: keep the archival interface unselectable while preserving native editing and document-preview behaviour.
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import GoluuChat from "@/components/GoluuChat";
@@ -13,6 +14,12 @@ import MyNotes from "./pages/MyNotes";
 import NoteDetail from "./pages/NoteDetail";
 import StudySpace from "./pages/StudySpace";
 import UploadNote from "./pages/UploadNote";
+import { useEffect } from "react";
+
+function allowsNativeTextSelection(target: EventTarget | null) {
+  const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
+  return Boolean(element?.closest("input, textarea, [contenteditable='true'], iframe"));
+}
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -36,6 +43,20 @@ function Router() {
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
+  useEffect(() => {
+    const preventInterfaceSelection = (event: Event) => {
+      if (!allowsNativeTextSelection(event.target)) event.preventDefault();
+    };
+    document.addEventListener("selectstart", preventInterfaceSelection);
+    document.addEventListener("copy", preventInterfaceSelection);
+    document.addEventListener("cut", preventInterfaceSelection);
+    return () => {
+      document.removeEventListener("selectstart", preventInterfaceSelection);
+      document.removeEventListener("copy", preventInterfaceSelection);
+      document.removeEventListener("cut", preventInterfaceSelection);
+    };
+  }, []);
+
   return (
     <ErrorBoundary>
       <ThemeProvider

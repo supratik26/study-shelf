@@ -202,6 +202,11 @@
 - [x] Add Goluu panel, message, suggestion, loading, empty-state, and error-feedback motion.
 - [x] Verify performance, responsive layouts, accessibility, production build, and Vercel release.
 
+## Interface text-selection restrictions
+- [x] Prevent long-press text selection and copying across the Study Shelf interface.
+- [x] Preserve expected selection behavior inside PDF and file-preview surfaces.
+- [x] Verify the mobile note-detail flow, production build, and Vercel release.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.
