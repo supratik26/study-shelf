@@ -139,3 +139,10 @@
 - [x] Run typecheck and production build after restoration.
 - [ ] Push the restoration to the Vercel-connected main branch.
 - [ ] Confirm the restored production deployment is ready.
+
+## High-refresh-rate fluidity
+- [x] Eliminate avoidable main-thread work and render-time storage writes on common app paths.
+- [x] Tune scroll surfaces, animation durations, and composited properties for smoother 120 Hz interactions.
+- [x] Reduce expensive per-card animation and backdrop effects in list-heavy views.
+- [x] Verify the typecheck, production build, and responsive rendering before publishing.
+- [ ] Deploy the fluidity refinements to the Vercel-connected main branch.

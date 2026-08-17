@@ -1,3 +1,4 @@
+// Study Shelf archival navigation: keep scroll compositing light for fluid high-refresh-rate browsing.
 import { useAuth } from "@/_core/hooks/useAuth";
 import { startLogin } from "@/const";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -44,7 +45,7 @@ export default function SiteHeader() {
   };
 
   return (
-    <header className="site-header archive-header sticky top-0 z-40 backdrop-blur-md">
+    <header className="site-header archive-header sticky top-0 z-40">
       <div className="container flex h-19 items-center justify-between gap-5">
         <Link href="/" className="archive-brand group flex items-center gap-3" onClick={() => setIsOpen(false)}>
           <span className="archive-brand-mark site-logo-icon grid h-11 w-11 place-items-center"><img src={logoUrl} alt="" /></span>
