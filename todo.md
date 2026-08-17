@@ -177,6 +177,12 @@
 - [ ] Correct the provider credential, model, or request implementation indicated by runtime logs.
 - [ ] Verify a successful Gemini answer through Goluu’s live endpoint.
 
+## Study Shelf UI polish
+- [x] Audit the desktop and mobile presentation for hierarchy, density, touch ergonomics, and feature discoverability.
+- [x] Refine navigation, resource cards, Study Space, Goluu, empty states, and core action feedback.
+- [x] Validate responsive visual changes, accessibility states, and production build before deployment.
+- [x] Publish the polished interface to the Vercel-connected main branch.
+
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
 - [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.
