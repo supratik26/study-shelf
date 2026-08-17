@@ -206,6 +206,7 @@
 - [x] Prevent long-press text selection and copying across the Study Shelf interface.
 - [x] Preserve expected selection behavior inside PDF and file-preview surfaces.
 - [x] Verify the mobile note-detail flow, production build, and Vercel release.
+- [x] Tighten the policy so only embedded PDF and file documents retain selection and copy behavior.
 
 ## Complete Study Shelf feature roadmap
 - [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.

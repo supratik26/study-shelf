@@ -1,4 +1,4 @@
-// Study Shelf interaction guard: keep the archival interface unselectable while preserving native editing and document-preview behaviour.
+// Study Shelf interaction guard: keep all interface text unselectable; embedded PDF and file documents stay native to preserve reading tools.
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import GoluuChat from "@/components/GoluuChat";
@@ -18,7 +18,7 @@ import { useEffect } from "react";
 
 function allowsNativeTextSelection(target: EventTarget | null) {
   const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-  return Boolean(element?.closest("input, textarea, [contenteditable='true'], iframe"));
+  return Boolean(element?.closest("iframe"));
 }
 
 function Router() {

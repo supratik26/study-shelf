@@ -107,7 +107,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
   #root, #root * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-  #root input, #root textarea, #root [contenteditable="true"], #root iframe { -webkit-touch-callout: default; -webkit-user-select: text; user-select: text; }
+  #root iframe { -webkit-touch-callout: default; -webkit-user-select: text; user-select: text; }
   h1, h2, h3, h4, h5, h6 { font-family: var(--font-editorial); }
   button:not(:disabled), [role="button"]:not([aria-disabled="true"]), [type="button"]:not(:disabled), [type="submit"]:not(:disabled), [type="reset"]:not(:disabled), a[href], select:not(:disabled), input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled) { @apply cursor-pointer; }
   ::selection { background: rgba(242, 189, 157, 0.7); color: var(--ink); }
