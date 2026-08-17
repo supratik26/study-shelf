@@ -154,3 +154,10 @@
 - [x] Implement a server-side chatbot endpoint that keeps provider credentials private.
 - [x] Test the chat interaction and validate the production build.
 - [ ] Publish Goluu to Vercel and confirm the ready deployment.
+
+## Complete Study Shelf feature roadmap
+- [x] Define and apply a safe persistence model for collections, study queue, annotations, requests, revisions, and reminders.
+- [x] Add saved collections, a smart study queue, advanced filtering, recommendations, document preview, and note version history.
+- [x] Add personal annotations, contribution requests, in-app and device revision reminders, and offline-friendly reading support.
+- [x] Verify the complete experience across authentication, data safety, desktop, mobile, and reduced-motion states.
+- [ ] Publish the complete roadmap release to the Vercel-connected main branch.

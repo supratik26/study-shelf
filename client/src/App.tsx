@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import GoluuChat from "@/components/GoluuChat";
+import ReminderNotifier from "@/components/ReminderNotifier";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -10,6 +11,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Library from "./pages/Library";
 import MyNotes from "./pages/MyNotes";
 import NoteDetail from "./pages/NoteDetail";
+import StudySpace from "./pages/StudySpace";
 import UploadNote from "./pages/UploadNote";
 
 function Router() {
@@ -19,6 +21,7 @@ function Router() {
       <Route path={"/"} component={Library} />
       <Route path={"/upload"} component={UploadNote} />
       <Route path={"/my-notes"} component={MyNotes} />
+      <Route path={"/study-space"} component={StudySpace} />
       <Route path={"/notes/:noteId"}>{params => <NoteDetail noteId={params.noteId} />}</Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
@@ -45,6 +48,7 @@ function App() {
           <Router />
           <SiteFooter />
           <GoluuChat />
+          <ReminderNotifier />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

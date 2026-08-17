@@ -5,16 +5,19 @@ import { formatDate, formatFileSize, formatFileType } from "@/lib/noteFormat";
 import { trpc } from "@/lib/trpc";
 import { downloadExternalNote, useExternalNote } from "@/lib/externalNotes";
 import { isExternalDeployment } from "@/lib/supabase";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { loadWorkspace } from "@/lib/studyWorkspace";
+import NoteLearningPanel from "@/components/NoteLearningPanel";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Download, FileText, Loader2, Tag, UserRound } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 
 export default function NoteDetail({ noteId }: { noteId: string }) {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const numericNoteId = Number(noteId);
   const noteQuery = trpc.notes.getById.useQuery({ noteId: numericNoteId }, { enabled: !isExternalDeployment && isAuthenticated && Number.isFinite(numericNoteId) });
   const externalNoteQuery = useExternalNote(noteId, isAuthenticated);
+  const workspaceQuery = useQuery({ queryKey: ["study-workspace", user?.id], queryFn: () => loadWorkspace(String(user!.id)), enabled: isExternalDeployment && isAuthenticated && Boolean(user?.id), staleTime: 30_000 });
   const activeNoteQuery = isExternalDeployment ? externalNoteQuery : noteQuery;
   const utils = trpc.useUtils();
   const queryClient = useQueryClient();
@@ -70,6 +73,7 @@ export default function NoteDetail({ noteId }: { noteId: string }) {
         <div className="mt-7 flex flex-wrap gap-2">{note.tags.length ? note.tags.map(tag => <span key={tag} className="inline-flex items-center gap-1 rounded-full border border-[#151c4a]/20 bg-[#fffaf0]/54 px-3 py-1.5 text-sm font-semibold text-[#151c4a]/75"><Tag className="h-3 w-3" />{tag}</span>) : <span className="text-sm text-[#151c4a]/58">No tags were added.</span>}</div>
         <button className="editorial-button editorial-button--indigo mt-8 w-full justify-center py-4 text-base" disabled={isExternalDeployment ? externalDownload.isPending : download.isPending} onClick={() => void handleDownload()}>{(isExternalDeployment ? externalDownload.isPending : download.isPending) ? <><Loader2 className="h-4 w-4 animate-spin" />Preparing download…</> : <><Download className="h-5 w-5" />Download note</>}</button>
         <dl className="archive-meta-grid"><Meta label="Shared by" value={note.uploaderName} icon={<UserRound className="mr-1 inline h-3.5 w-3.5" />} /><Meta label="Added" value={formatDate(note.createdAt)} /><Meta label="File size" value={formatFileSize(note.fileSize)} /><Meta label="Downloads" value={`${note.downloadCount} ${note.downloadCount === 1 ? "download" : "downloads"}`} /></dl>
+        {isExternalDeployment ? <NoteLearningPanel note={note as import("@/lib/externalNotes").ExternalNote} collections={workspaceQuery.data?.collections || []} /> : null}
       </section>
     </div>
   </main>;

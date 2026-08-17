@@ -12,7 +12,7 @@ import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 
 const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663891328980/xGcShWuEiTUvfPve.png";
-const navigation = [{ href: "/", label: "Explore" }, { href: "/upload", label: "Upload" }, { href: "/my-notes", label: "My Notes" }];
+const navigation = [{ href: "/", label: "Explore" }, { href: "/study-space", label: "Study Space" }, { href: "/upload", label: "Upload" }, { href: "/my-notes", label: "My Notes" }];
 
 function ThemePicker({ expanded = false }: { expanded?: boolean }) {
   const { preference, setTheme } = useTheme();
